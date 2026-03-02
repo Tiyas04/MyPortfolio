@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
         // Parse formData into an array of objects
         for (const [key, value] of formData.entries()) {
-            const match = key.match(/^experiences\[(\d+)\]\[(\w+)\]$/);
+            const match = key.match(/^Experiences\[(\d+)\]\[(\w+)\]$/i);
 
             if (match) {
                 const index = parseInt(match[1]);
@@ -54,13 +54,13 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            const existingExperience = await ExperienceModel.findOne({ name });
+            const existingExperience = await ExperienceModel.findOne({ role, company });
 
             if (existingExperience) {
                 return NextResponse.json(
                     {
                         success: false,
-                        message: `Extracurricular with name '${name}' already exists`
+                        message: `Experience as '${role}' at '${company}' already exists`
                     },
                     { status: 400 }
                 );
