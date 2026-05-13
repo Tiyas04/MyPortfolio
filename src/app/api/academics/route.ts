@@ -100,3 +100,33 @@ export async function POST(request: NextRequest) {
 		);
 	}
 }
+
+export async function GET() {
+    await dbConnect()
+
+    try {
+        const academics = await AcademicsModel.find().sort({ startDate: -1 });
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Academics retrieved successfully",
+                data: academics
+            },
+            {
+                status: 200
+            }
+         );
+    } catch (error) {
+        console.log("Error occurred", error);
+		return NextResponse.json(
+			{
+				success: false,
+				message: "Failed to upload academics. Internal error occurred"
+			},
+			{
+				status: 500
+			}
+		);
+    }
+}
