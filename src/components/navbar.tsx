@@ -36,7 +36,7 @@ export default function NavBar() {
             <nav className="mx-auto w-full px-6 md:px-12 py-5 flex items-center justify-between transition-all duration-300">
 
                 {/* Logo Section - Left */}
-                <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
+                <Link href="/" className="flex items-center gap-2 group shrink-0">
                     <div className="text-2xl lg:text-2xl font-audiowide text-white hover:text-teal-400 transition-colors tracking-tight">
                         Tiyas
                     </div>

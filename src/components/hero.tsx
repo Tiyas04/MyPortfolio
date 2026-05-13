@@ -15,7 +15,7 @@ export default function Hero() {
                     <div className="lg:col-span-1">
                         <h1 className="font-audiowide text-6xl md:text-7xl font-bold leading-tight mb-6 text-left">
                             <div className="text-white">Hi </div>
-                            <div className="text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-300" style={{
+                            <div className="text-4xl md:text-5xl text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-teal-300" style={{
                                 WebkitTextStroke: "1px #14b8a6",
                                 color: "black"
                             }}>
@@ -32,7 +32,7 @@ export default function Hero() {
                     {/* Center Section - Image */}
                     <div className="lg:col-span-1 flex justify-center">
                         <div className="relative w-full max-w-sm">
-                            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-transparent rounded-xl blur-2xl"></div>
+                            <div className="absolute inset-0 bg-linear-to-br from-teal-500/20 to-transparent rounded-xl blur-2xl"></div>
                             <Image
                                 src={images.TiyasImage}
                                 alt="Tiyas - Founder & Lead Developer"
