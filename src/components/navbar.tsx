@@ -59,7 +59,7 @@ export default function NavBar() {
                 {/* Call to Action - Right */}
                 <div className="hidden lg:flex items-center gap-6 ml-auto">
                     <Link
-                        href="/contact"
+                        href="/#contact"
                         className={`px-7 py-2.5 text-sm font-semibold border-2 border-teal-500 rounded-lg transition-all duration-200 ${
                             isScrolled
                                 ? "bg-teal-500 text-white hover:bg-teal-600 hover:border-teal-600"
@@ -98,7 +98,7 @@ export default function NavBar() {
                         </Link>
                     ))}
                     <Link
-                        href="/contact"
+                        href="/#contact"
                         onClick={() => setIsOpen(false)}
                         className={`mt-4 px-8 py-2.5 text-sm font-semibold border-2 border-teal-500 rounded-lg transition-all duration-200 ${
                             isScrolled
