@@ -156,7 +156,7 @@ export default function Projects() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="mb-16 md:mb-20"
         >
-          <h2 className="font-audiowide text-5xl md:text-7xl font-bold leading-tight mb-4">
+          <h2 className="font-audiowide text-4xl md:text-5xl font-bold leading-tight mb-4">
             <span className="text-white">Think.</span>{" "}
             <span className="text-white">Build.</span>
             <br />
