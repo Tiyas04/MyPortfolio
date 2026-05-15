@@ -88,7 +88,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium mb-1">Email</p>
-                  <a href="mailto:hello@example.com" className="hover:text-teal-400 transition-colors">hello@example.com</a>
+                  <a href="mailto:mandaltiyas2410@gmail.com" className="hover:text-teal-400 transition-colors">mandaltiyas2410@gmail.com</a>
                 </div>
               </div>
 
@@ -99,14 +99,14 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium mb-1">Location</p>
-                  <p className="hover:text-teal-400 transition-colors">Kolkata, India</p>
+                  <p className="hover:text-teal-400 transition-colors">Bankura, West Bengal, India</p>
                 </div>
               </div>
 
               {/* Socials Grid */}
               <div className="pt-4 flex gap-4">
                 <a 
-                  href="https://github.com" 
+                  href="https://github.com/Tiyas04" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
@@ -115,7 +115,7 @@ export default function Contact() {
                   <span className="sr-only">GitHub</span>
                 </a>
                 <a 
-                  href="https://linkedin.com" 
+                  href="https://linkedin.com/tiyas-mandal-a2a014343" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
@@ -124,7 +124,7 @@ export default function Contact() {
                   <span className="sr-only">LinkedIn</span>
                 </a>
                 <a 
-                  href="https://instagram.com" 
+                  href="https://instagram.com/tiyas__004" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"

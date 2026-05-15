@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 export default function UploadPage() {
     const [file, setFile] = useState<File | null>(null);
@@ -72,10 +73,10 @@ export default function UploadPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-gray-100 p-6 md:p-12 selection:bg-blue-500 selection:text-white">
-            <div className="max-w-4xl mx-auto">
+        <div className="min-h-screen bg-black text-gray-100 p-6 md:p-12 selection:bg-teal-500/30 selection:text-white">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-4xl mx-auto">
                 <header className="mb-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-600 mb-2">
+                    <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-teal-400 to-teal-300 mb-2 font-audiowide">
                         Upload Asset
                     </h1>
                     <p className="text-gray-400">Upload images and assets to your portfolio</p>
@@ -89,13 +90,13 @@ export default function UploadPage() {
 
                 {/* Upload Area */}
                 {!preview && !uploadedUrl && (
-                    <div className="bg-[#111] border border-gray-800 p-12 rounded-2xl hover:border-blue-500/50 transition-colors duration-300 shadow-xl">
+                    <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 p-12 rounded-2xl hover:border-teal-500/40 transition-colors duration-300 shadow-[0_0_15px_rgba(20,184,166,0.05)]">
                         <div
-                            className="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-lg p-12 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                            className="border-2 border-dashed border-gray-700 hover:border-teal-500/50 rounded-lg p-12 flex flex-col items-center justify-center cursor-pointer transition-colors"
                             onClick={() => fileInputRef.current?.click()}
                         >
                             <svg
-                                className="w-16 h-16 text-blue-500/60 mb-4"
+                                className="w-16 h-16 text-teal-500/60 mb-4"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -122,15 +123,15 @@ export default function UploadPage() {
 
                 {/* Preview Area */}
                 {preview && !uploadedUrl && (
-                    <div className="bg-[#111] border border-gray-800 p-6 rounded-2xl hover:border-blue-500/50 transition-colors duration-300 shadow-xl">
+                    <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 p-6 rounded-2xl hover:border-teal-500/40 transition-colors duration-300 shadow-[0_0_15px_rgba(20,184,166,0.05)]">
                         <div className="mb-6 flex items-center gap-3">
-                            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-900/50 text-blue-300 font-bold border border-blue-500/30">
+                            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-500/10 text-teal-400 font-bold border border-teal-500/30">
                                 1
                             </span>
                             <h3 className="text-lg font-medium text-gray-200">Preview</h3>
                         </div>
 
-                        <div className="relative w-full bg-[#1a1a1a] rounded-lg overflow-hidden mb-6 border border-gray-700 shadow-lg">
+                        <div className="relative w-full bg-black/50 rounded-lg overflow-hidden mb-6 border border-gray-800 shadow-lg">
                             <div className="aspect-video flex items-center justify-center">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
@@ -160,10 +161,10 @@ export default function UploadPage() {
                             <button
                                 onClick={handleUpload}
                                 disabled={isLoading}
-                                className={`px-8 py-3 rounded-lg font-bold shadow-lg transition-all duration-200 flex-1 ${
+                                className={`px-8 py-3 rounded-lg font-bold shadow-[0_0_15px_rgba(20,184,166,0.3)] transition-all duration-200 flex-1 ${
                                     isLoading
-                                        ? "bg-blue-600/50 text-gray-300 cursor-not-allowed"
-                                        : "bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white hover:shadow-blue-500/30 transform hover:-translate-y-0.5"
+                                        ? "bg-teal-600/50 text-gray-300 cursor-not-allowed"
+                                        : "bg-teal-500 hover:bg-teal-400 text-black hover:shadow-[0_0_20px_rgba(20,184,166,0.5)] transform hover:-translate-y-0.5"
                                 }`}
                             >
                                 {isLoading ? (
@@ -184,24 +185,24 @@ export default function UploadPage() {
 
                 {/* Success/Result Area */}
                 {uploadedUrl && (
-                    <div className="bg-[#111] border border-gray-800 p-6 rounded-2xl shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 p-6 rounded-2xl shadow-[0_0_15px_rgba(20,184,166,0.05)] animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="mb-8 flex items-center gap-3">
-                            <div className="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center border border-green-500/50">
-                                <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="w-12 h-12 bg-teal-500/20 rounded-full flex items-center justify-center border border-teal-500/50">
+                                <svg className="w-6 h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-white">Upload Complete!</h3>
+                                <h3 className="text-2xl font-bold text-white font-audiowide">Upload Complete!</h3>
                                 <p className="text-gray-400 text-sm">Your asset has been uploaded successfully</p>
                             </div>
                         </div>
 
-                        <div className="bg-[#1a1a1a] rounded-lg p-4 border border-gray-700 flex items-center justify-between gap-3 mb-6">
+                        <div className="bg-black/50 rounded-lg p-4 border border-gray-800 flex items-center justify-between gap-3 mb-6">
                             <span className="text-gray-300 text-sm truncate select-all flex-1">{uploadedUrl}</span>
                             <button
                                 onClick={handleCopy}
-                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-400/10 transition-colors p-2 rounded flex-shrink-0"
+                                className="text-teal-400 hover:text-teal-300 hover:bg-teal-400/10 transition-colors p-2 rounded shrink-0"
                                 title="Copy to clipboard"
                             >
                                 {copySuccess ? (
@@ -218,13 +219,13 @@ export default function UploadPage() {
 
                         <button
                             onClick={resetForm}
-                            className="w-full py-3 px-4 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg hover:shadow-blue-500/30 transition-all duration-200 border border-blue-500/30 hover:border-blue-500/50"
+                            className="w-full py-3 px-4 bg-teal-500 hover:bg-teal-400 text-black font-bold rounded-lg shadow-[0_0_15px_rgba(20,184,166,0.3)] hover:shadow-[0_0_20px_rgba(20,184,166,0.5)] transition-all duration-200"
                         >
                             Upload Another Asset
                         </button>
                     </div>
                 )}
-            </div>
+            </motion.div>
         </div>
     );
 }

@@ -12,22 +12,22 @@ export default function Hero() {
                 {/* Main Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center min-h-[600px]">
                     {/* Left Section - Heading */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1.0, ease: "easeOut" }}
                         className="lg:col-span-1"
                     >
                         <h1 className="font-audiowide text-6xl md:text-7xl font-bold leading-tight mb-6 text-left">
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.1 }}
                                 className="text-white"
                             >
-                                Hi 
+                                Hi
                             </motion.div>
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -38,17 +38,17 @@ export default function Hero() {
                             >
                                 This is <span className="text-teal-400">Tiyas</span>
                             </motion.div>
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
                                 className="text-white text-4xl"
                             >
-                                Web Developer 
+                                Web Developer
                             </motion.div>
                         </h1>
-                        
-                        <motion.p 
+
+                        <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.6, delay: 0.5 }}
@@ -59,22 +59,22 @@ export default function Hero() {
                     </motion.div>
 
                     {/* Center Section - Image */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
                         className="lg:col-span-1 flex justify-center"
                     >
                         <div className="relative w-full max-w-sm">
-                            <motion.div 
-                                animate={{ 
+                            <motion.div
+                                animate={{
                                     scale: [1, 1.05, 1],
-                                    opacity: [0.5, 0.8, 0.5] 
+                                    opacity: [0.5, 0.8, 0.5]
                                 }}
-                                transition={{ 
-                                    duration: 4, 
+                                transition={{
+                                    duration: 4,
                                     repeat: Infinity,
-                                    ease: "easeInOut" 
+                                    ease: "easeInOut"
                                 }}
                                 className="absolute inset-0 bg-linear-to-br from-teal-500/20 to-transparent rounded-xl blur-2xl"
                             ></motion.div>
@@ -90,7 +90,7 @@ export default function Hero() {
                     </motion.div>
 
                     {/* Right Section - CTA and Description */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
@@ -102,7 +102,7 @@ export default function Hero() {
                                 <br />
                                 <span className="text-teal-400">Develop. Deploy.</span>
                             </h2>
-                            
+
                             <p className="text-gray-400 text-sm leading-relaxed">
                                 I am a passionate web developer with expertise in crafting high-performance websites and applications. I specialize in turning ideas into reality, delivering tailored solutions that meet your business needs.
                             </p>
@@ -116,7 +116,8 @@ export default function Hero() {
                                     Get in Touch
                                 </Link>
                                 <Link
-                                    href="/services"
+                                    target="_blank"
+                                    href="https://drive.google.com/file/d/1aEdLprC-BP5BVfrfs00NPEWmGITXn-Z1/view?usp=drive_link"
                                     className="px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-white rounded-lg font-medium transition-all duration-200 text-center"
                                 >
                                     Get Resume

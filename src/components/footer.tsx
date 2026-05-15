@@ -60,7 +60,7 @@ export default function Footer() {
             <h3 className="text-white font-audiowide text-lg mb-6 tracking-wide">Connect</h3>
             <div className="flex gap-4">
               <a 
-                href="https://github.com" 
+                href="https://github.com/Tiyas04" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
@@ -69,7 +69,7 @@ export default function Footer() {
                 <span className="sr-only">GitHub</span>
               </a>
               <a 
-                href="https://linkedin.com" 
+                href="https://linkedin.com/tiyas-mandal-a2a014343" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
@@ -78,7 +78,7 @@ export default function Footer() {
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a 
-                href="https://instagram.com" 
+                href="https://instagram.com/tiyas__004" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
