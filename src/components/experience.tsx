@@ -109,7 +109,7 @@ export default function Experience() {
           className="text-center mb-20"
         >
           <h2 className="font-audiowide text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-teal-300" style={{
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-teal-400 to-teal-300" style={{
               WebkitTextStroke: "1px #14b8a6",
               color: "transparent"
             }}>
@@ -135,7 +135,7 @@ export default function Experience() {
               whileInView={{ height: "100%" }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
-              className="absolute left-6 md:left-1/2 top-0 w-0.5 bg-gradient-to-b from-teal-500/50 via-teal-400/30 to-transparent transform md:-translate-x-1/2 origin-top" 
+              className="absolute left-6 md:left-1/2 top-0 w-0.5 bg-linear-to-b from-teal-500/50 via-teal-400/30 to-transparent transform md:-translate-x-1/2 origin-top" 
             />
 
             {experiences.map((exp, index) => {
@@ -175,7 +175,7 @@ export default function Experience() {
                       className="group relative p-6 md:p-8 rounded-xl bg-gray-900/40 border border-gray-800 hover:border-teal-500/50 transition-all duration-300 backdrop-blur-sm overflow-hidden cursor-pointer"
                     >
                       {/* Subtle hover gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-linear-to-br from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       
                       <div className="relative z-10">
                         <h3 className="font-audiowide text-xl md:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-teal-400 transition-colors">
