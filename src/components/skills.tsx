@@ -11,17 +11,17 @@ interface Skill {
 }
 
 const SkillBadge = ({ skill }: { skill: Skill }) => (
-  <div className="flex items-center justify-center gap-3 px-6 py-3 bg-gray-900/50 border border-dashed border-teal-500/30 rounded-2xl text-gray-300 font-medium whitespace-nowrap shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] transition-all duration-300 cursor-default">
-    {skill.imageUrl && (
-        <img src={skill.imageUrl} alt={skill.name} className="w-6 h-6 object-contain" />
-    )}
-    {skill.name}
-  </div>
+    <div className="flex items-center justify-center gap-3 px-6 py-3 bg-gray-900/50 border border-dashed border-teal-500/30 rounded-2xl text-gray-300 font-medium whitespace-nowrap shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] transition-all duration-300 cursor-default">
+        {skill.imageUrl && (
+            <img src={skill.imageUrl} alt={skill.name} className="w-6 h-6 object-contain" />
+        )}
+        {skill.name}
+    </div>
 );
 
 const MarqueeRow = ({ skills, direction = "normal" }: { skills: Skill[], direction?: "normal" | "reverse" }) => {
     // Duplicate skills to ensure enough content for seamless scrolling
-    const duplicatedSkills = [...skills, ...skills, ...skills, ...skills, ...skills, ...skills]; 
+    const duplicatedSkills = [...skills, ...skills, ...skills, ...skills, ...skills, ...skills];
     if (skills.length === 0) return null;
 
     return (
@@ -66,7 +66,7 @@ export default function Skills() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        
+
         const fetchSkills = async () => {
             try {
                 const response = await fetch('/api/skill');
@@ -116,7 +116,7 @@ export default function Skills() {
                     </div>
                 )}
             </div>
-            
+
             {/* Decorative background blur */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-96 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
         </section>

@@ -52,3 +52,29 @@ body {
 .pause-on-hover:hover {
   animation-play-state: paused;
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #050505;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #14b8a6; /* teal-500 */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2dd4bf; /* teal-400 */
+}
+
+/* Custom Text Selection */
+::selection {
+  background-color: rgba(20, 184, 166, 0.5); /* teal-500 with opacity */
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(20, 184, 166, 0.8);
+}

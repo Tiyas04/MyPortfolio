@@ -48,7 +48,7 @@ export default function NavBar() {
 
                 {/* Logo Section - Left */}
                 <Link href="/" className="flex items-center gap-2 group shrink-0 relative z-50">
-                    <div className="text-2xl font-audiowide text-white hover:text-teal-400 transition-colors tracking-tight">
+                    <div className="text-2xl font-audiowide text-white hover:text-teal-300 hover:drop-shadow-[0_0_8px_rgba(20,184,166,0.8)] transition-all duration-300 tracking-tight">
                         Tiyas.
                     </div>
                 </Link>
@@ -59,7 +59,7 @@ export default function NavBar() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-200 relative group"
+                            className="text-sm font-medium text-gray-400 hover:text-teal-300 hover:drop-shadow-[0_0_5px_rgba(20,184,166,0.8)] transition-all duration-300 relative group"
                         >
                             {link.name}
                             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>

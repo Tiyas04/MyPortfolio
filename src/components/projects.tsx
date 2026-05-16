@@ -199,10 +199,10 @@ export default function Projects() {
                   onHoverEnd={() => setHoveredId(null)}
                   className={`group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center gap-5 border relative overflow-hidden ${
                     isActive
-                      ? "bg-gray-900/70 border-teal-500 shadow-[0_0_20px_rgba(20,184,166,0.15)]"
-                      : "bg-gray-900/30 border-gray-800 hover:border-gray-600"
+                      ? "bg-gray-900/70 border-teal-500 shadow-[0_0_25px_rgba(20,184,166,0.25)]"
+                      : "bg-gray-900/30 border-gray-800 hover:border-teal-500/50 hover:shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:bg-gray-900/60"
                   }`}
-                  whileHover={{ x: 4 }}
+                  whileHover={{ x: 4, scale: 1.015 }}
                   transition={{ duration: 0.2 }}
                 >
                   {/* Auto-cycle progress bar — slides across the bottom of the active card */}
@@ -252,11 +252,11 @@ export default function Projects() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.45, ease: "easeOut" }}
-                className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/40 backdrop-blur-sm shadow-2xl"
+                className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/40 backdrop-blur-sm shadow-2xl hover:border-teal-500/40 hover:shadow-[0_0_40px_rgba(20,184,166,0.12)] transition-all duration-500"
               >
                 {/* Image */}
                 <div className="relative w-full h-[260px] md:h-[340px] overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/20 to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent z-10 transition-opacity duration-500" />
                   <motion.img
                     key={featured.imageUrl}
                     src={featured.imageUrl}
@@ -295,7 +295,7 @@ export default function Projects() {
                       href={featured.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-all duration-200"
+                      className="flex items-center justify-center gap-2 px-8 py-3 bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] text-white rounded-lg font-medium transition-all duration-300"
                     >
                       <Code className="w-5 h-5" />
                       Source Code
@@ -305,7 +305,7 @@ export default function Projects() {
                         href={featured.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-white rounded-lg font-medium transition-all duration-200"
+                        className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
                       >
                         Live Demo
                         <ExternalLink className="w-5 h-5" />

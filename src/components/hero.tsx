@@ -78,14 +78,19 @@ export default function Hero() {
                                 }}
                                 className="absolute inset-0 bg-linear-to-br from-teal-500/20 to-transparent rounded-xl blur-2xl"
                             ></motion.div>
-                            <Image
-                                src={images.TiyasImage}
-                                alt="Tiyas - Founder & Lead Developer"
-                                width={400}
-                                height={500}
-                                className="relative w-full h-auto rounded-lg object-cover brightness-75 contrast-110 z-10"
-                                priority
-                            />
+                            <motion.div
+                                animate={{ y: [-10, 10, -10] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <Image
+                                    src={images.TiyasImage}
+                                    alt="Tiyas - Founder & Lead Developer"
+                                    width={400}
+                                    height={500}
+                                    className="relative w-full h-auto rounded-lg object-cover brightness-75 contrast-110 z-10 hover:brightness-100 transition-all duration-500"
+                                    priority
+                                />
+                            </motion.div>
                         </div>
                     </motion.div>
 
@@ -111,14 +116,14 @@ export default function Hero() {
                             <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 <Link
                                     href="/#contact"
-                                    className="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-all duration-200 text-center"
+                                    className="px-8 py-3 bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.4)] text-white rounded-lg font-medium transition-all duration-300 text-center"
                                 >
                                     Get in Touch
                                 </Link>
                                 <Link
                                     target="_blank"
                                     href="https://drive.google.com/file/d/1aEdLprC-BP5BVfrfs00NPEWmGITXn-Z1/view?usp=drive_link"
-                                    className="px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-white rounded-lg font-medium transition-all duration-200 text-center"
+                                    className="px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 text-center hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
                                 >
                                     Get Resume
                                 </Link>
