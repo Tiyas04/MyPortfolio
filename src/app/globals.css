@@ -23,12 +23,18 @@
 html {
   background: #000000;
   scroll-behavior: smooth;
+  cursor: none !important;
 }
 
 body {
   background: #000000;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  cursor: none !important;
+}
+
+* {
+  cursor: none !important;
 }
 
 @keyframes marquee {
