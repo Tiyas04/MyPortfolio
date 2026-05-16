@@ -66,14 +66,19 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            const newExperience = new ExperienceModel({
+            const experiencePayload: any = {
                 role,
                 jobtitle,
                 company,
                 description,
                 startDate,
-                endDate,
-            })
+            };
+
+            if (endDate && endDate !== "Present") {
+                experiencePayload.endDate = endDate;
+            }
+
+            const newExperience = new ExperienceModel(experiencePayload);
 
             await newExperience.save();
             createdExperiences.push(newExperience);

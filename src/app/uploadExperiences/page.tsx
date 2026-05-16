@@ -133,7 +133,7 @@ export default function UploadExperience() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="flex justify-between items-center bg-gray-900/50 p-4 rounded-xl border border-teal-500/20 backdrop-blur-sm sticky top-4 z-10 shadow-lg shadow-[0_0_15px_rgba(20,184,166,0.05)]">
+                    <div className="flex justify-between items-center bg-gray-900/50 p-4 rounded-xl border border-teal-500/20 backdrop-blur-sm sticky top-4 z-10 shadow-lg">
                         <h2 className="text-xl font-semibold text-teal-400 font-audiowide">
                             Experience List ({Experiences.length})
                         </h2>
@@ -309,7 +309,7 @@ export default function UploadExperience() {
                             className={`px-8 py-3 bg-teal-500 hover:bg-teal-400 text-black font-bold rounded-lg shadow-[0_0_15px_rgba(20,184,166,0.3)] hover:shadow-[0_0_20px_rgba(20,184,166,0.5)] transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${isSubmitting ? "cursor-wait" : ""
                                 }`}
                         >
-                            {isSubmitting ? "Uploading..." : "Submit All Projects"}
+                            {isSubmitting ? "Uploading..." : "Submit All Experiences"}
                         </button>
                     </div>
                 </form>
