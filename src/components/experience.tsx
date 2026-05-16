@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Briefcase, Calendar, MapPin, X, ChevronRight } from "lucide-react";
+import Loading from "./loading";
 
 /*
 const EXPERIENCES = [
@@ -122,9 +123,7 @@ export default function Experience() {
         </motion.div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
+          <Loading className="py-20" />
         ) : experiences.length === 0 ? (
           <div className="text-center text-gray-400 py-10">No experience records found.</div>
         ) : (

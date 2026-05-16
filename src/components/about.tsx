@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, GraduationCap, Code2, User } from "lucide-react";
+import Loading from "./loading";
 
 const GithubIcon = ({ size = 24, className = "" }) => (
   <svg
@@ -91,6 +92,7 @@ export default function About() {
   const [githubStats, setGithubStats] = useState<GithubStats | null>(null);
   const [leetcodeStats, setLeetcodeStats] = useState<LeetCodeStats | null>(null);
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
+  const [loadingAcademics, setLoadingAcademics] = useState(true);
 
   useEffect(() => {
     // Fetch Academics
@@ -103,6 +105,8 @@ export default function About() {
         }
       } catch (error) {
         console.error("Failed to fetch academics:", error);
+      } finally {
+        setLoadingAcademics(false);
       }
     };
 
@@ -190,7 +194,7 @@ export default function About() {
     : [];
 
   return (
-    <section id="about" className="w-full bg-black py-20 relative overflow-hidden text-white">
+    <section id="about" className="w-full bg-transparent py-20 relative overflow-hidden text-white">
       {/* Decorative background blurs */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none"></div>
@@ -245,7 +249,9 @@ export default function About() {
               </div>
 
               <div className="space-y-6 border-l-2 border-teal-500/30 ml-3 pl-8 relative">
-                {academics.length > 0 ? (
+                {loadingAcademics ? (
+                  <Loading className="py-10" />
+                ) : academics.length > 0 ? (
                   academics.map((academic, index) => (
                     <motion.div
                       key={academic._id || index}

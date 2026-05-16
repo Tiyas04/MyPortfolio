@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code, ExternalLink, ArrowRight } from "lucide-react";
+import Loading from "./loading";
 
 /*
 const DUMMY_PROJECTS = [
@@ -174,9 +175,7 @@ export default function Projects() {
 
         {/* Main Grid — loading / empty / content states */}
         {loading ? (
-          <div className="flex justify-center items-center py-32">
-            <div className="w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin" />
-          </div>
+          <Loading className="py-32" />
         ) : sideList.length === 0 ? (
           <div className="text-center text-gray-500 py-24">No projects found.</div>
         ) : (

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Loading from "./loading";
 
 interface Skill {
     _id: string;
@@ -62,7 +63,7 @@ export default function Skills() {
         // { _id: '20', name: 'Figma', imageUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg', description: '' },
         // { _id: '21', name: 'Framer Motion', imageUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg', description: '' },
     ]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         
@@ -89,7 +90,7 @@ export default function Skills() {
     const row3 = skills.filter((_, i) => i % 3 === 2);
 
     return (
-        <section id="skills" className="w-full bg-black py-20 overflow-hidden relative">
+        <section id="skills" className="w-full bg-transparent py-20 overflow-hidden relative">
             <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 relative z-20">
                 <h2 className="font-audiowide text-4xl md:text-5xl font-bold text-center text-white mb-4">
                     My <span className="text-teal-400">Skills</span>
@@ -102,9 +103,7 @@ export default function Skills() {
 
             <div className="flex flex-col gap-2 relative z-20 min-h-[200px]">
                 {loading ? (
-                    <div className="flex justify-center items-center h-full w-full py-10 text-teal-400">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400"></div>
-                    </div>
+                    <Loading className="py-10" />
                 ) : skills.length > 0 ? (
                     <>
                         <MarqueeRow skills={row1} direction="normal" />
