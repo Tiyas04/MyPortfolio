@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function NavBar() {
@@ -77,13 +76,51 @@ export default function NavBar() {
                     </Link>
                 </div>
 
-                {/* Mobile Menu Button */}
+                {/* Mobile Menu Button — animated hamburger ↔ cross */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="lg:hidden ml-auto p-2 text-gray-300 hover:text-teal-400 transition-colors relative z-50"
+                    className="lg:hidden ml-auto p-2 relative z-50 flex flex-col justify-center items-center w-10 h-10 gap-0"
                     aria-label="Toggle menu"
+                    aria-expanded={isOpen}
                 >
-                    {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+                    <span
+                        style={{
+                            display: "block",
+                            width: "22px",
+                            height: "2px",
+                            borderRadius: "2px",
+                            backgroundColor: isOpen ? "#2dd4bf" : "#d1d5db",
+                            transformOrigin: "center",
+                            transition: "transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.25s ease, background-color 0.25s ease",
+                            transform: isOpen ? "translateY(8px) rotate(45deg)" : "translateY(0) rotate(0deg)",
+                        }}
+                    />
+                    <span
+                        style={{
+                            display: "block",
+                            width: "22px",
+                            height: "2px",
+                            borderRadius: "2px",
+                            backgroundColor: isOpen ? "#2dd4bf" : "#d1d5db",
+                            marginTop: "6px",
+                            transition: "opacity 0.2s ease, transform 0.35s cubic-bezier(0.23,1,0.32,1), background-color 0.25s ease",
+                            opacity: isOpen ? 0 : 1,
+                            transform: isOpen ? "scaleX(0)" : "scaleX(1)",
+                        }}
+                    />
+                    <span
+                        style={{
+                            display: "block",
+                            width: "22px",
+                            height: "2px",
+                            borderRadius: "2px",
+                            backgroundColor: isOpen ? "#2dd4bf" : "#d1d5db",
+                            marginTop: "6px",
+                            transformOrigin: "center",
+                            transition: "transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.25s ease, background-color 0.25s ease",
+                            transform: isOpen ? "translateY(-8px) rotate(-45deg)" : "translateY(0) rotate(0deg)",
+                        }}
+                    />
                 </button>
             </nav>
 

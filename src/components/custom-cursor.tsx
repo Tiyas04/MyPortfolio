@@ -1,6 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
+// Returns true when the primary input is a fine pointer (mouse/trackpad).
+// Touch-only devices report "coarse" or "none", so we skip the cursor there.
+function hasFinePointer() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(pointer: fine)").matches;
+}
 import gsap from "gsap";
 
 /* ─── Cursor shapes ──────────────────────────────────────────────────────────
@@ -36,8 +43,15 @@ export default function CustomCursor() {
   const bracketRefs = useRef<(SVGSVGElement | null)[]>([]);
   const scanRef   = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isFinePointer, setIsFinePointer] = useState(false);
+
+  // Detect pointer type on the client only (avoids SSR mismatch)
+  useEffect(() => {
+    setIsFinePointer(hasFinePointer());
+  }, []);
 
   useEffect(() => {
+    if (!isFinePointer) return; // touch / mobile — keep default cursor
     document.documentElement.style.cursor = "none";
 
     const dot   = dotRef.current;
@@ -229,7 +243,10 @@ export default function CustomCursor() {
       document.removeEventListener("mouseleave", hide);
       document.removeEventListener("mouseenter", show);
     };
-  }, []);
+  }, [isFinePointer]);
+
+  // Don't render anything on touch / mobile devices
+  if (!isFinePointer) return null;
 
   return (
     <>
