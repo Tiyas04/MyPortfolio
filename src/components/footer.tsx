@@ -106,7 +106,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-xs select-none">
-            © {currentYear} Tiyas
+            © {currentYear} Developed by Tiyas
             <span 
               onClick={(e) => {
                 e.preventDefault();
@@ -117,7 +117,6 @@ export default function Footer() {
             >
               .
             </span>
-             All rights reserved.
           </p>
           <p className="text-gray-600 text-xs">
             Designed & Built with <span className="text-teal-500">♥</span>
