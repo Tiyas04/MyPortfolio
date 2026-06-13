@@ -84,7 +84,7 @@ export default function Hero() {
                             >
                                 <Image
                                     src={images.TiyasImage}
-                                    alt="Tiyas - Founder & Lead Developer"
+                                    alt="Tiyas"
                                     width={400}
                                     height={500}
                                     className="relative w-full h-auto rounded-lg object-cover brightness-75 contrast-110 z-10 hover:brightness-100 transition-all duration-500"
@@ -122,7 +122,7 @@ export default function Hero() {
                                 </Link>
                                 <Link
                                     target="_blank"
-                                    href="https://drive.google.com/file/d/1aEdLprC-BP5BVfrfs00NPEWmGITXn-Z1/view?usp=drive_link"
+                                    href="https://drive.google.com/file/d/1zp-d3Oc0nxHrbV_o49z9yAoR-hKIN7cn/view?usp=drive_link"
                                     className="px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 text-center hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
                                 >
                                     Get Resume

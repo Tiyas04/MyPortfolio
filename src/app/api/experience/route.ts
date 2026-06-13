@@ -141,3 +141,100 @@ export async function GET() {
         )
     }
 }
+
+export async function PATCH(request: NextRequest) {
+    await dbConnect()
+
+    try {
+        const id = request.nextUrl.searchParams.get("id");
+        if (!id) {
+            return NextResponse.json(
+                { success: false, message: "ID parameter is required" },
+                { status: 400 }
+            );
+        }
+
+        const experience = await ExperienceModel.findById(id);
+        if (!experience) {
+            return NextResponse.json(
+                { success: false, message: "Experience not found" },
+                { status: 404 }
+            );
+        }
+
+        const contentType = request.headers.get("content-type") || "";
+        let data: any = {};
+
+        if (contentType.includes("multipart/form-data")) {
+            const formData = await request.formData();
+            for (const [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+        } else {
+            data = await request.json();
+        }
+
+        if (data.role !== undefined) experience.role = data.role;
+        if (data.jobtitle !== undefined) experience.jobtitle = data.jobtitle;
+        if (data.company !== undefined) experience.company = data.company;
+        if (data.description !== undefined) experience.description = data.description;
+        if (data.startDate !== undefined) experience.startDate = new Date(data.startDate);
+        if (data.endDate !== undefined) {
+            experience.endDate = (data.endDate === "Present" || !data.endDate) ? undefined : new Date(data.endDate);
+        }
+
+        await experience.save();
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Experience updated successfully",
+                data: experience
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log("Internal error updating experience", error);
+        return NextResponse.json(
+            { success: false, message: "Internal error updating experience" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(request: NextRequest) {
+    await dbConnect()
+
+    try {
+        const id = request.nextUrl.searchParams.get("id");
+        if (!id) {
+            return NextResponse.json(
+                { success: false, message: "ID parameter is required" },
+                { status: 400 }
+            );
+        }
+
+        const deletedExperience = await ExperienceModel.findByIdAndDelete(id);
+        if (!deletedExperience) {
+            return NextResponse.json(
+                { success: false, message: "Experience not found" },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Experience deleted successfully",
+                data: deletedExperience
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log("Internal error deleting experience", error);
+        return NextResponse.json(
+            { success: false, message: "Internal error deleting experience" },
+            { status: 500 }
+        );
+    }
+}

@@ -130,3 +130,99 @@ export async function GET() {
 		);
     }
 }
+
+export async function PATCH(request: NextRequest) {
+    await dbConnect()
+
+    try {
+        const id = request.nextUrl.searchParams.get("id");
+        if (!id) {
+            return NextResponse.json(
+                { success: false, message: "ID parameter is required" },
+                { status: 400 }
+            );
+        }
+
+        const academic = await AcademicsModel.findById(id);
+        if (!academic) {
+            return NextResponse.json(
+                { success: false, message: "Academic record not found" },
+                { status: 404 }
+            );
+        }
+
+        const contentType = request.headers.get("content-type") || "";
+        let data: any = {};
+
+        if (contentType.includes("multipart/form-data")) {
+            const formData = await request.formData();
+            for (const [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+        } else {
+            data = await request.json();
+        }
+
+        if (data.school !== undefined) academic.school = data.school;
+        if (data.degree !== undefined) academic.degree = data.degree;
+        if (data.grade !== undefined) academic.grade = data.grade;
+        if (data.startDate !== undefined) academic.startDate = new Date(data.startDate);
+        if (data.endDate !== undefined) {
+            academic.endDate = (data.endDate === "Present" || !data.endDate) ? undefined : new Date(data.endDate);
+        }
+
+        await academic.save();
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Academic record updated successfully",
+                data: academic
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log("Internal error updating academic record", error);
+        return NextResponse.json(
+            { success: false, message: "Internal error updating academic record" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(request: NextRequest) {
+    await dbConnect()
+
+    try {
+        const id = request.nextUrl.searchParams.get("id");
+        if (!id) {
+            return NextResponse.json(
+                { success: false, message: "ID parameter is required" },
+                { status: 400 }
+            );
+        }
+
+        const deletedAcademic = await AcademicsModel.findByIdAndDelete(id);
+        if (!deletedAcademic) {
+            return NextResponse.json(
+                { success: false, message: "Academic record not found" },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Academic record deleted successfully",
+                data: deletedAcademic
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log("Internal error deleting academic record", error);
+        return NextResponse.json(
+            { success: false, message: "Internal error deleting academic record" },
+            { status: 500 }
+        );
+    }
+}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function NavBar() {
+    const [isAdmin, setIsAdmin] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -16,6 +17,30 @@ export default function NavBar() {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Check admin status
+    useEffect(() => {
+        async function checkAdmin() {
+            try {
+                const res = await fetch("/api/admin/check");
+                const data = await res.json();
+                setIsAdmin(!!data.authenticated);
+            } catch (err) {
+                console.error("Failed to check admin status", err);
+            }
+        }
+        checkAdmin();
+    }, []);
+
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/admin/logout", { method: "POST" });
+            setIsAdmin(false);
+            window.location.href = "/";
+        } catch (err) {
+            console.error("Logout failed", err);
+        }
+    };
 
     // Prevent scrolling when mobile menu is open
     useEffect(() => {
@@ -46,11 +71,22 @@ export default function NavBar() {
             <nav className="max-w-7xl mx-auto w-full px-6 md:px-12 py-5 flex items-center justify-between">
 
                 {/* Logo Section - Left */}
-                <Link href="/" className="flex items-center gap-2 group shrink-0 relative z-50">
-                    <div className="text-2xl font-audiowide text-white hover:text-teal-300 hover:drop-shadow-[0_0_8px_rgba(20,184,166,0.8)] transition-all duration-300 tracking-tight">
-                        Tiyas.
+                <div className="flex items-center gap-2 group shrink-0 relative z-50">
+                    <div className="text-2xl font-audiowide text-white transition-all duration-300 tracking-tight select-none">
+                        <Link href="/" className="hover:text-teal-300 transition-colors">Tiyas</Link>
+                        <span 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.location.href = "/login";
+                            }}
+                            className="cursor-default text-teal-500 hover:text-teal-300 transition-colors duration-300"
+                            title="Admin Portal"
+                        >
+                            .
+                        </span>
                     </div>
-                </Link>
+                </div>
 
                 {/* Desktop Navigation - Center */}
                 <div className="hidden lg:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
@@ -68,6 +104,22 @@ export default function NavBar() {
 
                 {/* Call to Action - Right */}
                 <div className="hidden lg:flex items-center gap-6 ml-auto relative z-50">
+                    {isAdmin && (
+                        <>
+                            <Link
+                                href="/admin"
+                                className="px-4 py-2 text-xs font-mono font-bold border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:shadow-[0_0_20px_rgba(20,184,166,0.25)] animate-in fade-in"
+                            >
+                                [SYS_ADMIN]
+                            </Link>
+                            <button
+                                onClick={handleLogout}
+                                className="px-4 py-2 text-xs font-mono font-bold border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0.05)] hover:shadow-[0_0_20px_rgba(239,68,68,0.25)]"
+                            >
+                                [SYS_LOGOUT]
+                            </button>
+                        </>
+                    )}
                     <Link
                         href="/#contact"
                         className="px-6 py-2.5 text-sm font-bold border-2 border-teal-500 text-teal-400 bg-transparent hover:bg-teal-500 hover:text-gray-950 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:shadow-[0_0_25px_rgba(20,184,166,0.3)]"
@@ -153,10 +205,45 @@ export default function NavBar() {
                                 </motion.div>
                             ))}
                             
+                            {isAdmin && (
+                                <>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: navLinks.length * 0.05 + 0.08 }}
+                                        className="w-full text-center"
+                                    >
+                                        <Link
+                                            href="/admin"
+                                            onClick={() => setIsOpen(false)}
+                                            className="block w-full py-3 text-sm font-mono font-bold border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 rounded-xl transition-colors"
+                                        >
+                                            [SYS_ADMIN]
+                                        </Link>
+                                    </motion.div>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: navLinks.length * 0.05 + 0.12 }}
+                                        className="w-full text-center"
+                                    >
+                                        <button
+                                            onClick={() => {
+                                                setIsOpen(false);
+                                                handleLogout();
+                                            }}
+                                            className="w-full py-3 text-sm font-mono font-bold border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-xl transition-colors"
+                                        >
+                                            [SYS_LOGOUT]
+                                        </button>
+                                    </motion.div>
+                                </>
+                            )}
+
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: navLinks.length * 0.05 + 0.1 }}
+                                transition={{ delay: navLinks.length * 0.05 + 0.15 }}
                                 className="w-full mt-4 pt-8 border-t border-gray-800/50"
                             >
                                 <Link

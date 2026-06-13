@@ -179,146 +179,143 @@ export default function Projects() {
         ) : sideList.length === 0 ? (
           <div className="text-center text-gray-500 py-24">No projects found.</div>
         ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
 
-          {/* Left: Numbered project list */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="lg:col-span-1 flex flex-col gap-2"
-          >
-            {sideList.map((project, index) => {
-              const isActive = featuredId === project._id;
-              return (
-                <motion.button
-                  key={project._id}
-                  onClick={() => handleSelect(project._id)}
-                  onHoverStart={() => setHoveredId(project._id)}
-                  onHoverEnd={() => setHoveredId(null)}
-                  className={`group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center gap-5 border relative overflow-hidden ${
-                    isActive
-                      ? "bg-gray-900/70 border-teal-500 shadow-[0_0_25px_rgba(20,184,166,0.25)]"
-                      : "bg-gray-900/30 border-gray-800 hover:border-teal-500/50 hover:shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:bg-gray-900/60"
-                  }`}
-                  whileHover={{ x: 4, scale: 1.015 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {/* Auto-cycle progress bar — slides across the bottom of the active card */}
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0 left-0 h-[2px] bg-teal-400 rounded-full transition-none"
-                      style={{ width: `${progress}%` }}
-                    />
-                  )}
-
-                  {/* Index Number */}
-                  <span
-                    className={`font-audiowide text-2xl font-bold transition-colors duration-300 ${
-                      isActive ? "text-teal-400" : "text-gray-700 group-hover:text-gray-500"
-                    }`}
+            {/* Left: Numbered project list */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="lg:col-span-1 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto lg:max-h-[600px] pb-4 lg:pb-0 pr-0 lg:pr-2 w-full no-scrollbar"
+            >
+              {sideList.map((project, index) => {
+                const isActive = featuredId === project._id;
+                return (
+                  <motion.button
+                    key={project._id}
+                    onClick={() => handleSelect(project._id)}
+                    onHoverStart={() => setHoveredId(project._id)}
+                    onHoverEnd={() => setHoveredId(null)}
+                    className={`group shrink-0 w-[280px] sm:w-[320px] lg:w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center gap-5 border relative overflow-hidden ${isActive
+                        ? "bg-gray-900/70 border-teal-500 shadow-[0_0_25px_rgba(20,184,166,0.25)]"
+                        : "bg-gray-900/30 border-gray-800 hover:border-teal-500/50 hover:shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:bg-gray-900/60"
+                      }`}
+                    whileHover={{ x: 4, scale: 1.015 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  {/* Title + tagline */}
-                  <div className="flex-1 min-w-0">
-                    <p className={`font-audiowide text-sm font-bold truncate transition-colors ${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-200"}`}>
-                      {project.name}
-                    </p>
-                    <p className="text-xs text-gray-600 group-hover:text-gray-500 transition-colors truncate mt-0.5">
-                      {project.description.slice(0, 48)}…
-                    </p>
-                  </div>
-
-                  {/* Arrow */}
-                  <ArrowRight
-                    className={`w-4 h-4 shrink-0 transition-all duration-300 ${
-                      isActive ? "text-teal-400 translate-x-0" : "text-gray-700 -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
-                    }`}
-                  />
-                </motion.button>
-              );
-            })}
-          </motion.div>
-
-          <div className="lg:col-span-2">
-            <AnimatePresence mode="wait">
-              {featured && (
-              <motion.div
-                key={featuredId}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.45, ease: "easeOut" }}
-                className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/40 backdrop-blur-sm shadow-2xl hover:border-teal-500/40 hover:shadow-[0_0_40px_rgba(20,184,166,0.12)] transition-all duration-500"
-              >
-                {/* Image */}
-                <div className="relative w-full h-[260px] md:h-[340px] overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent z-10 transition-opacity duration-500" />
-                  <motion.img
-                    key={featured.imageUrl}
-                    src={featured.imageUrl}
-                    alt={featured.name}
-                    initial={{ scale: 1.08 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Floating tech tags over image */}
-                  <div className="absolute bottom-4 left-5 right-5 flex flex-wrap gap-2 z-20">
-                    {featured.techstack.map((tech, i) => (
+                    {/* Auto-cycle progress bar — slides across the bottom of the active card */}
+                    {isActive && (
                       <span
-                        key={i}
-                        className="px-3 py-1 text-[10px] uppercase tracking-wider font-medium text-teal-300 bg-black/60 backdrop-blur-md rounded-full border border-teal-500/30"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 md:p-8">
-                  <h3 className="font-audiowide text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
-                    {featured.name}
-                  </h3>
-
-                  <p className="text-gray-400 text-sm leading-relaxed border-l-2 border-teal-500 pl-4 mb-8">
-                    {featured.description}
-                  </p>
-
-                  {/* Action Buttons — matching Hero style */}
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <a
-                      href={featured.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 px-8 py-3 bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] text-white rounded-lg font-medium transition-all duration-300"
-                    >
-                      <Code className="w-5 h-5" />
-                      Source Code
-                    </a>
-                    {featured.liveUrl && (
-                      <a
-                        href={featured.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
-                      >
-                        Live Demo
-                        <ExternalLink className="w-5 h-5" />
-                      </a>
+                        className="absolute bottom-0 left-0 h-[2px] bg-teal-400 rounded-full transition-none"
+                        style={{ width: `${progress}%` }}
+                      />
                     )}
-                  </div>
-                </div>
-              </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
 
-        </div>
+                    {/* Index Number */}
+                    <span
+                      className={`font-audiowide text-2xl font-bold transition-colors duration-300 ${isActive ? "text-teal-400" : "text-gray-700 group-hover:text-gray-500"
+                        }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    {/* Title + tagline */}
+                    <div className="flex-1 min-w-0">
+                      <p className={`font-audiowide text-sm font-bold truncate transition-colors ${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-200"}`}>
+                        {project.name}
+                      </p>
+                      <p className="text-xs text-gray-600 group-hover:text-gray-500 transition-colors truncate mt-0.5">
+                        {project.description.slice(0, 48)}…
+                      </p>
+                    </div>
+
+                    {/* Arrow */}
+                    <ArrowRight
+                      className={`w-4 h-4 shrink-0 transition-all duration-300 ${isActive ? "text-teal-400 translate-x-0" : "text-gray-700 -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
+                        }`}
+                    />
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+
+            <div className="lg:col-span-2">
+              <AnimatePresence mode="wait">
+                {featured && (
+                  <motion.div
+                    key={featuredId}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                    className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/40 backdrop-blur-sm shadow-2xl hover:border-teal-500/40 hover:shadow-[0_0_40px_rgba(20,184,166,0.12)] transition-all duration-500"
+                  >
+                    {/* Image */}
+                    <div className="relative w-full h-[260px] md:h-[340px] overflow-hidden">
+                      <div className="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/50 to-transparent z-10 transition-opacity duration-500" />
+                      <motion.img
+                        key={featured.imageUrl}
+                        src={featured.imageUrl}
+                        alt={featured.name}
+                        initial={{ scale: 1.08 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.7, ease: "easeOut" }}
+                        className="w-full h-full object-cover"
+                      />
+                      {/* Floating tech tags over image */}
+                      <div className="absolute bottom-4 left-5 right-5 flex flex-wrap gap-2 z-20">
+                        {featured.techstack.map((tech, i) => (
+                          <span
+                            key={i}
+                            className="px-3 py-1 text-[10px] uppercase tracking-wider font-medium text-teal-300 bg-black/60 backdrop-blur-md rounded-full border border-teal-500/30"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 md:p-8">
+                      <h3 className="font-audiowide text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
+                        {featured.name}
+                      </h3>
+
+                      <p className="text-gray-400 text-sm leading-relaxed border-l-2 border-teal-500 pl-4 mb-8">
+                        {featured.description}
+                      </p>
+
+                      {/* Action Buttons — matching Hero style */}
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <a
+                          href={featured.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 px-8 py-3 bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] text-white rounded-lg font-medium transition-all duration-300"
+                        >
+                          <Code className="w-5 h-5" />
+                          Source Code
+                        </a>
+                        {featured.liveUrl && (
+                          <a
+                            href={featured.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
+                          >
+                            Live Demo
+                            <ExternalLink className="w-5 h-5" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+          </div>
         )}
       </div>
     </section>

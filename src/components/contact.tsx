@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, User, Mail, MessageSquare, CheckCircle2, AlertCircle, Terminal, Briefcase, MapPin, Camera } from "lucide-react";
+import { Send, User, Mail, MessageSquare, CheckCircle2, AlertCircle, MapPin } from "lucide-react";
+import { GithubIcon, LinkedinIcon, InstagramIcon } from "./social-icons";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -111,16 +112,16 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
                 >
-                  <Terminal className="w-5 h-5" />
+                  <GithubIcon className="w-5 h-5" />
                   <span className="sr-only">GitHub</span>
                 </a>
                 <a 
-                  href="https://linkedin.com/tiyas-mandal-a2a014343" 
+                  href="https://linkedin.com/in/tiyas-mandal-a2a014343" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
                 >
-                  <Briefcase className="w-5 h-5" />
+                  <LinkedinIcon className="w-5 h-5" />
                   <span className="sr-only">LinkedIn</span>
                 </a>
                 <a 
@@ -129,7 +130,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
                 >
-                  <Camera className="w-5 h-5" />
+                  <InstagramIcon className="w-5 h-5" />
                   <span className="sr-only">Instagram</span>
                 </a>
               </div>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Terminal, Briefcase, Camera } from "lucide-react";
+import { GithubIcon, LinkedinIcon, InstagramIcon } from "./social-icons";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -18,16 +18,28 @@ export default function Footer() {
           
           {/* Brand/Logo Column */}
           <div className="md:col-span-2">
-            <Link href="/" className="inline-block mb-6">
-              <h2 className="font-audiowide text-3xl font-bold">
-                <span
-                  className="text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-teal-300"
+            <div className="inline-block mb-6">
+              <h2 className="font-audiowide text-3xl font-bold select-none">
+                <Link
+                  href="/"
+                  className="text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-teal-300 hover:text-teal-300 transition-colors"
                   style={{ WebkitTextStroke: "1px #14b8a6", color: "transparent" }}
                 >
-                  Tiyas.
+                  Tiyas
+                </Link>
+                <span 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = "/login";
+                  }}
+                  className="cursor-default text-teal-400 hover:text-teal-300 transition-colors duration-300"
+                  style={{ WebkitTextStroke: "1px #14b8a6" }}
+                  title="Admin Portal"
+                >
+                  .
                 </span>
               </h2>
-            </Link>
+            </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm border-l-2 border-teal-500 pl-4">
               Crafting high-performance websites and applications tailored to your business needs. Turning ideas into reality.
             </p>
@@ -65,16 +77,16 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
               >
-                <Terminal className="w-4 h-4" />
+                <GithubIcon className="w-4 h-4" />
                 <span className="sr-only">GitHub</span>
               </a>
               <a 
-                href="https://linkedin.com/tiyas-mandal-a2a014343" 
+                href="https://linkedin.com/in/tiyas-mandal-a2a014343" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
               >
-                <Briefcase className="w-4 h-4" />
+                <LinkedinIcon className="w-4 h-4" />
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a 
@@ -83,7 +95,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
               >
-                <Camera className="w-4 h-4" />
+                <InstagramIcon className="w-4 h-4" />
                 <span className="sr-only">Instagram</span>
               </a>
             </div>
@@ -93,8 +105,19 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-xs">
-            © {currentYear} Tiyas. All rights reserved.
+          <p className="text-gray-500 text-xs select-none">
+            © {currentYear} Tiyas
+            <span 
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = "/login";
+              }}
+              className="cursor-default text-gray-500 hover:text-teal-500 transition-colors duration-300"
+              title="Admin Portal"
+            >
+              .
+            </span>
+             All rights reserved.
           </p>
           <p className="text-gray-600 text-xs">
             Designed & Built with <span className="text-teal-500">♥</span>

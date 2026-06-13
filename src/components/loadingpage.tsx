@@ -36,7 +36,7 @@ export default function LoadingPage() {
       className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-[#050505] overflow-hidden selection:bg-none"
     >
       {/* 1. Subtle Cyber Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.05)_1px,transparent_1px)] bg-size-[50px_50px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.05)_1px,transparent_1px)] bg-size-[50px_50px] mask-[radial-gradient(ellipse_70%_70%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
 
       {/* 2. Radar/Data Sweep Glow */}
       <motion.div 
@@ -52,12 +52,12 @@ export default function LoadingPage() {
       <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-teal-500/40 pointer-events-none" />
 
       {/* 4. Random Data Streams on Sides */}
-      <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-teal-500/30 tracking-widest hidden md:flex pointer-events-none">
+      <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-teal-500/30 tracking-widest pointer-events-none">
         <span className="animate-pulse">SYS.MEM: {progress * 128}MB</span>
         <span>NET.UPLINK: <span className="text-teal-400">ACTIVE</span></span>
         <span>HASH: {matrixText.substring(0, 8)}</span>
       </div>
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-teal-500/30 tracking-widest hidden md:flex text-right pointer-events-none">
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-teal-500/30 tracking-widest text-right pointer-events-none">
         <span>SEQ: {progress.toString().padStart(3, '0')}</span>
         <span>LAT: 12ms</span>
         <span>SYNC: {matrixText.substring(8, 16)}</span>
@@ -85,7 +85,7 @@ export default function LoadingPage() {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="w-full h-full rounded-full border-[1px] border-teal-500/10 border-t-teal-400/60 border-b-teal-400/60 absolute pointer-events-none"
+            className="w-full h-full rounded-full border border-teal-500/10 border-t-teal-400/60 border-b-teal-400/60 absolute pointer-events-none"
           />
           <motion.div
             animate={{ rotate: -360 }}

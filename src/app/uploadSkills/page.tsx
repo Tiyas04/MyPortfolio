@@ -114,7 +114,7 @@ export default function UploadSkills() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="flex justify-between items-center bg-gray-900/50 p-4 rounded-xl border border-teal-500/20 backdrop-blur-sm sticky top-4 z-10 shadow-lg shadow-[0_0_15px_rgba(20,184,166,0.05)]">
+                    <div className="flex justify-between items-center bg-gray-900/50 p-4 rounded-xl border border-teal-500/20 backdrop-blur-sm sticky top-4 z-10 shadow-lg">
                         <h2 className="text-xl font-semibold text-teal-400 font-audiowide">
                             Skills List ({skills.length})
                         </h2>
@@ -226,7 +226,7 @@ export default function UploadSkills() {
                                                 onChange={(e) =>
                                                     handleFileChange(item.id, e.target.files?.[0] || null)
                                                 }
-                                                className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-teal-500/10 file:text-teal-400 hover:file:bg-teal-500/20 border-teal-500/30"
+                                                className="w-full bg-black/50 border \ rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-teal-500/10 file:text-teal-400 hover:file:bg-teal-500/20 border-teal-500/30"
                                             />
                                             {item.image && (
                                                 <p className="text-sm text-green-400 mt-2">

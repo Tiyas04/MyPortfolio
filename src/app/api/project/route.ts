@@ -154,3 +154,115 @@ export async function GET() {
         )
     }
 }
+
+export async function PATCH(request: NextRequest) {
+    await dbConnect()
+
+    try {
+        const id = request.nextUrl.searchParams.get("id");
+        if (!id) {
+            return NextResponse.json(
+                { success: false, message: "ID parameter is required" },
+                { status: 400 }
+            );
+        }
+
+        const project = await ProjectModel.findById(id);
+        if (!project) {
+            return NextResponse.json(
+                { success: false, message: "Project not found" },
+                { status: 404 }
+            );
+        }
+
+        const contentType = request.headers.get("content-type") || "";
+        let data: any = {};
+        let newImageUrl = "";
+
+        if (contentType.includes("multipart/form-data")) {
+            const formData = await request.formData();
+            for (const [key, value] of formData.entries()) {
+                if (key === "image" && value instanceof File) {
+                    const arrayBuffer = await value.arrayBuffer();
+                    const buffer = Buffer.from(arrayBuffer);
+                    const uploadResult = await streamUpload(buffer);
+                    newImageUrl = uploadResult.secure_url;
+                } else {
+                    data[key] = value;
+                }
+            }
+        } else {
+            data = await request.json();
+        }
+
+        if (data.name !== undefined) project.name = data.name;
+        if (data.description !== undefined) project.description = data.description;
+        if (data.githubUrl !== undefined) project.githubUrl = data.githubUrl;
+        if (data.liveUrl !== undefined) project.liveUrl = data.liveUrl;
+        if (newImageUrl) {
+            project.imageUrl = newImageUrl;
+        } else if (data.imageUrl !== undefined) {
+            project.imageUrl = data.imageUrl;
+        }
+
+        if (data.techstack !== undefined) {
+            project.techstack = typeof data.techstack === "string"
+                ? data.techstack.split(",").map((t: string) => t.trim())
+                : Array.isArray(data.techstack) ? data.techstack : [data.techstack];
+        }
+
+        await project.save();
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Project updated successfully",
+                data: project
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log("Internal error updating project", error);
+        return NextResponse.json(
+            { success: false, message: "Internal error updating project" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(request: NextRequest) {
+    await dbConnect()
+
+    try {
+        const id = request.nextUrl.searchParams.get("id");
+        if (!id) {
+            return NextResponse.json(
+                { success: false, message: "ID parameter is required" },
+                { status: 400 }
+            );
+        }
+
+        const deletedProject = await ProjectModel.findByIdAndDelete(id);
+        if (!deletedProject) {
+            return NextResponse.json(
+                { success: false, message: "Project not found" },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Project deleted successfully",
+                data: deletedProject
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log("Internal error deleting project", error);
+        return NextResponse.json(
+            { success: false, message: "Internal error deleting project" },
+            { status: 500 }
+        );
+    }
+}
