@@ -30,18 +30,18 @@ const corners = [
   // top-left  — open toward bottom-right
   { key: "tl", x: -GAP - CORNER, y: -GAP - CORNER, d: `M${CORNER} 0 L0 0 L0 ${CORNER}` },
   // top-right — open toward bottom-left
-  { key: "tr", x: GAP,           y: -GAP - CORNER, d: `M0 0 L${CORNER} 0 L${CORNER} ${CORNER}` },
+  { key: "tr", x: GAP, y: -GAP - CORNER, d: `M0 0 L${CORNER} 0 L${CORNER} ${CORNER}` },
   // bottom-left  — open toward top-right
-  { key: "bl", x: -GAP - CORNER, y: GAP,           d: `M${CORNER} ${CORNER} L0 ${CORNER} L0 0` },
+  { key: "bl", x: -GAP - CORNER, y: GAP, d: `M${CORNER} ${CORNER} L0 ${CORNER} L0 0` },
   // bottom-right — open toward top-left
-  { key: "br", x: GAP,           y: GAP,           d: `M0 ${CORNER} L${CORNER} ${CORNER} L${CORNER} 0` },
+  { key: "br", x: GAP, y: GAP, d: `M0 ${CORNER} L${CORNER} ${CORNER} L${CORNER} 0` },
 ];
 
 export default function CustomCursor() {
-  const dotRef    = useRef<HTMLDivElement>(null);
-  const coordRef  = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const coordRef = useRef<HTMLDivElement>(null);
   const bracketRefs = useRef<(SVGSVGElement | null)[]>([]);
-  const scanRef   = useRef<HTMLDivElement>(null);
+  const scanRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isFinePointer, setIsFinePointer] = useState(false);
 
@@ -54,9 +54,9 @@ export default function CustomCursor() {
     if (!isFinePointer) return; // touch / mobile — keep default cursor
     document.documentElement.style.cursor = "none";
 
-    const dot   = dotRef.current;
+    const dot = dotRef.current;
     const coord = coordRef.current;
-    const scan  = scanRef.current;
+    const scan = scanRef.current;
     if (!dot) return;
 
     let mx = window.innerWidth / 2;

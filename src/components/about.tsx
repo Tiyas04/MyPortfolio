@@ -162,18 +162,11 @@ export default function About() {
     // Fetch LeetCode Stats
     const fetchLeetcode = async () => {
       try {
-        const response = await fetch("https://alfa-leetcode-api.onrender.com/Tiyas04/profile");
+        const response = await fetch("/api/leetcode");
         if (!response.ok) throw new Error("Failed to fetch LeetCode stats");
-        const data = await response.json();
-        if (data && data.totalSolved !== undefined) {
-          const activeDays = data.submissionCalendar ? Object.keys(data.submissionCalendar).length : 0;
-          setLeetcodeStats({
-            totalSolved: data.totalSolved,
-            easySolved: data.easySolved,
-            mediumSolved: data.mediumSolved,
-            hardSolved: data.hardSolved,
-            activeDays,
-          });
+        const res = await response.json();
+        if (res.success && res.data) {
+          setLeetcodeStats(res.data);
         }
       } catch (error) {
         console.error("Failed to fetch LeetCode stats:", error);
@@ -396,7 +389,7 @@ export default function About() {
                     <div className="bg-black/50 p-4 rounded-lg border border-gray-800 text-center h-full flex flex-col justify-center">
                       <p className="text-gray-400 text-sm mb-1">Active Days</p>
                       <p className="text-4xl font-bold text-teal-400">
-                        {leetcodeStats.activeDays}
+                        {leetcodeStats.activeDays || 0}
                       </p>
                     </div>
                   </div>

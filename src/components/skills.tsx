@@ -11,7 +11,7 @@ interface Skill {
 }
 
 const SkillBadge = ({ skill }: { skill: Skill }) => (
-    <div className="flex items-center justify-center gap-3 px-6 py-3 bg-gray-900/50 border border-dashed border-teal-500/30 rounded-2xl text-gray-300 font-medium whitespace-nowrap shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] transition-all duration-300 cursor-default">
+    <div className="flex items-center justify-center gap-6 mx-2 px-12 py-4 bg-gray-900/50 border border-dashed border-teal-500/30 rounded-2xl text-gray-300 font-medium whitespace-nowrap shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] transition-all duration-300 cursor-default">
         {skill.imageUrl && (
             <img src={skill.imageUrl} alt={skill.name} className="w-6 h-6 object-contain" />
         )}
