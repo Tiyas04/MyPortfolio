@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, User, Mail, MessageSquare, CheckCircle2, AlertCircle, MapPin } from "lucide-react";
-import { GithubIcon, LinkedinIcon, InstagramIcon } from "./social-icons";
+import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon, LeetcodeIcon } from "./social-icons";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -105,7 +105,7 @@ export default function Contact() {
               </div>
 
               {/* Socials Grid */}
-              <div className="pt-4 flex gap-4">
+              <div className="pt-4 flex gap-4 flex-wrap">
                 <a 
                   href="https://github.com/Tiyas04" 
                   target="_blank" 
@@ -132,6 +132,24 @@ export default function Contact() {
                 >
                   <InstagramIcon className="w-5 h-5" />
                   <span className="sr-only">Instagram</span>
+                </a>
+                <a 
+                  href="https://x.com/your_handle" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
+                >
+                  <XIcon className="w-5 h-5" />
+                  <span className="sr-only">X (Twitter)</span>
+                </a>
+                <a 
+                  href="https://leetcode.com/Tiyas04" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
+                >
+                  <LeetcodeIcon className="w-5 h-5" />
+                  <span className="sr-only">LeetCode</span>
                 </a>
               </div>
             </div>

@@ -102,7 +102,42 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Custom Swiper index menu overrides */
+.projects-menu-swiper {
+  width: 100%;
+}
+
+.projects-menu-swiper .swiper-slide {
+  height: auto;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .projects-menu-swiper {
+    height: 480px;
+  }
+}
+
+/* Breathing pulse glow for the active project details card */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.12);
+    border-color: rgba(20, 184, 166, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(20, 184, 166, 0.3);
+    border-color: rgba(20, 184, 166, 0.5);
+  }
+}
+
+.active-project-card {
+  animation: pulseGlow 5s infinite ease-in-out;
 }

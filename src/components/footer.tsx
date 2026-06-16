@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { GithubIcon, LinkedinIcon, InstagramIcon } from "./social-icons";
+import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon, LeetcodeIcon } from "./social-icons";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -70,7 +70,7 @@ export default function Footer() {
           {/* Social Links */}
           <div className="md:col-span-1">
             <h3 className="text-white font-audiowide text-lg mb-6 tracking-wide">Connect</h3>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               <a 
                 href="https://github.com/Tiyas04" 
                 target="_blank" 
@@ -97,6 +97,24 @@ export default function Footer() {
               >
                 <InstagramIcon className="w-4 h-4" />
                 <span className="sr-only">Instagram</span>
+              </a>
+              <a 
+                href="https://x.com/Tiyas__004" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
+              >
+                <XIcon className="w-4 h-4" />
+                <span className="sr-only">X (Twitter)</span>
+              </a>
+              <a 
+                href="https://leetcode.com/u/Tiyas04" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"
+              >
+                <LeetcodeIcon className="w-4 h-4" />
+                <span className="sr-only">LeetCode</span>
               </a>
             </div>
           </div>

@@ -122,7 +122,7 @@ export default function Hero() {
                                 </Link>
                                 <Link
                                     target="_blank"
-                                    href="https://drive.google.com/file/d/1zp-d3Oc0nxHrbV_o49z9yAoR-hKIN7cn/view?usp=drive_link"
+                                    href="https://drive.google.com/file/d/1McvlDAL2qkX7pkDfiNupNlsx98s2O--W/view?usp=sharing"
                                     className="px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 text-center hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
                                 >
                                     Get Resume
