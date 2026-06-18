@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
+Disallow: /admin
+Disallow: /login
+Disallow: /uploadAcademics
+Disallow: /uploadAssets
+Disallow: /uploadExperiences
+Disallow: /uploadExtracurricular
+Disallow: /uploadProjects
+Disallow: /uploadSkills
+
 Sitemap: https://tiyasm.vercel.app/sitemap.xml
