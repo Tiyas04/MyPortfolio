@@ -57,13 +57,13 @@ export const metadata: Metadata = {
     title: "Portfolio | Tiyas",
     description:
       "Explore the portfolio of Tiyas showcasing full-stack web development projects, technical expertise, achievements, and professional experience.",
-    url: "tiyasm.vercel.app",
+    url: "https://tiyasm.vercel.app",
     siteName: "Portfolio | Tiyas",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "https://res.cloudinary.com/dajgjkv5h/image/upload/v1776277120/xftrdfkra4uxpf2t0u9h.png",
+        url: "https://tiyasm.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Portfolio | Tiyas",
@@ -75,6 +75,10 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical: "https://tiyasm.vercel.app",
+  },
+
+  verification: {
+    google:"",
   },
 };
 
