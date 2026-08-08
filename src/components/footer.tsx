@@ -81,7 +81,7 @@ export default function Footer() {
                 <span className="sr-only">GitHub</span>
               </a>
               <a 
-                href="https://linkedin.com/in/tiyas-mandal-a2a014343" 
+                href="https://linkedin.com/in/tiyas04" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-300 hover:-translate-y-1"

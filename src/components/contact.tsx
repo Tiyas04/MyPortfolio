@@ -116,7 +116,7 @@ export default function Contact() {
                   <span className="sr-only">GitHub</span>
                 </a>
                 <a 
-                  href="https://linkedin.com/in/tiyas-mandal-a2a014343" 
+                  href="https://linkedin.com/in/tiyas04" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
@@ -134,7 +134,7 @@ export default function Contact() {
                   <span className="sr-only">Instagram</span>
                 </a>
                 <a 
-                  href="https://x.com/your_handle" 
+                  href="https://x.com/Tiyas__004" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-gray-900/50 border border-gray-800 flex items-center justify-center text-gray-400 hover:border-teal-500 hover:text-teal-400 transition-all duration-300 hover:-translate-y-1"
