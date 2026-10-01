@@ -200,8 +200,8 @@ export default function About() {
   return (
     <section id="about" className="w-full bg-transparent py-20 relative overflow-hidden text-white">
       {/* Decorative background blurs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-125 h-125 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-125 h-125 bg-teal-500/5 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="mb-16 text-center">
@@ -265,7 +265,7 @@ export default function About() {
                       transition={{ delay: index * 0.1 }}
                       className="relative bg-gray-900/40 p-6 rounded-xl border border-gray-800 hover:border-teal-500/30 transition-all"
                     >
-                      <div className="absolute w-4 h-4 bg-teal-400 rounded-full -left-[41px] top-8 border-4 border-black"></div>
+                      <div className="absolute w-4 h-4 bg-teal-400 rounded-full -left-10.25 top-8 border-4 border-black"></div>
                       <h4 className="text-xl font-semibold text-white mb-1">{academic.degree}</h4>
                       <p className="text-teal-400 mb-2 font-medium">{academic.school}</p>
                       <div className="flex justify-between items-center text-sm text-gray-500">
@@ -326,10 +326,10 @@ export default function About() {
                       <p className="text-xl sm:text-2xl font-bold text-teal-400">{githubStats.activeDays}</p>
                     </div>
                   </div>
-                  <div className="h-[200px] w-full">
+                  <div className="h-50 w-full">
                     {githubStats.languages.length > 0 && (
                       <div className="flex flex-col items-center">
-                        <div className="h-[180px] w-full">
+                        <div className="h-45 w-full">
                           <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                               <Pie
@@ -413,7 +413,7 @@ export default function About() {
                       </p>
                     </div>
                   </div>
-                  <div className="h-[200px] w-full">
+                  <div className="h-50 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={leetcodeData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <XAxis type="number" hide />

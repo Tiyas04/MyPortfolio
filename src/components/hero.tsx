@@ -10,7 +10,7 @@ export default function Hero() {
         <section className="relative z-20 w-full bg-transparent text-white pt-10 md:pt-32 pb-8 px-6 md:px-12 overflow-hidden">
             <div className="max-w-7xl mx-auto">
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center min-h-[540px]">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center min-h-135">
                     {/* Left Section - Heading */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -34,7 +34,7 @@ export default function Hero() {
                                 className="text-4xl md:text-5xl my-1 flex flex-wrap items-baseline gap-2"
                             >
                                 <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">This is</span>
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-300 to-emerald-300 drop-shadow-[0_0_30px_rgba(20,184,166,0.65)] font-extrabold">
+                                <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-400 via-teal-300 to-emerald-300 drop-shadow-[0_0_30px_rgba(20,184,166,0.65)] font-extrabold">
                                     Tiyas
                                 </span>
                             </motion.div>
@@ -76,7 +76,7 @@ export default function Hero() {
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
-                                className="absolute inset-0 bg-gradient-to-br from-teal-500/25 to-transparent rounded-xl blur-2xl"
+                                className="absolute inset-0 bg-linear-to-br from-teal-500/25 to-transparent rounded-xl blur-2xl"
                             ></motion.div>
                             <motion.div
                                 animate={{ y: [-10, 10, -10] }}

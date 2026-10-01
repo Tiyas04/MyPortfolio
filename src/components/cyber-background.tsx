@@ -37,7 +37,7 @@ export default function CyberBackground() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] rounded-full bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,rgba(20,184,166,0.035)_35%,transparent_100%)] pointer-events-none blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-250 h-250 rounded-full bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,rgba(20,184,166,0.035)_35%,transparent_100%)] pointer-events-none blur-3xl"
       />
     </div>
   );
