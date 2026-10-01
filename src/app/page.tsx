@@ -25,7 +25,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-black">
+    <main className="relative min-h-screen bg-black overflow-x-hidden">
+      <CyberBackground />
       <AnimatePresence mode="wait">
         {showLoading ? (
           <LoadingPage key="loading-page" />
@@ -37,7 +38,6 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="w-full relative z-10"
           >
-            <CyberBackground />
             <NavBar />
             <Hero />
             <About />

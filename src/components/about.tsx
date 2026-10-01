@@ -113,49 +113,60 @@ export default function About() {
     // Fetch GitHub Stats
     const fetchGithub = async () => {
       try {
-        const userRes = await fetch("https://api.github.com/users/Tiyas04");
-        const userData = await userRes.json();
-
-        // Fetching some repo data to get languages (mocking language stats based on repos for visual chart)
-        const reposRes = await fetch("https://api.github.com/users/Tiyas04/repos?per_page=100");
-        const reposData = await reposRes.json();
-        
-        // Count language frequencies (simplified)
-        const langCounts: Record<string, number> = {};
-        if (Array.isArray(reposData)) {
-            reposData.forEach((repo: any) => {
-                if (repo.language) {
-                    langCounts[repo.language] = (langCounts[repo.language] || 0) + 1;
-                }
-            });
+        const response = await fetch("/api/github");
+        if (response.ok) {
+          const res = await response.json();
+          if (res.success && res.data) {
+            setGithubStats(res.data);
+            return;
+          }
         }
-        
-        const languages = Object.entries(langCounts)
+        throw new Error("Failed to fetch from /api/github, trying fallback");
+      } catch (error) {
+        console.warn("Using client-side fallback for GitHub stats:", error);
+        try {
+          const userRes = await fetch("https://api.github.com/users/Tiyas04");
+          const userData = await userRes.json();
+
+          const reposRes = await fetch("https://api.github.com/users/Tiyas04/repos?per_page=100");
+          const reposData = await reposRes.json();
+          
+          const langCounts: Record<string, number> = {};
+          if (Array.isArray(reposData)) {
+            reposData.forEach((repo: any) => {
+              if (repo.language) {
+                langCounts[repo.language] = (langCounts[repo.language] || 0) + 1;
+              }
+            });
+          }
+          
+          const languages = Object.entries(langCounts)
             .map(([name, value]) => ({ name, value }))
             .sort((a, b) => b.value - a.value)
             .slice(0, 5);
 
-        const contribRes = await fetch("https://github-contributions-api.deno.dev/Tiyas04.json");
-        const contribData = await contribRes.json();
-        const totalContributions = contribData.totalContributions || 0;
-        let activeDays = 0;
-        if (contribData.contributions) {
+          const contribRes = await fetch("https://github-contributions-api.deno.dev/Tiyas04.json");
+          const contribData = await contribRes.json();
+          const totalContributions = contribData.totalContributions || 0;
+          let activeDays = 0;
+          if (contribData.contributions) {
             contribData.contributions.forEach((week: any[]) => {
-                week.forEach((day: any) => {
-                    if (day.contributionCount > 0) activeDays++;
-                });
+              week.forEach((day: any) => {
+                if (day.contributionCount > 0) activeDays++;
+              });
             });
-        }
+          }
 
-        setGithubStats({
-          followers: userData.followers || 0,
-          public_repos: userData.public_repos || 0,
-          languages: languages.length > 0 ? languages : [{ name: "JavaScript", value: 1 }],
-          totalContributions,
-          activeDays,
-        });
-      } catch (error) {
-        console.error("Failed to fetch GitHub stats:", error);
+          setGithubStats({
+            followers: userData.followers || 0,
+            public_repos: userData.public_repos || 0,
+            languages: languages.length > 0 ? languages : [{ name: "JavaScript", value: 1 }],
+            totalContributions,
+            activeDays,
+          });
+        } catch (fallbackError) {
+          console.error("Failed to fetch GitHub stats fallback:", fallbackError);
+        }
       }
     };
 
@@ -317,27 +328,36 @@ export default function About() {
                   </div>
                   <div className="h-[200px] w-full">
                     {githubStats.languages.length > 0 && (
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={githubStats.languages}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={40}
-                            outerRadius={80}
-                            paddingAngle={5}
-                            dataKey="value"
-                          >
-                            {githubStats.languages.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <Tooltip
-                            contentStyle={{ backgroundColor: "#111827", borderColor: "#14b8a6", borderRadius: "8px" }}
-                            itemStyle={{ color: "#fff" }}
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
+                      <div className="flex flex-col items-center">
+                        <div className="h-[180px] w-full">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie
+                                data={githubStats.languages}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={40}
+                                outerRadius={75}
+                                paddingAngle={5}
+                                dataKey="value"
+                                nameKey="name"
+                              >
+                                {githubStats.languages.map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                              </Pie>
+                              <Tooltip
+                                contentStyle={{ backgroundColor: "#111827", borderColor: "#14b8a6", borderRadius: "8px" }}
+                                itemStyle={{ color: "#fff" }}
+                                formatter={(value: any, name: any, entry: any) => [
+                                  `${value} ${Number(value) === 1 ? 'repo' : 'repos'}`,
+                                  entry?.payload?.name || name
+                                ]}
+                              />
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
