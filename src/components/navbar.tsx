@@ -65,22 +65,22 @@ export default function NavBar() {
     return (
         <div className={`fixed top-0 w-full z-50 transition-all duration-300 ${
             isScrolled || isOpen
-                ? "backdrop-blur-xl bg-gray-950/90 border-b border-gray-800" 
+                ? "backdrop-blur-xl bg-[#060a14]/90 border-b border-blue-900/50" 
                 : "bg-transparent border-b border-transparent"
         }`}>
             <nav className="max-w-7xl mx-auto w-full px-6 md:px-12 py-5 flex items-center justify-between">
 
                 {/* Logo Section - Left */}
                 <div className="flex items-center gap-2 group shrink-0 relative z-50">
-                    <div className="text-2xl font-audiowide text-white transition-all duration-300 tracking-tight select-none">
-                        <Link href="/" className="hover:text-teal-300 transition-colors">Tiyas</Link>
+                    <div className="text-2xl font-russo text-white transition-all duration-300 tracking-tight select-none">
+                        <Link href="/" className="hover:text-blue-300 transition-colors">Tiyas</Link>
                         <span 
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 window.location.href = "/login";
                             }}
-                            className="cursor-default text-teal-500 hover:text-teal-300 transition-colors duration-300"
+                            className="cursor-default text-amber-400 hover:text-amber-300 transition-colors duration-300"
                             title="Admin Portal"
                         >
                             .
@@ -94,10 +94,10 @@ export default function NavBar() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-medium text-gray-400 hover:text-teal-300 hover:drop-shadow-[0_0_5px_rgba(20,184,166,0.8)] transition-all duration-300 relative group"
+                            className="text-sm font-medium text-gray-400 hover:text-blue-300 hover:drop-shadow-[0_0_5px_rgba(96,165,250,0.8)] transition-all duration-300 relative group"
                         >
                             {link.name}
-                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         </Link>
                     ))}
                 </div>
@@ -108,7 +108,7 @@ export default function NavBar() {
                         <>
                             <Link
                                 href="/admin"
-                                className="px-4 py-2 text-xs font-mono font-bold border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:shadow-[0_0_20px_rgba(20,184,166,0.25)] animate-in fade-in"
+                                className="px-4 py-2 text-xs font-mono font-bold border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(96,165,250,0.05)] hover:shadow-[0_0_20px_rgba(96,165,250,0.25)] animate-in fade-in"
                             >
                                 [SYS_ADMIN]
                             </Link>
@@ -122,7 +122,7 @@ export default function NavBar() {
                     )}
                     <Link
                         href="/#contact"
-                        className="px-6 py-2.5 text-sm font-bold border-2 border-teal-500 text-teal-400 bg-transparent hover:bg-teal-500 hover:text-gray-950 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:shadow-[0_0_25px_rgba(20,184,166,0.3)]"
+                        className="px-6 py-2.5 text-sm font-bold border-2 border-blue-500 text-blue-400 bg-transparent hover:bg-blue-500 hover:text-gray-950 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(96,165,250,0.1)] hover:shadow-[0_0_25px_rgba(96,165,250,0.5)]"
                     >
                         Contact Me
                     </Link>
@@ -141,7 +141,7 @@ export default function NavBar() {
                             width: "22px",
                             height: "2px",
                             borderRadius: "2px",
-                            backgroundColor: isOpen ? "#2dd4bf" : "#d1d5db",
+                            backgroundColor: isOpen ? "#60a5fa" : "#d1d5db",
                             transformOrigin: "center",
                             transition: "transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.25s ease, background-color 0.25s ease",
                             transform: isOpen ? "translateY(8px) rotate(45deg)" : "translateY(0) rotate(0deg)",
@@ -153,7 +153,7 @@ export default function NavBar() {
                             width: "22px",
                             height: "2px",
                             borderRadius: "2px",
-                            backgroundColor: isOpen ? "#2dd4bf" : "#d1d5db",
+                            backgroundColor: isOpen ? "#60a5fa" : "#d1d5db",
                             marginTop: "6px",
                             transition: "opacity 0.2s ease, transform 0.35s cubic-bezier(0.23,1,0.32,1), background-color 0.25s ease",
                             opacity: isOpen ? 0 : 1,
@@ -166,7 +166,7 @@ export default function NavBar() {
                             width: "22px",
                             height: "2px",
                             borderRadius: "2px",
-                            backgroundColor: isOpen ? "#2dd4bf" : "#d1d5db",
+                            backgroundColor: isOpen ? "#60a5fa" : "#d1d5db",
                             marginTop: "6px",
                             transformOrigin: "center",
                             transition: "transform 0.35s cubic-bezier(0.23,1,0.32,1), opacity 0.25s ease, background-color 0.25s ease",
@@ -184,7 +184,7 @@ export default function NavBar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="fixed inset-0 top-[76px] h-[calc(100vh-76px)] bg-gray-950/95 backdrop-blur-2xl z-40 lg:hidden flex flex-col items-center pt-12 px-6 overflow-y-auto border-t border-gray-800"
+                        className="fixed inset-0 top-[76px] h-[calc(100vh-76px)] bg-[#060a14]/95 backdrop-blur-2xl z-40 lg:hidden flex flex-col items-center pt-12 px-6 overflow-y-auto border-t border-blue-900/50"
                     >
                         <div className="flex flex-col items-center gap-6 w-full max-w-sm">
                             {navLinks.map((link, index) => (
@@ -198,7 +198,7 @@ export default function NavBar() {
                                     <Link
                                         href={link.href}
                                         onClick={() => setIsOpen(false)}
-                                        className="block py-3 text-lg font-audiowide text-gray-400 hover:text-white hover:bg-gray-900/50 rounded-xl transition-colors"
+                                        className="block py-3 text-lg font-russo text-gray-400 hover:text-blue-300 hover:bg-blue-900/20 rounded-xl transition-colors"
                                     >
                                         {link.name}
                                     </Link>
@@ -216,7 +216,7 @@ export default function NavBar() {
                                         <Link
                                             href="/admin"
                                             onClick={() => setIsOpen(false)}
-                                            className="block w-full py-3 text-sm font-mono font-bold border border-teal-500/30 text-teal-400 hover:bg-teal-500/20 rounded-xl transition-colors"
+                                            className="block w-full py-3 text-sm font-mono font-bold border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 rounded-xl transition-colors"
                                         >
                                             [SYS_ADMIN]
                                         </Link>
@@ -249,7 +249,7 @@ export default function NavBar() {
                                 <Link
                                     href="/#contact"
                                     onClick={() => setIsOpen(false)}
-                                    className="flex justify-center w-full px-8 py-4 text-base font-bold border-2 border-teal-500 text-teal-400 bg-transparent hover:bg-teal-500 hover:text-gray-950 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(20,184,166,0.1)]"
+                                    className="flex justify-center w-full px-8 py-4 text-base font-bold border-2 border-blue-500 text-blue-400 bg-transparent hover:bg-blue-500 hover:text-gray-950 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(96,165,250,0.1)]"
                                 >
                                     Contact Me
                                 </Link>

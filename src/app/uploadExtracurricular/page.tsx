@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { motion } from "framer-motion";
+import { KaiUploadShell, KaiLaunchButton } from "@/components/kai-upload-shell";
 
 interface ExtracurricularFormData {
 	id: number;
@@ -108,20 +108,12 @@ export default function UploadExtracurricular() {
     };
 
     return (
-        <div className="min-h-screen bg-black text-gray-100 p-6 md:p-12 selection:bg-teal-500/30 selection:text-white">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-4xl mx-auto">
-                <header className="mb-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-teal-400 to-teal-300 mb-2 font-audiowide">
-                        Upload Extracurriculars
-                    </h1>
-                    <p className="text-gray-400">Showcase your extracurricular activities</p>
-                </header>
-
+        <KaiUploadShell title="Upload Extracurriculars" subtitle="Showcase leadership & arena activities">
                 {message && (
                     <div
-                        className={`mb-6 p-4 rounded-lg border ${message.type === "success"
-                            ? "bg-green-900/30 border-green-500/50 text-green-200"
-                            : "bg-red-900/30 border-red-500/50 text-red-200"
+                        className={`mb-6 p-4 rounded-lg border font-mono text-sm ${message.type === "success"
+                            ? "bg-amber-950/30 border-amber-400/50 text-amber-200"
+                            : "bg-red-950/30 border-red-500/50 text-red-200"
                             }`}
                     >
                         {message.text}
@@ -129,14 +121,14 @@ export default function UploadExtracurricular() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="flex justify-between items-center bg-gray-900/50 p-4 rounded-xl border border-teal-500/20 backdrop-blur-sm sticky top-4 z-10 shadow-lg shadow-[0_0_15px_rgba(20,184,166,0.05)]">
-                        <h2 className="text-xl font-semibold text-teal-400 font-audiowide">
+                    <div className="flex justify-between items-center bg-[#0b0710]/85 p-4 rounded-xl border border-red-500/25 backdrop-blur-sm sticky top-4 z-10 shadow-[0_0_20px_rgba(239,68,68,0.1)]">
+                        <h2 className="text-xl font-semibold text-red-400 font-russo">
                             Extracurriculars List ({extracurriculars.length})
                         </h2>
                         <button
                             type="button"
                             onClick={addExtracurricular}
-                            className="px-4 py-2 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 text-teal-400 rounded-lg transition-colors duration-200 flex items-center gap-2 hover:shadow-[0_0_15px_rgba(20,184,166,0.3)]"
+                            className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/35 text-amber-300 rounded-lg transition-all duration-200 flex items-center gap-2 hover:shadow-[0_0_15px_rgba(239,68,68,0.3)] text-sm font-mono"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +150,7 @@ export default function UploadExtracurricular() {
                         {extracurriculars.map((item, index) => (
                             <div
                                 key={item.id}
-                                className="bg-gray-900/50 border border-gray-800 backdrop-blur-sm p-6 rounded-2xl relative group hover:border-teal-500/40 transition-colors duration-300 shadow-xl"
+                                className="bg-[#0b0710]/75 border border-red-900/40 backdrop-blur-sm p-6 rounded-2xl relative group hover:border-red-500/50 transition-colors duration-300 shadow-xl"
                             >
                                 <div className="absolute top-4 right-4">
                                     {extracurriculars.length > 1 && (
@@ -187,17 +179,17 @@ export default function UploadExtracurricular() {
                                 </div>
 
                                 <div className="mb-6 flex items-center gap-3">
-                                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-500/10 text-teal-400 font-bold border border-teal-500/30">
+                                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-red-500/15 text-amber-300 font-bold border border-red-500/35">
                                         {index + 1}
                                     </span>
-                                    <h3 className="text-lg font-medium text-gray-200">Extracurricular Details</h3>
+                                    <h3 className="text-lg font-medium text-gray-200 font-russo">Extracurricular Details</h3>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Role */}
                                     <div className="col-span-2 md:col-span-1">
                                         <label className="block text-sm font-medium text-gray-400 mb-1">
-                                            Role <span className="text-teal-500">*</span>
+                                            Role <span className="text-red-400">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -206,7 +198,7 @@ export default function UploadExtracurricular() {
                                             onChange={(e) =>
                                                 handleInputChange(item.id, "role", e.target.value)
                                             }
-                                            className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600"
+                                            className="w-full bg-[#07050a]/70 border border-red-900/40 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-400/70 focus:ring-1 focus:ring-red-500/40 transition-all placeholder-gray-600"
                                             placeholder="Your Role"
                                         />
                                     </div>
@@ -214,7 +206,7 @@ export default function UploadExtracurricular() {
                                     {/* Organization */}
                                     <div className="col-span-2 md:col-span-1">
                                         <label className="block text-sm font-medium text-gray-400 mb-1">
-                                            Organization <span className="text-teal-500">*</span>
+                                            Organization <span className="text-red-400">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -223,7 +215,7 @@ export default function UploadExtracurricular() {
                                             onChange={(e) =>
                                                 handleInputChange(item.id, "organization", e.target.value)
                                             }
-                                            className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600"
+                                            className="w-full bg-[#07050a]/70 border border-red-900/40 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-400/70 focus:ring-1 focus:ring-red-500/40 transition-all placeholder-gray-600"
                                             placeholder="Organization Name"
                                         />
                                     </div>
@@ -231,7 +223,7 @@ export default function UploadExtracurricular() {
                                     {/* Start Date */}
                                     <div className="col-span-2 md:col-span-1">
                                         <label className="block text-sm font-medium text-gray-400 mb-1">
-                                            Start Date <span className="text-teal-500">*</span>
+                                            Start Date <span className="text-red-400">*</span>
                                         </label>
                                         <input
                                             type="date"
@@ -240,7 +232,7 @@ export default function UploadExtracurricular() {
                                             onChange={(e) =>
                                                 handleInputChange(item.id, "startDate", e.target.value)
                                             }
-                                            className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600"
+                                            className="w-full bg-[#07050a]/70 border border-red-900/40 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-400/70 focus:ring-1 focus:ring-red-500/40 transition-all placeholder-gray-600"
                                             placeholder="Start Date"
                                         />
                                     </div>
@@ -256,7 +248,7 @@ export default function UploadExtracurricular() {
                                             onChange={(e) =>
                                                 handleInputChange(item.id, "endDate", e.target.value)
                                             }
-                                            className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600"
+                                            className="w-full bg-[#07050a]/70 border border-red-900/40 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-400/70 focus:ring-1 focus:ring-red-500/40 transition-all placeholder-gray-600"
                                             placeholder="End Date"
                                         />
                                     </div>
@@ -264,7 +256,7 @@ export default function UploadExtracurricular() {
                                     {/* Description */}
                                     <div className="col-span-2">
                                         <label className="block text-sm font-medium text-gray-400 mb-1">
-                                            Description <span className="text-teal-500">*</span>
+                                            Description <span className="text-red-400">*</span>
                                         </label>
                                         <textarea
                                             required
@@ -273,7 +265,7 @@ export default function UploadExtracurricular() {
                                             onChange={(e) =>
                                                 handleInputChange(item.id, "description", e.target.value)
                                             }
-                                            className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600 resize-none"
+                                            className="w-full bg-[#07050a]/70 border border-red-900/40 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-400/70 focus:ring-1 focus:ring-red-500/40 transition-all placeholder-gray-600 resize-none"
                                             placeholder="Describe your extracurricular activity..."
                                         />
                                     </div>
@@ -281,7 +273,7 @@ export default function UploadExtracurricular() {
                                     {/* Image Upload */}
                                     <div className="col-span-2">
                                         <label className="block text-sm font-medium text-gray-400 mb-1">
-                                            Image <span className="text-teal-500">*</span>
+                                            Image <span className="text-red-400">*</span>
                                         </label>
                                         <div className="relative">
                                             <input
@@ -291,10 +283,10 @@ export default function UploadExtracurricular() {
                                                 onChange={(e) =>
                                                     handleFileChange(item.id, e.target.files?.[0] || null)
                                                 }
-                                                className="w-full bg-black/50 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all placeholder-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-teal-500/10 file:text-teal-400 hover:file:bg-teal-500/20 border-teal-500/30"
+                                                className="w-full bg-[#07050a]/70 border border-red-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-400/70 focus:ring-1 focus:ring-red-500/40 transition-all placeholder-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-red-500/15 file:text-red-300 hover:file:bg-red-500/25"
                                             />
                                             {item.image && (
-                                                <p className="text-sm text-green-400 mt-2">
+                                                <p className="text-sm text-amber-300 mt-2">
                                                     ✓ {item.image.name} ({(item.image.size / 1024).toFixed(2)} KB)
                                                 </p>
                                             )}
@@ -305,18 +297,12 @@ export default function UploadExtracurricular() {
                         ))}
                     </div>
 
-                    <div className="flex justify-end pt-6 border-t border-gray-800">
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className={`px-8 py-3 bg-teal-500 hover:bg-teal-400 text-black font-bold rounded-lg shadow-[0_0_15px_rgba(20,184,166,0.3)] hover:shadow-[0_0_20px_rgba(20,184,166,0.5)] transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${isSubmitting ? "cursor-wait" : ""
-                                }`}
-                        >
-                            {isSubmitting ? "Uploading..." : "Submit All Extracurriculars"}
-                        </button>
+                    <div className="flex justify-end pt-6 border-t border-red-950/60">
+                        <KaiLaunchButton type="submit" loading={isSubmitting} loadingText="Uploading...">
+                            Submit All Extracurriculars
+                        </KaiLaunchButton>
                     </div>
                 </form>
-            </motion.div>
-        </div>
+        </KaiUploadShell>
     );
 }

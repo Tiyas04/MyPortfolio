@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Audiowide } from "next/font/google";
+import { Geist, Geist_Mono, Audiowide, Russo_One } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/custom-cursor";
 
@@ -16,6 +16,12 @@ const geistMono = Geist_Mono({
 const audiowide = Audiowide({
   weight: "400",
   variable: "--font-audiowide",
+  subsets: ["latin"],
+});
+
+const russoOne = Russo_One({
+  weight: "400",
+  variable: "--font-russo",
   subsets: ["latin"],
 });
 
@@ -90,7 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${audiowide.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${audiowide.variable} ${russoOne.variable} antialiased`}
       >
         <CustomCursor />
         {children}

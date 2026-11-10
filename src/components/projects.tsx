@@ -159,8 +159,19 @@ export default function Projects() {
   return (
     <section id="projects" className="w-full py-24 bg-transparent text-white overflow-hidden relative">
       {/* Ambient glows matching Hero */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-teal-300/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-amber-400/8 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Galeon decoration — left side standing guard */}
+      <motion.div
+        animate={{ y: [-10, 10, -10] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-2 top-1/2 -translate-y-1/2 w-32 md:w-44 opacity-20 pointer-events-none hidden lg:block z-10"
+        style={{ filter: "drop-shadow(0 0 24px rgba(251,191,36,0.4))" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/Galeon-image.webp" alt="" aria-hidden className="w-full h-auto object-contain" />
+      </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 
@@ -172,18 +183,21 @@ export default function Projects() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="mb-16 md:mb-20"
         >
-          <h2 className="font-audiowide text-4xl md:text-5xl font-bold leading-tight mb-4">
+          <h2 className="font-russo text-4xl md:text-5xl font-bold leading-tight mb-4">
             <span className="text-white">Think.</span>{" "}
             <span className="text-white">Build.</span>
             <br />
             <span
-              className="text-transparent"
-              style={{ WebkitTextStroke: "1px #14b8a6" }}
+              className="text-transparent bg-clip-text"
+              style={{
+                backgroundImage: "linear-gradient(135deg, #60a5fa 0%, #fbbf24 100%)",
+                WebkitTextStroke: "1px rgba(96,165,250,0.65)",
+              }}
             >
               Ship.
             </span>
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed border-l-2 border-teal-500 pl-4 max-w-sm">
+          <p className="text-gray-400 text-sm leading-relaxed border-l-2 border-blue-500 pl-4 max-w-sm">
             A curated collection of projects that reflect my passion for clean code and elegant design.
           </p>
         </motion.div>
@@ -228,8 +242,8 @@ export default function Projects() {
                         onClick={() => handleSelect(project._id)}
                         className={`group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center gap-5 border relative overflow-hidden cursor-pointer select-none ${
                           isActive
-                            ? "bg-gray-900/70 border-teal-500 shadow-[0_0_25px_rgba(20,184,166,0.25)] scale-100 opacity-100"
-                            : "bg-gray-900/30 border-gray-800 hover:border-teal-500/50 hover:shadow-[0_0_15px_rgba(20,184,166,0.1)] hover:bg-gray-900/60 opacity-40 scale-95 hover:opacity-75 hover:scale-[0.98]"
+                            ? "bg-[#0a0f1e]/85 border-blue-500 shadow-[0_0_25px_rgba(96,165,250,0.28)] scale-100 opacity-100"
+                            : "bg-[#060a14]/50 border-blue-950/60 hover:border-blue-500/50 hover:shadow-[0_0_15px_rgba(96,165,250,0.12)] hover:bg-[#0a0f1e]/70 opacity-45 scale-95 hover:opacity-80 hover:scale-[0.98]"
                         }`}
                         whileHover={{ x: isDesktop ? 4 : 0, y: isDesktop ? 0 : -2 }}
                         transition={{ duration: 0.2 }}
@@ -237,15 +251,18 @@ export default function Projects() {
                         {/* Auto-cycle progress bar — slides across the bottom of the active card */}
                         {isActive && (
                           <span
-                            className="absolute bottom-0 left-0 h-[2px] bg-teal-400 rounded-full transition-none"
-                            style={{ width: `${progress}%` }}
+                            className="absolute bottom-0 left-0 h-[2px] rounded-full transition-none"
+                            style={{
+                              width: `${progress}%`,
+                              background: "linear-gradient(90deg, #60a5fa, #fbbf24)",
+                            }}
                           />
                         )}
 
                         {/* Index Number */}
                         <span
-                          className={`font-audiowide text-2xl font-bold transition-colors duration-300 ${
-                            isActive ? "text-teal-400" : "text-gray-700 group-hover:text-gray-500"
+                          className={`font-russo text-2xl font-bold transition-colors duration-300 ${
+                            isActive ? "text-blue-400" : "text-gray-700 group-hover:text-gray-500"
                           }`}
                         >
                           {String(index + 1).padStart(2, "0")}
@@ -253,7 +270,7 @@ export default function Projects() {
 
                         {/* Title + tagline */}
                         <div className="flex-1 min-w-0">
-                          <p className={`font-audiowide text-sm font-bold truncate transition-colors ${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-200"}`}>
+                          <p className={`font-russo text-sm font-bold truncate transition-colors ${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-200"}`}>
                             {project.name}
                           </p>
                           <p className="text-xs text-gray-600 group-hover:text-gray-500 transition-colors truncate mt-0.5">
@@ -265,7 +282,7 @@ export default function Projects() {
                         <ArrowRight
                           className={`w-4 h-4 shrink-0 transition-all duration-300 ${
                             isActive
-                              ? "text-teal-400 translate-x-0"
+                              ? "text-amber-400 translate-x-0"
                               : "text-gray-700 -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
                           }`}
                         />
@@ -305,14 +322,14 @@ export default function Projects() {
                           : "none",
                         transition: "transform 0.15s ease-out, border-color 0.5s ease, box-shadow 0.5s ease",
                       }}
-                      className="rounded-2xl overflow-hidden border bg-gray-900/40 backdrop-blur-sm shadow-2xl active-project-card relative transition-all duration-500 group"
+                      className="rounded-2xl overflow-hidden border bg-[#060a14]/70 backdrop-blur-sm shadow-2xl active-project-card relative transition-all duration-500 group"
                     >
                       {/* Interactive glow effect tracking mouse */}
                       {isDesktop && (
                         <div
                           className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-30"
                           style={{
-                            background: `radial-gradient(circle 300px at ${lightPos.x}px ${lightPos.y}px, rgba(20, 184, 166, 0.15), transparent)`,
+                            background: `radial-gradient(circle 300px at ${lightPos.x}px ${lightPos.y}px, rgba(96, 165, 250, 0.18), transparent)`,
                             opacity: isHovered ? 1 : 0,
                           }}
                         />
@@ -320,7 +337,7 @@ export default function Projects() {
 
                       {/* Image container with scale entrance */}
                       <div className="relative w-full h-[260px] md:h-[340px] overflow-hidden">
-                        <div className="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/50 to-transparent z-10 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-linear-to-t from-[#060a14] via-[#060a14]/55 to-transparent z-10 transition-opacity duration-500" />
                         <motion.img
                           key={featured.imageUrl}
                           src={featured.imageUrl}
@@ -339,7 +356,7 @@ export default function Projects() {
                           initial={{ opacity: 0, y: 15 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: 0.1 }}
-                          className="font-audiowide text-2xl md:text-3xl font-bold text-white mb-4 leading-tight"
+                          className="font-russo text-2xl md:text-3xl font-bold text-white mb-4 leading-tight"
                         >
                           {featured.name}
                         </motion.h3>
@@ -352,7 +369,7 @@ export default function Projects() {
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ duration: 0.3, delay: 0.15 + i * 0.04 }}
-                              className="px-3 py-1 text-[10px] uppercase tracking-wider font-medium text-teal-300 bg-black/60 backdrop-blur-md rounded-full border border-teal-500/30"
+                              className="px-3 py-1 text-[10px] uppercase tracking-wider font-medium text-blue-300 bg-[#0a0f1e]/80 backdrop-blur-md rounded-full border border-blue-500/30"
                             >
                               {tech}
                             </motion.span>
@@ -364,7 +381,7 @@ export default function Projects() {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: 0.3 }}
-                          className="text-gray-400 text-sm leading-relaxed border-l-2 border-teal-500 pl-4 mb-8"
+                          className="text-gray-400 text-sm leading-relaxed border-l-2 border-blue-500 pl-4 mb-8"
                         >
                           {featured.description}
                         </motion.p>
@@ -380,9 +397,9 @@ export default function Projects() {
                             href={featured.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 px-8 py-3 bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 hover:border-teal-400 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)] text-white rounded-lg font-medium transition-all duration-300"
+                            className="relative flex items-center justify-center gap-2 px-8 py-3 bg-blue-500/12 border border-blue-500/40 hover:bg-blue-500/20 hover:border-blue-400 hover:shadow-[0_0_25px_rgba(96,165,250,0.45)] text-white rounded-lg font-medium transition-all duration-300 group/btn"
                           >
-                            <Code className="w-5 h-5" />
+                            <Code className="w-5 h-5 text-blue-400 transition-transform duration-500 group-hover/btn:rotate-180" />
                             Source Code
                           </a>
                           {featured.liveUrl && (
@@ -390,10 +407,10 @@ export default function Projects() {
                               href={featured.liveUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center justify-center gap-2 px-8 py-3 border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]"
+                              className="relative flex items-center justify-center gap-2 px-8 py-3 border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-950 rounded-lg font-bold transition-all duration-300 hover:shadow-[0_0_25px_rgba(251,191,36,0.55)] group/btn"
                             >
                               Live Demo
-                              <ExternalLink className="w-5 h-5" />
+                              <ExternalLink className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                             </a>
                           )}
                         </motion.div>

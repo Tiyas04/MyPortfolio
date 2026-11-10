@@ -1,14 +1,34 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+const STAGES = [
+  { threshold: 0,  label: "DRAGOON G... AWAKENING",   sub: "> BIT-BEAST: DETECTED" },
+  { threshold: 20, label: "SPIN POWER: CHARGING",      sub: "> ENERGY: RISING" },
+  { threshold: 40, label: "BIT-BEAST: ONLINE",         sub: "> DRAGOON: RESPONDING" },
+  { threshold: 60, label: "BLADE: LOCKED",             sub: "> ROTATION: MAXIMUM" },
+  { threshold: 80, label: "LAUNCHING...",              sub: "> LET IT RIP: IMMINENT" },
+  { threshold: 100, label: "SYSTEM READY.",            sub: "> LET IT RIP!" },
+];
+
+function getCurrentStage(progress: number) {
+  let stage = STAGES[0];
+  for (const s of STAGES) {
+    if (progress >= s.threshold) stage = s;
+  }
+  return stage;
+}
+
 export default function LoadingPage() {
   const [progress, setProgress] = useState(0);
-  const [matrixText, setMatrixText] = useState("");
+  const [dragonVisible, setDragonVisible] = useState(false);
 
   useEffect(() => {
-    // 5000ms / 100 = 50ms per tick
+    // Dragon rises at 30%
+    const dragonTimer = setTimeout(() => setDragonVisible(true), 1500);
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -17,205 +37,249 @@ export default function LoadingPage() {
         }
         return prev + 1;
       });
+    }, 45);
 
-      // Update background data stream text
-      setMatrixText(
-        Math.random().toString(36).substring(2, 10).toUpperCase() + 
-        Math.random().toString(36).substring(2, 10).toUpperCase()
-      );
-    }, 45); 
-
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(dragonTimer);
+    };
   }, []);
+
+  const stage = getCurrentStage(progress);
 
   return (
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, filter: "blur(20px)", scale: 1.05 }}
       transition={{ duration: 1.2, ease: "easeInOut" }}
-      className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-[#050505] overflow-hidden selection:bg-none"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden selection:bg-none"
+      style={{ background: "#060a14" }}
     >
-      {/* 1. Subtle Cyber Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.05)_1px,transparent_1px)] bg-size-[50px_50px] mask-[radial-gradient(ellipse_70%_70%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
-
-      {/* 2. Radar/Data Sweep Glow */}
-      <motion.div 
+      {/* 1. Stadium ring background — faint concentric rings */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 50% 55%, rgba(96,165,250,0.06) 0%, rgba(96,165,250,0.03) 30%, transparent 65%)"
+        }}
+      />
+      <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,rgba(20,184,166,0.07)_40%,transparent_100%)] pointer-events-none blur-xl"
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/2 left-1/2 w-[800px] h-[800px] rounded-full border border-blue-500/8 pointer-events-none"
+        style={{ transform: "translate(-50%, -50%)", borderStyle: "dashed" }}
+      />
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/2 left-1/2 w-[580px] h-[580px] rounded-full border border-amber-400/6 pointer-events-none"
+        style={{ transform: "translate(-50%, -50%)" }}
       />
 
-      {/* 3. Corner Targeting HUD */}
-      <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-teal-500/40 pointer-events-none" />
-      <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-teal-500/40 pointer-events-none" />
-      <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-teal-500/40 pointer-events-none" />
-      <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-teal-500/40 pointer-events-none" />
+      {/* 2. Corner blade motifs */}
+      <div className="absolute top-6 left-6 w-14 h-14 border-t-2 border-l-2 border-blue-400/40 pointer-events-none rounded-tl-sm" />
+      <div className="absolute top-6 right-6 w-14 h-14 border-t-2 border-r-2 border-blue-400/40 pointer-events-none rounded-tr-sm" />
+      <div className="absolute bottom-6 left-6 w-14 h-14 border-b-2 border-l-2 border-amber-400/30 pointer-events-none rounded-bl-sm" />
+      <div className="absolute bottom-6 right-6 w-14 h-14 border-b-2 border-r-2 border-amber-400/30 pointer-events-none rounded-br-sm" />
 
-      {/* 4. Random Data Streams on Sides */}
-      <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-teal-500/30 tracking-widest pointer-events-none">
-        <span className="animate-pulse">SYS.MEM: {progress * 128}MB</span>
-        <span>NET.UPLINK: <span className="text-teal-400">ACTIVE</span></span>
-        <span>HASH: {matrixText.substring(0, 8)}</span>
+      {/* 3. Side stats — beyblade themed */}
+      <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-blue-400/40 tracking-widest pointer-events-none hidden sm:flex">
+        <span className="animate-pulse">RPM: {Math.round(progress * 120)}</span>
+        <span>SPIN: <span className="text-blue-300/70">ACTIVE</span></span>
+        <span>BLADE: DRAGOON-G</span>
       </div>
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-teal-500/30 tracking-widest text-right pointer-events-none">
-        <span>SEQ: {progress.toString().padStart(3, '0')}</span>
-        <span>LAT: 12ms</span>
-        <span>SYNC: {matrixText.substring(8, 16)}</span>
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 font-mono text-[10px] text-amber-400/40 tracking-widest text-right pointer-events-none hidden sm:flex">
+        <span>PWR: {progress.toString().padStart(3, "0")}%</span>
+        <span>STAT: RISING</span>
+        <span>BIT-BEAST: ON</span>
       </div>
 
-      {/* Main Center UI */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-xl px-8">
-        
-        {/* The 'T' Core Engine */}
-        <div className="relative flex justify-center items-center w-72 h-72 mb-16">
-          
-          {/* Expanding Shockwaves */}
+      {/* 4. Main center content */}
+      <div className="relative z-10 flex flex-col items-center w-full max-w-sm px-6 sm:max-w-xl sm:px-8">
+
+        {/* Blade + Dragon stack */}
+        <div className="relative flex justify-center items-end w-72 h-72 mb-10">
+
+          {/* Energy aura rings behind everything */}
           <motion.div
-            animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
+            animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-            className="absolute w-32 h-32 rounded-full border border-teal-400/40 pointer-events-none"
+            className="absolute inset-0 rounded-full border border-blue-400/30 pointer-events-none"
           />
           <motion.div
-            animate={{ scale: [1, 3], opacity: [0.4, 0] }}
+            animate={{ scale: [1, 1.8, 1], opacity: [0.25, 0, 0.25] }}
             transition={{ duration: 2, delay: 0.5, repeat: Infinity, ease: "easeOut" }}
-            className="absolute w-32 h-32 rounded-full border border-teal-400/20 pointer-events-none"
+            className="absolute inset-0 rounded-full border border-blue-300/15 pointer-events-none"
           />
 
-          {/* Intricate Orbital Rings */}
+          {/* Spinning outer orbital ring */}
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="w-full h-full rounded-full border border-teal-500/10 border-t-teal-400/60 border-b-teal-400/60 absolute pointer-events-none"
+            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 rounded-full pointer-events-none"
+            style={{
+              border: "2px solid transparent",
+              borderTopColor: "rgba(96,165,250,0.6)",
+              borderRightColor: "rgba(96,165,250,0.2)",
+              borderBottomColor: "rgba(251,191,36,0.4)",
+              borderLeftColor: "rgba(96,165,250,0.2)",
+            }}
           />
+          {/* Inner spinning ring */}
           <motion.div
             animate={{ rotate: -360 }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="w-60 h-60 rounded-full border-2 border-dashed border-teal-500/20 absolute pointer-events-none"
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="absolute w-52 h-52 rounded-full pointer-events-none"
+            style={{
+              top: "50%", left: "50%",
+              transform: "translate(-50%, -50%)",
+              border: "1px dashed rgba(251,191,36,0.3)",
+            }}
           />
+
+          {/* Spinning Dragoon blade */}
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="w-48 h-48 rounded-full border border-teal-400/30 absolute shadow-[inset_0_0_30px_rgba(20,184,166,0.15)] pointer-events-none"
-          />
-
-          {/* The Glitching 'T' */}
-          <div className="relative z-20 flex justify-center items-center">
-            {/* Base T */}
-            <span className="font-audiowide text-[120px] font-bold text-teal-300 drop-shadow-[0_0_40px_rgba(20,184,166,1)] leading-none select-none">
-              T
-            </span>
-            
-            {/* Chromatic Aberration / Glitch layers */}
-            <motion.span 
-              animate={{ x: [-3, 3, -3], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 0.1, repeat: Infinity, repeatType: "mirror" }}
-              className="absolute font-audiowide text-[120px] font-bold text-cyan-400 opacity-50 mix-blend-screen pointer-events-none leading-none select-none ml-2"
-            >
-              T
-            </motion.span>
-            <motion.span 
-              animate={{ x: [3, -3, 3], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 0.15, repeat: Infinity, repeatType: "mirror" }}
-              className="absolute font-audiowide text-[120px] font-bold text-teal-600 opacity-50 mix-blend-screen pointer-events-none leading-none select-none -ml-2"
-            >
-              T
-            </motion.span>
-
-            {/* Intense Core Flare */}
-            <motion.div 
-              animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-20 h-20 bg-teal-300/30 rounded-full blur-xl pointer-events-none mix-blend-screen"
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 w-28 h-28 z-20"
+          >
+            <Image
+              src="/Dragoon-blade-image.webp"
+              alt="Dragoon Blade spinning"
+              fill
+              className="object-contain drop-shadow-[0_0_20px_rgba(96,165,250,0.9)]"
             />
-          </div>
+          </motion.div>
+
+          {/* Dragon rising from behind the blade */}
+          {dragonVisible && (
+            <motion.div
+              initial={{ y: 60, opacity: 0, scale: 0.75 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute bottom-10 left-1/2 -translate-x-1/2 w-44 h-44 z-10"
+            >
+              <Image
+                src="/Dragoon-image.webp"
+                alt="Dragoon G bit-beast awakening"
+                fill
+                className="object-contain drop-shadow-[0_0_30px_rgba(96,165,250,0.7)]"
+              />
+            </motion.div>
+          )}
+
+          {/* Core energy glow */}
+          <motion.div
+            animate={{ opacity: [0.4, 0.9, 0.4], scale: [1, 1.1, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full pointer-events-none z-5"
+            style={{
+              background: "radial-gradient(circle, rgba(96,165,250,0.5) 0%, rgba(96,165,250,0) 70%)",
+            }}
+          />
         </div>
 
-        {/* Progress Display */}
+        {/* Progress display */}
         <div className="w-full flex flex-col gap-4">
           <div className="flex justify-between items-end w-full">
+            {/* Stage label */}
             <div className="flex flex-col">
-              <span className="font-mono text-teal-500/50 text-[10px] md:text-xs uppercase tracking-[0.3em] mb-1">
-                System Status
+              <span className="font-mono text-blue-400/50 text-[10px] uppercase tracking-[0.3em] mb-1">
+                Battle Status
               </span>
-              <motion.span 
-                animate={{ opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="font-audiowide text-teal-400 tracking-[0.4em] text-sm md:text-base uppercase drop-shadow-[0_0_10px_rgba(20,184,166,0.8)]"
+              <motion.span
+                key={stage.label}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+                className="font-russo text-blue-300 tracking-[0.2em] text-sm md:text-base uppercase"
+                style={{ textShadow: "0 0 12px rgba(96,165,250,0.8)" }}
               >
-                {progress < 100 ? "Initializing..." : "System Ready."}
+                {stage.label}
               </motion.span>
             </div>
+            {/* Power percentage */}
             <div className="flex flex-col items-end">
-              <span className="font-mono text-teal-500/50 text-[10px] md:text-xs uppercase tracking-widest mb-1">
-                Load
+              <span className="font-mono text-amber-400/50 text-[10px] uppercase tracking-widest mb-1">
+                Power
               </span>
-              <span className="font-audiowide text-teal-300 text-3xl md:text-4xl font-bold leading-none drop-shadow-[0_0_15px_rgba(20,184,166,0.8)]">
-                {progress.toString().padStart(2, '0')}<span className="text-teal-500/60 text-xl md:text-2xl ml-1">%</span>
+              <span className="font-russo text-amber-300 text-3xl md:text-4xl font-bold leading-none"
+                style={{ textShadow: "0 0 15px rgba(251,191,36,0.8)" }}>
+                {progress.toString().padStart(2, "0")}<span className="text-amber-500/60 text-xl ml-1">%</span>
               </span>
             </div>
           </div>
 
-          {/* Segmented Tech Progress Bar */}
-          <div className="w-full flex gap-1 h-2 md:h-2.5 bg-gray-900/50 p-1 rounded-sm border border-gray-800">
+          {/* Stadium-style segmented progress bar */}
+          <div className="w-full flex gap-1 h-2 md:h-2.5 bg-[#0a0f1e] p-0.5 rounded-sm border border-blue-900/50">
             {[...Array(20)].map((_, i) => {
               const threshold = (i + 1) * 5;
               const isActive = progress >= threshold;
+              const isGold = i >= 16; // last 4 segments turn gold
               return (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`flex-1 h-full rounded-[1px] transition-all duration-75 ${
-                    isActive 
-                      ? 'bg-teal-400 shadow-[0_0_12px_rgba(20,184,166,1)]' 
-                      : 'bg-gray-800/50'
-                  }`} 
+                    isActive
+                      ? isGold
+                        ? "bg-amber-400"
+                        : "bg-blue-400"
+                      : "bg-blue-950/50"
+                  }`}
+                  style={isActive ? {
+                    boxShadow: isGold
+                      ? "0 0 10px rgba(251,191,36,0.9)"
+                      : "0 0 10px rgba(96,165,250,0.8)"
+                  } : {}}
                 />
               );
             })}
           </div>
 
-          {/* Data log terminal output */}
-          <div className="mt-4 font-mono text-[10px] md:text-xs text-teal-500/70 h-16 w-full flex flex-col justify-end overflow-hidden relative border-l-2 border-teal-500/30 pl-3">
-            <motion.div 
-              initial={{ opacity: 0, x: -10 }}
+          {/* Bit-beast terminal log */}
+          <div className="mt-2 font-mono text-[10px] md:text-xs text-blue-400/60 h-14 w-full flex flex-col justify-end overflow-hidden relative border-l-2 border-blue-500/30 pl-3">
+            <motion.div
+              key={Math.floor(progress / 20)}
+              initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
-              key={Math.floor(progress / 20)} 
+              transition={{ duration: 0.3 }}
               className="tracking-wider flex flex-col gap-1"
             >
-              {progress < 20 && <p>&gt; BOOT_SEQ_INIT... <span className="text-teal-300">OK</span></p>}
+              {progress < 20 && <p>&gt; BIT-BEAST: <span className="text-blue-300">DETECTED</span></p>}
               {progress >= 20 && progress < 40 && (
                 <>
-                  <p className="opacity-50">&gt; BOOT_SEQ_INIT... OK</p>
-                  <p>&gt; MOUNTING_VFS... <span className="text-teal-300">OK</span></p>
+                  <p className="opacity-40">&gt; BIT-BEAST: DETECTED</p>
+                  <p>&gt; SPIN ENERGY: <span className="text-blue-300">RISING</span></p>
                 </>
               )}
               {progress >= 40 && progress < 60 && (
                 <>
-                  <p className="opacity-50">&gt; MOUNTING_VFS... OK</p>
-                  <p>&gt; RESOLVING_DEPENDENCIES... <span className="text-teal-300">OK</span></p>
+                  <p className="opacity-40">&gt; SPIN ENERGY: RISING</p>
+                  <p>&gt; DRAGOON: <span className="text-blue-300">AWAKENED</span></p>
                 </>
               )}
               {progress >= 60 && progress < 80 && (
                 <>
-                  <p className="opacity-50">&gt; RESOLVING_DEPENDENCIES... OK</p>
-                  <p>&gt; ESTABLISHING_UPLINK... <span className="text-yellow-400">ENCRYPTED</span></p>
+                  <p className="opacity-40">&gt; DRAGOON: AWAKENED</p>
+                  <p>&gt; BLADE LOCKED: <span className="text-amber-400">LOADED</span></p>
                 </>
               )}
               {progress >= 80 && progress < 100 && (
                 <>
-                  <p className="opacity-50">&gt; ESTABLISHING_UPLINK... ENCRYPTED</p>
-                  <p>&gt; BYPASSING_FIREWALL... <span className="animate-pulse text-teal-300">IN PROGRESS</span></p>
+                  <p className="opacity-40">&gt; BLADE LOCKED: LOADED</p>
+                  <p>&gt; LAUNCHING... <span className="animate-pulse text-blue-300">IN PROGRESS</span></p>
                 </>
               )}
               {progress === 100 && (
                 <>
-                  <p className="opacity-50">&gt; BYPASSING_FIREWALL... DONE</p>
-                  <p className="text-teal-300 font-bold drop-shadow-[0_0_5px_rgba(20,184,166,0.8)]">&gt; SYSTEM_ONLINE. WELCOME.</p>
+                  <p className="opacity-40">&gt; LAUNCHING... DONE</p>
+                  <p className="text-amber-300 font-bold" style={{ textShadow: "0 0 8px rgba(251,191,36,0.8)" }}>
+                    &gt; ⚡ LET IT RIP! ⚡
+                  </p>
                 </>
               )}
             </motion.div>
           </div>
         </div>
-
       </div>
     </motion.div>
   );

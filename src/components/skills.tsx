@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Loading from "./loading";
 
 interface Skill {
@@ -11,7 +12,7 @@ interface Skill {
 }
 
 const SkillBadge = ({ skill }: { skill: Skill }) => (
-    <div className="flex items-center justify-center gap-6 mx-2 px-12 py-4 bg-gray-900/50 border border-dashed border-teal-500/30 rounded-2xl text-gray-300 font-medium whitespace-nowrap shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-400 hover:text-teal-300 hover:shadow-[0_0_20px_rgba(20,184,166,0.2)] transition-all duration-300 cursor-default">
+    <div className="flex items-center justify-center gap-6 mx-2 px-12 py-4 bg-[#060a14]/70 border border-dashed border-blue-500/30 rounded-2xl text-gray-300 font-medium whitespace-nowrap shadow-[0_0_15px_rgba(96,165,250,0.06)] hover:border-blue-400 hover:text-amber-300 hover:shadow-[0_0_24px_rgba(96,165,250,0.28)] transition-all duration-300 cursor-default backdrop-blur-sm">
         {skill.imageUrl && (
             <img src={skill.imageUrl} alt={skill.name} className="w-6 h-6 object-contain" />
         )}
@@ -27,8 +28,8 @@ const MarqueeRow = ({ skills, direction = "normal" }: { skills: Skill[], directi
     return (
         <div className="relative flex overflow-hidden w-full py-4">
             {/* Gradient overlays for smooth fade on edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-linear-to-r from-black to-transparent pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-linear-to-l from-black to-transparent pointer-events-none"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-linear-to-r from-[#060a14] to-transparent pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-10 bg-linear-to-l from-[#060a14] to-transparent pointer-events-none"></div>
 
             <div className={`flex gap-4 md:gap-6 w-max ${direction === "normal" ? "animate-marquee" : "animate-marquee-reverse"} pause-on-hover`}>
                 {duplicatedSkills.map((skill, index) => (
@@ -91,11 +92,25 @@ export default function Skills() {
 
     return (
         <section id="skills" className="w-full bg-transparent py-20 overflow-hidden relative">
+            {/* Driger decoration — left side standing guard */}
+            <motion.div
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-32 md:w-44 opacity-20 pointer-events-none hidden lg:block z-10"
+                style={{ filter: "drop-shadow(0 0 24px rgba(96,165,250,0.45))" }}
+            >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/Driger-image.webp" alt="" aria-hidden className="w-full h-auto object-contain" />
+            </motion.div>
+
             <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 relative z-20">
-                <h2 className="font-audiowide text-4xl md:text-5xl font-bold text-center text-white mb-4">
-                    My <span className="text-teal-400">Skills</span>
+                <h2 className="font-russo text-4xl md:text-5xl font-bold text-center text-white mb-4">
+                    My <span className="text-blue-400">Skills</span>
                 </h2>
-                <div className="w-24 h-1 bg-linear-to-r from-teal-400 to-transparent mx-auto rounded-full mb-6"></div>
+                <div
+                    className="w-24 h-1 mx-auto rounded-full mb-6"
+                    style={{ background: "linear-gradient(to right, #60a5fa, #fbbf24, transparent)" }}
+                ></div>
                 <p className="text-gray-400 text-center max-w-2xl mx-auto text-sm md:text-base">
                     A collection of technologies and tools I use to build scalable, high-performance web applications.
                 </p>
@@ -118,7 +133,7 @@ export default function Skills() {
             </div>
 
             {/* Decorative background blur */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-96 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
         </section>
     );
 }

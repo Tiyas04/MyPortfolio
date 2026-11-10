@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 // Returns true when the primary input is a fine pointer (mouse/trackpad).
 // Touch-only devices report "coarse" or "none", so we skip the cursor there.
@@ -38,6 +39,26 @@ const corners = [
 ];
 
 export default function CustomCursor() {
+  const pathname = usePathname();
+  const isAdminTheme =
+    pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/login") ||
+    pathname?.startsWith("/upload");
+
+  const primaryStroke = isAdminTheme ? "#ef4444" : "#3b82f6";
+  const primaryDot = isAdminTheme ? "#f87171" : "#60a5fa";
+  const primaryScanBorder = isAdminTheme ? "rgba(239,68,68,0.48)" : "rgba(96,165,250,0.45)";
+  const primaryScanShadow = isAdminTheme
+    ? "0 0 8px 2px rgba(239,68,68,0.28)"
+    : "0 0 8px 2px rgba(96,165,250,0.25)";
+  const primaryCoordColor = isAdminTheme ? "rgba(248,113,113,0.6)" : "rgba(96,165,250,0.55)";
+  const primaryGlowFilter = isAdminTheme
+    ? "drop-shadow(0 0 3px rgba(239,68,68,0.85))"
+    : "drop-shadow(0 0 3px rgba(96,165,250,0.8))";
+  const primaryDotShadow = isAdminTheme
+    ? "0 0 0 1px rgba(248,113,113,0.35), 0 0 8px 3px rgba(239,68,68,0.75)"
+    : "0 0 0 1px rgba(96,165,250,0.3), 0 0 8px 3px rgba(96,165,250,0.7)";
+
   const dotRef = useRef<HTMLDivElement>(null);
   const coordRef = useRef<HTMLDivElement>(null);
   const bracketRefs = useRef<(SVGSVGElement | null)[]>([]);
@@ -58,6 +79,13 @@ export default function CustomCursor() {
     const coord = coordRef.current;
     const scan = scanRef.current;
     if (!dot) return;
+
+    // Sync rest palette on mount / route change
+    gsap.set(bracketRefs.current.filter(Boolean), { attr: { stroke: primaryStroke } });
+    gsap.set(dot, { backgroundColor: primaryDot });
+    if (scan) {
+      gsap.set(scan, { borderColor: primaryScanBorder, boxShadow: primaryScanShadow });
+    }
 
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
@@ -121,14 +149,14 @@ export default function CustomCursor() {
         });
       });
       gsap.to(bracketRefs.current.filter(Boolean), {
-        attr: { stroke: "#f0abfc" },  // violet on hover
+        attr: { stroke: "#fbbf24" },  // amber/gold on hover — Dragoon gold
         duration: 0.2,
       });
-      gsap.to(dot, { scale: 2.5, backgroundColor: "#f0abfc", duration: 0.2 });
+      gsap.to(dot, { scale: 2.5, backgroundColor: "#fbbf24", duration: 0.2 });
       if (scan) {
         gsap.to(scan, {
-          borderColor: "rgba(240,171,252,0.6)",
-          boxShadow: "0 0 12px 3px rgba(240,171,252,0.4)",
+          borderColor: "rgba(251,191,36,0.6)",
+          boxShadow: "0 0 12px 3px rgba(251,191,36,0.4)",
           duration: 0.2,
         });
       }
@@ -147,14 +175,14 @@ export default function CustomCursor() {
         });
       });
       gsap.to(bracketRefs.current.filter(Boolean), {
-        attr: { stroke: "#14b8a6" },
+        attr: { stroke: primaryStroke },
         duration: 0.25,
       });
-      gsap.to(dot, { scale: 1, backgroundColor: "#2dd4bf", duration: 0.25 });
+      gsap.to(dot, { scale: 1, backgroundColor: primaryDot, duration: 0.25 });
       if (scan) {
         gsap.to(scan, {
-          borderColor: "rgba(20,184,166,0.45)",
-          boxShadow: "0 0 8px 2px rgba(20,184,166,0.25)",
+          borderColor: primaryScanBorder,
+          boxShadow: primaryScanShadow,
           duration: 0.25,
         });
       }
@@ -243,7 +271,7 @@ export default function CustomCursor() {
       document.removeEventListener("mouseleave", hide);
       document.removeEventListener("mouseenter", show);
     };
-  }, [isFinePointer]);
+  }, [isFinePointer, primaryStroke, primaryDot, primaryScanBorder, primaryScanShadow]);
 
   // Don't render anything on touch / mobile devices
   if (!isFinePointer) return null;
@@ -263,8 +291,8 @@ export default function CustomCursor() {
           marginLeft: -23,
           marginTop: -23,
           borderRadius: "50%",
-          border: "1px dashed rgba(20,184,166,0.45)",
-          boxShadow: "0 0 8px 2px rgba(20,184,166,0.25)",
+          border: `1px dashed ${primaryScanBorder}`,
+          boxShadow: primaryScanShadow,
           pointerEvents: "none",
           zIndex: 99997,
           willChange: "transform",
@@ -288,13 +316,13 @@ export default function CustomCursor() {
             pointerEvents: "none",
             zIndex: 99999,
             willChange: "transform",
-            filter: "drop-shadow(0 0 3px rgba(20,184,166,0.8))",
+            filter: primaryGlowFilter,
           }}
         >
           <path
             d={c.d}
             fill="none"
-            stroke="#14b8a6"
+            stroke={primaryStroke}
             strokeWidth="1.5"
             strokeLinecap="square"
           />
@@ -314,9 +342,8 @@ export default function CustomCursor() {
           marginLeft: -2,
           marginTop: -2,
           borderRadius: "50%",
-          backgroundColor: "#2dd4bf",
-          boxShadow:
-            "0 0 0 1px rgba(45,212,191,0.3), 0 0 8px 3px rgba(45,212,191,0.7)",
+          backgroundColor: primaryDot,
+          boxShadow: primaryDotShadow,
           pointerEvents: "none",
           zIndex: 100000,
           willChange: "transform",
@@ -339,7 +366,7 @@ export default function CustomCursor() {
           fontFamily: "'Courier New', monospace",
           fontSize: "8px",
           letterSpacing: "0.05em",
-          color: "rgba(45,212,191,0.55)",
+          color: primaryCoordColor,
           lineHeight: 1.2,
           userSelect: "none",
           whiteSpace: "nowrap",

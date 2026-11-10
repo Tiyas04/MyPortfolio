@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #060a14;
+  --foreground: #e8edf5;
 }
 
 @theme inline {
@@ -11,23 +11,24 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-audiowide: var(--font-audiowide);
+  --font-russo: var(--font-russo);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
-    --foreground: #ededed;
+    --background: #060a14;
+    --foreground: #e8edf5;
   }
 }
 
 html {
-  background: #000000;
+  background: #060a14;
   scroll-behavior: smooth;
   cursor: none !important;
 }
 
 body {
-  background: #000000;
+  background: #060a14;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   cursor: none !important;
@@ -37,24 +38,96 @@ body {
   cursor: none !important;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
+/* ── Beyblade Spin Animation ───────────────────────────────────────────── */
+@keyframes beyblade-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
-  100% {
-    transform: translateX(-40%);
+@keyframes beyblade-spin-reverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+
+.animate-beyblade-spin {
+  animation: beyblade-spin 3s linear infinite;
+}
+
+.animate-beyblade-spin-slow {
+  animation: beyblade-spin 8s linear infinite;
+}
+
+.animate-beyblade-spin-reverse {
+  animation: beyblade-spin-reverse 5s linear infinite;
+}
+
+/* ── Energy Surge Glow (button hover) ─────────────────────────────────── */
+@keyframes energy-surge {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.4), 0 0 20px rgba(96, 165, 250, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(96, 165, 250, 0.9), 0 0 50px rgba(251, 191, 36, 0.4), 0 0 80px rgba(96, 165, 250, 0.3);
   }
 }
 
-@keyframes marquee-reverse {
-  0% {
-    transform: translateX(-40%);
-  }
+.animate-energy-surge {
+  animation: energy-surge 1.5s ease-in-out infinite;
+}
 
-  100% {
-    transform: translateX(0%);
+/* ── Bit-Beast Aura Pulse ──────────────────────────────────────────────── */
+@keyframes bit-beast-aura {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
   }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
+}
+
+.animate-bit-beast-aura {
+  animation: bit-beast-aura 3s ease-in-out infinite;
+}
+
+/* ── Dragon Rise (loading) ─────────────────────────────────────────────── */
+@keyframes dragon-rise {
+  0% {
+    transform: translateY(60px) scale(0.8);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.animate-dragon-rise {
+  animation: dragon-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Stadium Orbit ─────────────────────────────────────────────────────── */
+@keyframes stadium-orbit {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── Marquee ───────────────────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-40%); }
+}
+
+@keyframes marquee-reverse {
+  0%   { transform: translateX(-40%); }
+  100% { transform: translateX(0%); }
 }
 
 .animate-marquee {
@@ -69,48 +142,43 @@ body {
   animation-play-state: paused;
 }
 
-/* Custom Scrollbar */
+/* ── Custom Scrollbar (Electric Blue) ─────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 10px;
-  background: #050505;
+  background: #060a14;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #0a0f1e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #14b8a6;
-  /* teal-500 */
+  background: #3b82f6;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2dd4bf;
-  /* teal-400 */
+  background: #60a5fa;
 }
 
-/* Custom Text Selection */
+/* ── Custom Text Selection ─────────────────────────────────────────────── */
 ::selection {
-  background-color: rgba(20, 184, 166, 0.5);
-  /* teal-500 with opacity */
+  background-color: rgba(96, 165, 250, 0.45);
   color: #ffffff;
-  text-shadow: 0 0 8px rgba(20, 184, 166, 0.8);
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.8);
 }
 
-/* Hide scrollbar utility */
+/* ── Hide Scrollbar Utility ────────────────────────────────────────────── */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 .no-scrollbar {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
-/* Custom Swiper index menu overrides */
+/* ── Swiper Overrides ──────────────────────────────────────────────────── */
 .projects-menu-swiper {
   width: 100%;
 }
@@ -126,18 +194,45 @@ body {
   }
 }
 
-/* Breathing pulse glow for the active project details card */
+/* ── Active Project Card Glow (Blue) ──────────────────────────────────── */
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(20, 184, 166, 0.12);
-    border-color: rgba(20, 184, 166, 0.25);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.12);
+    border-color: rgba(96, 165, 250, 0.25);
   }
   50% {
-    box-shadow: 0 0 35px rgba(20, 184, 166, 0.3);
-    border-color: rgba(20, 184, 166, 0.5);
+    box-shadow: 0 0 40px rgba(96, 165, 250, 0.35), 0 0 20px rgba(251, 191, 36, 0.1);
+    border-color: rgba(96, 165, 250, 0.55);
   }
 }
 
 .active-project-card {
   animation: pulseGlow 5s infinite ease-in-out;
+}
+
+/* ── Russo One Font Utility ────────────────────────────────────────────── */
+.font-russo {
+  font-family: var(--font-russo), 'Arial Black', sans-serif;
+}
+
+/* ── Stadium Divider Ring ──────────────────────────────────────────────── */
+.stadium-divider {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(96,165,250,0.6), rgba(251,191,36,0.4), rgba(96,165,250,0.6), transparent);
+  overflow: visible;
+}
+
+.stadium-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 20px rgba(96, 165, 250, 0.3), inset 0 0 15px rgba(96, 165, 250, 0.1);
 }

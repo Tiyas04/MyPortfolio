@@ -11,7 +11,8 @@ import Projects from "@/components/projects"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 import LoadingPage from "@/components/loadingpage"
-import CyberBackground from "@/components/cyber-background"
+import BeybladeBackground from "@/components/beyblade-background"
+import StadiumDivider from "@/components/stadium-divider"
 
 export default function Home() {
   const [showLoading, setShowLoading] = useState(true);
@@ -25,8 +26,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden">
-      <CyberBackground />
+    <main className="relative min-h-screen bg-[#060a14] overflow-x-hidden">
+      <BeybladeBackground />
       <AnimatePresence mode="wait">
         {showLoading ? (
           <LoadingPage key="loading-page" />
@@ -40,10 +41,15 @@ export default function Home() {
           >
             <NavBar />
             <Hero />
+            <StadiumDivider />
             <About />
+            <StadiumDivider />
             <Skills />
+            <StadiumDivider />
             <Experience />
+            <StadiumDivider />
             <Projects />
+            <StadiumDivider />
             <Contact />
             <Footer />
           </motion.div>

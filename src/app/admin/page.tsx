@@ -1,15 +1,17 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Cpu, Edit3, Trash2, ExternalLink, Plus, Folder, BookOpen,
     Briefcase, Award, Sliders, X, FileText, ImageIcon as ImageLucide,
     AlertTriangle, Terminal, Activity, LayoutDashboard,
-    LogOut, ChevronRight, Database, Shield
+    LogOut, ChevronRight, Database, Flame
 } from "lucide-react";
-import CyberBackground from "@/components/cyber-background";
+import KaiBackground from "@/components/kai-background";
+import KaiLoadingPage from "@/components/kai-loading-page";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -45,13 +47,14 @@ function Field({
 }
 
 const inputCls =
-    "w-full bg-black/70 border border-gray-800 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-teal-500/60 focus:ring-1 focus:ring-teal-500/30 transition-all font-mono placeholder-gray-700";
+    "w-full bg-[#07050a]/80 border border-red-900/40 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-red-500/70 focus:ring-1 focus:ring-red-500/35 transition-all font-mono placeholder-gray-700";
 
 // ─── Main component ──────────────────────────────────────────────────────────
 
 export default function AdminDashboard() {
     const router = useRouter();
     const [activeTab, setActiveTab] = useState<TabId>("overview");
+    const [showAwakening, setShowAwakening] = useState(true);
 
     const [projects, setProjects] = useState<any[]>([]);
     const [skills, setSkills] = useState<any[]>([]);
@@ -69,10 +72,17 @@ export default function AdminDashboard() {
     const [ongoing, setOngoing] = useState(false);
 
     const [systemLogs, setSystemLogs] = useState<string[]>([
-        "SECURE_SHELL_INIT: AUTHENTICATION VERIFIED.",
+        "BLACK_DRANZER_INIT: KAI AUTHORIZATION VERIFIED.",
         "DB_LINK: MONGOOSE SCHEMAS INDEXED.",
-        "READY: AWAITING ADMIN INSTRUCTIONS."
+        "COMMAND_DECK: READY FOR LAUNCH."
     ]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowAwakening(false);
+        }, 3500);
+        return () => clearTimeout(timer);
+    }, []);
 
     const addLog = (msg: string) => {
         const time = new Date().toLocaleTimeString("en-US", { hour12: false });
@@ -272,358 +282,408 @@ export default function AdminDashboard() {
     // ─── Render ────────────────────────────────────────────────────────────────
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-teal-500/30 selection:text-white overflow-x-hidden">
-            <CyberBackground />
+        <div className="min-h-screen bg-[#07050a] text-white selection:bg-red-500/30 selection:text-white overflow-x-hidden">
+            <KaiBackground />
 
-            {/* Ambient glow blobs */}
-            <div className="fixed top-[-10%] left-1/4 w-[600px] h-[600px] bg-teal-500/6 rounded-full blur-[160px] pointer-events-none z-0" />
-            <div className="fixed bottom-[-10%] right-1/4 w-[500px] h-[500px] bg-teal-300/4 rounded-full blur-[140px] pointer-events-none z-0" />
+            <AnimatePresence mode="wait">
+                {showAwakening ? (
+                    <KaiLoadingPage key="kai-admin-awakening" label="Command Deck" />
+                ) : (
+                    <motion.div
+                        key="kai-admin-content"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="relative"
+                    >
+                        {/* Ambient glow blobs */}
+                        <div className="fixed top-[-10%] left-1/4 w-[600px] h-[600px] bg-red-500/8 rounded-full blur-[160px] pointer-events-none z-0" />
+                        <div className="fixed bottom-[-10%] right-1/4 w-[500px] h-[500px] bg-amber-400/6 rounded-full blur-[140px] pointer-events-none z-0" />
 
-            {/* ── TOP NAVIGATION BAR ── */}
-            <header className="sticky top-0 z-40 w-full border-b border-gray-900 bg-black/80 backdrop-blur-xl">
-                <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between gap-4">
-                    {/* Brand */}
-                    <div className="flex items-center gap-3 shrink-0">
-                        <div className="w-8 h-8 bg-teal-500/10 border border-teal-500/30 rounded-lg flex items-center justify-center shadow-[0_0_12px_rgba(20,184,166,0.2)]">
-                            <Shield className="w-4 h-4 text-teal-400" />
-                        </div>
-                        <div>
-                            <span className="font-audiowide text-sm font-bold text-white tracking-wider uppercase">
-                                Admin.<span className="text-teal-400">Deck</span>
-                            </span>
-                            <div className="flex items-center gap-1.5 mt-0.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
-                                <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Session Active</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Tab Pills (desktop) */}
-                    <nav className="hidden md:flex items-center gap-1 bg-gray-950/60 border border-gray-800 rounded-xl px-2 py-1.5">
-                        {tabs.map((tab) => {
-                            const Icon = tab.icon;
-                            const isActive = activeTab === tab.id;
-                            return (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => { setMessage(null); setActiveTab(tab.id); addLog(`FOCUS: ${tab.label.toUpperCase()}`); }}
-                                    className={`relative flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 ${isActive
-                                        ? "bg-teal-500/15 text-teal-300 shadow-[0_0_12px_rgba(20,184,166,0.15)]"
-                                        : "text-gray-500 hover:text-gray-300 hover:bg-gray-900/60"
-                                        }`}
-                                >
-                                    <Icon className={`w-3.5 h-3.5 ${isActive ? "text-teal-400" : ""}`} />
-                                    {tab.label}
-                                    {isActive && (
-                                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-teal-500" />
-                                    )}
-                                </button>
-                            );
-                        })}
-                    </nav>
-
-                    {/* Right controls */}
-                    <div className="flex items-center gap-3 shrink-0">
-                        <button
-                            onClick={() => router.push("/")}
-                            className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-gray-500 hover:text-teal-400 transition-colors"
-                        >
-                            <Terminal className="w-3.5 h-3.5" />
-                            Public Site
-                        </button>
-                        <div className="w-px h-5 bg-gray-800 hidden sm:block" />
-                        <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold border border-red-500/40 text-red-400 bg-red-950/10 hover:bg-red-500 hover:text-black hover:border-red-400 rounded-lg transition-all duration-200 hover:shadow-[0_0_16px_rgba(239,68,68,0.4)]"
-                        >
-                            <LogOut className="w-3.5 h-3.5" />
-                            <span className="hidden sm:block">Logout</span>
-                        </button>
-                    </div>
-                </div>
-
-                {/* Mobile tab scroll */}
-                <div className="md:hidden flex items-center gap-1 px-4 pb-2 overflow-x-auto scrollbar-none">
-                    {tabs.map((tab) => {
-                        const Icon = tab.icon;
-                        const isActive = activeTab === tab.id;
-                        return (
-                            <button
-                                key={tab.id}
-                                onClick={() => { setMessage(null); setActiveTab(tab.id); }}
-                                className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-mono transition-all ${isActive
-                                    ? "bg-teal-500/15 text-teal-300 border border-teal-500/30"
-                                    : "text-gray-500 hover:text-gray-300 border border-transparent"
-                                    }`}
-                            >
-                                <Icon className="w-3 h-3" />
-                                {tab.label}
-                            </button>
-                        );
-                    })}
-                </div>
-            </header>
-
-            {/* ── PAGE BODY ── */}
-            <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-10">
-
-                {/* Page heading */}
-                <div className="mb-8">
-                    <div className="flex items-center gap-2 text-teal-400 font-mono text-xs uppercase tracking-widest mb-2">
-                        <Cpu className="w-3.5 h-3.5 animate-pulse" />
-                        [CONTROL_PANEL // AUTHENTICATED]
-                    </div>
-                    <h1 className="font-audiowide text-3xl md:text-4xl font-bold uppercase tracking-wide">
-                        Admin{" "}
-                        <span className="text-teal-400">Control</span>{" "}
-                        <span className="text-transparent" style={{ WebkitTextStroke: "1px #14b8a6" }}>Deck</span>
-                    </h1>
-                    <p className="text-gray-500 text-xs mt-2 font-mono border-l-2 border-teal-500/40 pl-3 max-w-md">
-                        Manage database records, edit values, delete items and direct uploads across all dynamic sections.
-                    </p>
-                </div>
-
-                {/* ── Toast notification ── */}
-                <AnimatePresence>
-                    {message && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className={`mb-6 p-4 rounded-xl border backdrop-blur-md flex items-center justify-between text-xs font-mono ${message.type === "success"
-                                ? "bg-green-950/20 border-green-500/30 text-green-300"
-                                : "bg-red-950/20 border-red-500/30 text-red-300"
-                                }`}
-                        >
-                            <span>{message.text}</span>
-                            <button onClick={() => setMessage(null)} className="text-gray-500 hover:text-white p-1 ml-4">
-                                <X className="w-4 h-4" />
-                            </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                {/* ── CONTENT AREA ── */}
-                <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
-
-                    {/* Main content panel */}
-                    <div className="xl:col-span-3">
-                        <div className="relative bg-gray-950/50 border border-gray-800 rounded-2xl backdrop-blur-sm overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.4)]">
-                            {/* Corner brackets */}
-                            <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-teal-500 rounded-tl-lg" />
-                            <div className="absolute top-0 right-0 w-5 h-5 border-t-2 border-r-2 border-teal-500 rounded-tr-lg" />
-                            <div className="absolute bottom-0 left-0 w-5 h-5 border-b-2 border-l-2 border-teal-500 rounded-bl-lg" />
-                            <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-teal-500 rounded-br-lg" />
-
-                            <div className="p-6 md:p-8">
-                                {isLoading ? (
-                                    <div className="py-32 flex flex-col items-center justify-center gap-4">
-                                        <Cpu className="w-10 h-10 text-teal-500 animate-spin" />
-                                        <p className="font-mono text-xs text-teal-400 uppercase tracking-widest animate-pulse">
-                                            Loading datastream...
-                                        </p>
+                        {/* ── TOP NAVIGATION BAR ── */}
+                        <header className="sticky top-0 z-40 w-full border-b border-red-950/60 bg-[#07050a]/85 backdrop-blur-xl">
+                            <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between gap-4">
+                                {/* Brand */}
+                                <div className="flex items-center gap-3 shrink-0">
+                                    <div className="w-9 h-9 bg-red-500/10 border border-red-500/35 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(239,68,68,0.28)]">
+                                        <Image
+                                            src="/black-dronzer-blade-image.webp"
+                                            alt="Black Dranzer Blade"
+                                            width={24}
+                                            height={24}
+                                            className="w-6 h-6 object-contain animate-[beyblade-spin_8s_linear_infinite]"
+                                        />
                                     </div>
-                                ) : (
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={activeTab}
-                                            initial={{ opacity: 0, y: 8 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -8 }}
-                                            transition={{ duration: 0.18 }}
-                                        >
-                                            {activeTab === "overview" ? <OverviewPanel /> : <ListPanel />}
-                                        </motion.div>
-                                    </AnimatePresence>
-                                )}
+                                    <div>
+                                        <span className="font-russo text-sm font-bold text-white tracking-wider uppercase">
+                                            Dranzer.<span className="text-red-400">Deck</span>
+                                        </span>
+                                        <div className="flex items-center gap-1.5 mt-0.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                                            <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest">Kai Session Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Tab Pills (desktop) */}
+                                <nav className="hidden md:flex items-center gap-1 bg-[#0b0710]/80 border border-red-950/70 rounded-xl px-2 py-1.5">
+                                    {tabs.map((tab) => {
+                                        const Icon = tab.icon;
+                                        const isActive = activeTab === tab.id;
+                                        return (
+                                            <button
+                                                key={tab.id}
+                                                onClick={() => { setMessage(null); setActiveTab(tab.id); addLog(`FOCUS: ${tab.label.toUpperCase()}`); }}
+                                                className={`relative flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 ${isActive
+                                                    ? "bg-red-500/15 text-amber-300 shadow-[0_0_12px_rgba(239,68,68,0.2)]"
+                                                    : "text-gray-500 hover:text-gray-300 hover:bg-red-950/30"
+                                                    }`}
+                                            >
+                                                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-red-400" : ""}`} />
+                                                {tab.label}
+                                                {isActive && (
+                                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-amber-400" />
+                                                )}
+                                            </button>
+                                        );
+                                    })}
+                                </nav>
+
+                                {/* Right controls */}
+                                <div className="flex items-center gap-3 shrink-0">
+                                    <button
+                                        onClick={() => router.push("/")}
+                                        className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-gray-400 hover:text-amber-400 transition-colors"
+                                    >
+                                        <Terminal className="w-3.5 h-3.5" />
+                                        Public Arena
+                                    </button>
+                                    <div className="w-px h-5 bg-red-950/70 hidden sm:block" />
+                                    <button
+                                        onClick={handleLogout}
+                                        className="flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold border border-red-500/45 text-red-400 bg-red-950/20 hover:bg-red-500 hover:text-black hover:border-red-400 rounded-lg transition-all duration-200 hover:shadow-[0_0_18px_rgba(239,68,68,0.45)]"
+                                    >
+                                        <LogOut className="w-3.5 h-3.5" />
+                                        <span className="hidden sm:block">Logout</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    {/* Right sidebar */}
-                    <div className="xl:col-span-1 space-y-4">
-                        {/* Quick Upload Links */}
-                        <div className="relative bg-gray-950/50 border border-gray-800 rounded-xl p-5 backdrop-blur-sm overflow-hidden">
-                            <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-teal-500" />
-                            <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-teal-500" />
-                            <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-teal-500" />
-                            <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-teal-500" />
-
-                            <h3 className="font-mono text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <Plus className="w-3.5 h-3.5 text-teal-500" />
-                                Upload Routes
-                            </h3>
-                            <div className="space-y-2">
-                                {[
-                                    { label: "New Project", href: "/uploadProjects", icon: Folder },
-                                    { label: "New Skill", href: "/uploadSkills", icon: Sliders },
-                                    { label: "New Experience", href: "/uploadExperiences", icon: Briefcase },
-                                    { label: "New Academic", href: "/uploadAcademics", icon: BookOpen },
-                                    { label: "New Activity", href: "/uploadExtracurricular", icon: Award },
-                                    { label: "Assets Space", href: "/uploadAssets", icon: ImageLucide },
-                                ].map((link) => {
-                                    const Icon = link.icon;
+                            {/* Mobile tab scroll */}
+                            <div className="md:hidden flex items-center gap-1 px-4 pb-2 overflow-x-auto scrollbar-none">
+                                {tabs.map((tab) => {
+                                    const Icon = tab.icon;
+                                    const isActive = activeTab === tab.id;
                                     return (
                                         <button
-                                            key={link.label}
-                                            onClick={() => router.push(link.href)}
-                                            className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg border border-gray-800 bg-gray-900/30 hover:bg-teal-500/5 hover:border-teal-500/30 text-gray-400 hover:text-teal-300 transition-all duration-200 group"
+                                            key={tab.id}
+                                            onClick={() => { setMessage(null); setActiveTab(tab.id); }}
+                                            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-mono transition-all ${isActive
+                                                ? "bg-red-500/15 text-amber-300 border border-red-500/35"
+                                                : "text-gray-500 hover:text-gray-300 border border-transparent"
+                                                }`}
                                         >
-                                            <div className="flex items-center gap-2.5 text-xs font-mono">
-                                                <Icon className="w-3.5 h-3.5 text-gray-600 group-hover:text-teal-500 transition-colors" />
-                                                {link.label}
-                                            </div>
-                                            <ChevronRight className="w-3 h-3 text-gray-700 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
+                                            <Icon className="w-3 h-3" />
+                                            {tab.label}
                                         </button>
                                     );
                                 })}
                             </div>
-                        </div>
+                        </header>
 
-                        {/* System Console */}
-                        <div className="relative bg-gray-950/50 border border-gray-800 rounded-xl p-5 backdrop-blur-sm overflow-hidden">
-                            <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-teal-500" />
-                            <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-teal-500" />
-                            <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-teal-500" />
-                            <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-teal-500" />
+                        {/* ── PAGE BODY ── */}
+                        <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-10">
 
-                            <h3 className="font-mono text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center justify-between">
-                                <span className="flex items-center gap-2">
-                                    <Activity className="w-3.5 h-3.5 text-teal-500" />
-                                    Sys Diagnostics
-                                </span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
-                            </h3>
-                            <div className="bg-black/60 rounded-lg p-3 border border-gray-900 space-y-1.5 max-h-44 overflow-y-auto scrollbar-none">
-                                {systemLogs.map((log, i) => (
-                                    <div key={i} className="flex items-start gap-1.5 font-mono text-[9px] leading-relaxed">
-                                        <span className="text-teal-600 shrink-0 select-none mt-0.5">›</span>
-                                        <span className={i === systemLogs.length - 1 ? "text-teal-400" : "text-gray-600"}>{log}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="mt-3 pt-3 border-t border-gray-900 text-[9px] font-mono text-gray-700">
-                                DB: SYNC_OK · CORS: ACTIVE · CLOUDINARY: READY
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-            {/* ── EDIT MODAL ── */}
-            <AnimatePresence>
-                {itemToEdit && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.96, y: 10 }}
-                            transition={{ duration: 0.2 }}
-                            className="relative bg-gray-950 border border-teal-500/30 rounded-2xl p-6 md:p-8 max-w-2xl w-full my-8 shadow-[0_0_60px_rgba(20,184,166,0.12)] overflow-hidden"
-                        >
-                            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-teal-500" />
-                            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-teal-500" />
-                            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-teal-500" />
-                            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-teal-500" />
-
-                            <div className="flex justify-between items-start mb-6">
-                                <div>
-                                    <div className="flex items-center gap-2 text-teal-400 font-mono text-[10px] uppercase tracking-widest mb-1">
-                                        <Edit3 className="w-3.5 h-3.5" />
-                                        Amend Record
-                                    </div>
-                                    <h2 className="font-audiowide text-xl font-bold text-white uppercase tracking-wide">
-                                        Modify {activeTab.slice(0, -1)}
-                                    </h2>
+                            {/* Page heading */}
+                            <div className="mb-8">
+                                <div className="flex items-center gap-2 text-red-400 font-mono text-xs uppercase tracking-widest mb-2">
+                                    <Flame className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+                                    [KAI_COMMAND_DECK // BLACK DRANZER ACTIVE]
                                 </div>
-                                <button
-                                    onClick={() => setItemToEdit(null)}
-                                    className="text-gray-600 hover:text-white transition-colors p-1.5 hover:bg-gray-800 rounded-lg"
-                                >
-                                    <X className="w-5 h-5" />
-                                </button>
-                            </div>
-
-                            <form onSubmit={handleEditSave} className="space-y-5">
-                                {renderFormFields()}
-                                <div className="flex flex-col sm:flex-row gap-3 pt-5 border-t border-gray-900">
-                                    <button
-                                        type="button"
-                                        onClick={() => setItemToEdit(null)}
-                                        disabled={isSaving}
-                                        className="flex-1 py-3 bg-transparent border border-gray-800 text-gray-400 hover:text-white hover:bg-gray-900 font-mono font-bold rounded-xl text-xs uppercase tracking-wider transition-all"
+                                <h1 className="font-russo text-3xl md:text-4xl font-bold uppercase tracking-wide">
+                                    Dranzer{" "}
+                                    <span className="text-red-400">Command</span>{" "}
+                                    <span
+                                        className="text-transparent bg-clip-text"
+                                        style={{
+                                            backgroundImage: "linear-gradient(135deg, #f87171 0%, #fbbf24 100%)",
+                                            WebkitTextStroke: "1px rgba(239,68,68,0.65)",
+                                        }}
                                     >
-                                        Abort
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={isSaving}
-                                        className="flex-1 py-3 bg-teal-500/10 border border-teal-500/40 hover:bg-teal-500/20 hover:border-teal-400 text-teal-300 font-mono font-bold rounded-xl text-xs uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(20,184,166,0.25)] disabled:opacity-40 flex items-center justify-center gap-2"
+                                        Deck
+                                    </span>
+                                </h1>
+                                <p className="text-gray-400 text-xs mt-2 font-mono border-l-2 border-red-500/50 pl-3 max-w-md">
+                                    Command portfolio collections, ignite updates, erase obsolete nodes, and launch uploads across every arena section.
+                                </p>
+                            </div>
+
+                            {/* ── Toast notification ── */}
+                            <AnimatePresence>
+                                {message && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className={`mb-6 p-4 rounded-xl border backdrop-blur-md flex items-center justify-between text-xs font-mono ${message.type === "success"
+                                            ? "bg-amber-950/25 border-amber-400/35 text-amber-200"
+                                            : "bg-red-950/30 border-red-500/40 text-red-200"
+                                            }`}
                                     >
-                                        {isSaving ? (
-                                            <><Cpu className="w-4 h-4 animate-spin" /> Writing...</>
-                                        ) : (
-                                            "Save Changes"
-                                        )}
-                                    </button>
-                                </div>
-                            </form>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
+                                        <span>{message.text}</span>
+                                        <button onClick={() => setMessage(null)} className="text-gray-500 hover:text-white p-1 ml-4">
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
-            {/* ── DELETE MODAL ── */}
-            <AnimatePresence>
-                {itemToDelete && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.96 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.96 }}
-                            transition={{ duration: 0.2 }}
-                            className="relative bg-gray-950 border border-red-500/30 rounded-2xl p-6 max-w-sm w-full shadow-[0_0_50px_rgba(220,38,38,0.1)] overflow-hidden"
-                        >
-                            <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 border-red-500" />
-                            <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t-2 border-r-2 border-red-500" />
-                            <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b-2 border-l-2 border-red-500" />
-                            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 border-red-500" />
+                            {/* ── CONTENT AREA ── */}
+                            <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
 
-                            <div className="flex items-center gap-2.5 text-red-400 mb-4">
-                                <div className="w-9 h-9 rounded-xl border border-red-500/30 bg-red-950/20 flex items-center justify-center">
-                                    <AlertTriangle className="w-5 h-5" />
+                                {/* Main content panel */}
+                                <div className="xl:col-span-3">
+                                    <div className="relative bg-[#0b0710]/70 border border-red-900/40 rounded-2xl backdrop-blur-sm overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+                                        {/* Corner brackets */}
+                                        <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-red-500 rounded-tl-lg" />
+                                        <div className="absolute top-0 right-0 w-5 h-5 border-t-2 border-r-2 border-amber-400 rounded-tr-lg" />
+                                        <div className="absolute bottom-0 left-0 w-5 h-5 border-b-2 border-l-2 border-amber-400 rounded-bl-lg" />
+                                        <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-red-500 rounded-br-lg" />
+
+                                        <div className="p-6 md:p-8">
+                                            {isLoading ? (
+                                                <div className="py-32 flex flex-col items-center justify-center gap-4">
+                                                    <Image
+                                                        src="/black-dronzer-blade-image.webp"
+                                                        alt="Loading"
+                                                        width={48}
+                                                        height={48}
+                                                        className="w-12 h-12 object-contain animate-[beyblade-spin_0.9s_linear_infinite] drop-shadow-[0_0_14px_rgba(239,68,68,0.8)]"
+                                                    />
+                                                    <p className="font-mono text-xs text-red-400 uppercase tracking-widest animate-pulse">
+                                                        Syncing Dark Flame Stream...
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <AnimatePresence mode="wait">
+                                                    <motion.div
+                                                        key={activeTab}
+                                                        initial={{ opacity: 0, y: 8 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        exit={{ opacity: 0, y: -8 }}
+                                                        transition={{ duration: 0.18 }}
+                                                    >
+                                                        {activeTab === "overview" ? <OverviewPanel /> : <ListPanel />}
+                                                    </motion.div>
+                                                </AnimatePresence>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="font-mono text-[9px] uppercase tracking-widest text-red-600 font-bold">Destructive Action</p>
-                                    <p className="font-audiowide text-sm font-bold text-white uppercase">Erase Record?</p>
+
+                                {/* Right sidebar */}
+                                <div className="xl:col-span-1 space-y-4">
+                                    {/* Quick Upload Links */}
+                                    <div className="relative bg-[#0b0710]/70 border border-red-900/40 rounded-xl p-5 backdrop-blur-sm overflow-hidden">
+                                        <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-red-500" />
+                                        <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-amber-400" />
+                                        <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-amber-400" />
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-red-500" />
+
+                                        <h3 className="font-mono text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                            <Plus className="w-3.5 h-3.5 text-red-400" />
+                                            Launch Upload Bay
+                                        </h3>
+                                        <div className="space-y-2">
+                                            {[
+                                                { label: "New Project", href: "/uploadProjects", icon: Folder },
+                                                { label: "New Skill", href: "/uploadSkills", icon: Sliders },
+                                                { label: "New Experience", href: "/uploadExperiences", icon: Briefcase },
+                                                { label: "New Academic", href: "/uploadAcademics", icon: BookOpen },
+                                                { label: "New Activity", href: "/uploadExtracurricular", icon: Award },
+                                                { label: "Assets Space", href: "/uploadAssets", icon: ImageLucide },
+                                            ].map((link) => {
+                                                const Icon = link.icon;
+                                                return (
+                                                    <button
+                                                        key={link.label}
+                                                        onClick={() => router.push(link.href)}
+                                                        className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg border border-red-950/60 bg-[#07050a]/60 hover:bg-red-500/10 hover:border-red-500/45 text-gray-300 hover:text-amber-300 transition-all duration-200 group"
+                                                    >
+                                                        <div className="flex items-center gap-2.5 text-xs font-mono">
+                                                            <Icon className="w-3.5 h-3.5 text-gray-500 group-hover:text-red-400 transition-colors" />
+                                                            {link.label}
+                                                        </div>
+                                                        <ChevronRight className="w-3 h-3 text-gray-600 group-hover:text-amber-400 group-hover:translate-x-0.5 transition-all" />
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* System Console */}
+                                    <div className="relative bg-[#0b0710]/70 border border-red-900/40 rounded-xl p-5 backdrop-blur-sm overflow-hidden">
+                                        <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-red-500" />
+                                        <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-amber-400" />
+                                        <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-amber-400" />
+                                        <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-red-500" />
+
+                                        <h3 className="font-mono text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center justify-between">
+                                            <span className="flex items-center gap-2">
+                                                <Activity className="w-3.5 h-3.5 text-red-400" />
+                                                Dranzer Telemetry
+                                            </span>
+                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                                        </h3>
+                                        <div className="bg-[#07050a]/80 rounded-lg p-3 border border-red-950/60 space-y-1.5 max-h-44 overflow-y-auto scrollbar-none">
+                                            {systemLogs.map((log, i) => (
+                                                <div key={i} className="flex items-start gap-1.5 font-mono text-[9px] leading-relaxed">
+                                                    <span className="text-red-500 shrink-0 select-none mt-0.5">›</span>
+                                                    <span className={i === systemLogs.length - 1 ? "text-amber-300" : "text-gray-500"}>{log}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="mt-3 pt-3 border-t border-red-950/60 text-[9px] font-mono text-gray-600">
+                                            DB: SYNC_OK · BLADE: BLACK_DRANZER · CDN: READY
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </main>
 
-                            <p className="text-gray-500 text-xs font-mono leading-relaxed mb-6">
-                                You are about to permanently delete{" "}
-                                <span className="text-red-400 font-bold">"{itemToDelete.title}"</span>.
-                                This database transaction cannot be reversed.
-                            </p>
+                        {/* ── EDIT MODAL ── */}
+                        <AnimatePresence>
+                            {itemToEdit && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#07050a]/90 backdrop-blur-md overflow-y-auto">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.96, y: 10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="relative bg-[#0b0710] border border-red-500/35 rounded-2xl p-6 md:p-8 max-w-2xl w-full my-8 shadow-[0_0_60px_rgba(239,68,68,0.18)] overflow-hidden"
+                                    >
+                                        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-red-500" />
+                                        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-amber-400" />
+                                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-amber-400" />
+                                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-red-500" />
 
-                            <div className="flex gap-3">
-                                <button
-                                    onClick={() => setItemToDelete(null)}
-                                    disabled={isSaving}
-                                    className="flex-1 py-2.5 text-xs font-mono font-bold border border-gray-800 text-gray-400 hover:text-white hover:bg-gray-900 rounded-xl transition-all"
-                                >
-                                    Abort
-                                </button>
-                                <button
-                                    onClick={handleDelete}
-                                    disabled={isSaving}
-                                    className="flex-1 py-2.5 text-xs font-mono font-bold border-2 border-red-500/60 text-red-400 bg-red-950/10 hover:bg-red-500 hover:text-black hover:border-red-400 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]"
-                                >
-                                    {isSaving ? "Erasing..." : "Confirm Delete"}
-                                </button>
-                            </div>
-                        </motion.div>
-                    </div>
+                                        <div className="flex justify-between items-start mb-6">
+                                            <div>
+                                                <div className="flex items-center gap-2 text-red-400 font-mono text-[10px] uppercase tracking-widest mb-1">
+                                                    <Edit3 className="w-3.5 h-3.5 text-amber-400" />
+                                                    Amend Record
+                                                </div>
+                                                <h2 className="font-russo text-xl font-bold text-white uppercase tracking-wide">
+                                                    Modify {activeTab.slice(0, -1)}
+                                                </h2>
+                                            </div>
+                                            <button
+                                                onClick={() => setItemToEdit(null)}
+                                                className="text-gray-500 hover:text-amber-300 transition-colors p-1.5 hover:bg-red-950/40 rounded-lg"
+                                            >
+                                                <X className="w-5 h-5" />
+                                            </button>
+                                        </div>
+
+                                        <form onSubmit={handleEditSave} className="space-y-5">
+                                            {renderFormFields()}
+                                            <div className="flex flex-col sm:flex-row gap-3 pt-5 border-t border-red-950/60">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setItemToEdit(null)}
+                                                    disabled={isSaving}
+                                                    className="flex-1 py-3 bg-transparent border border-red-950/70 text-gray-400 hover:text-white hover:bg-red-950/30 font-mono font-bold rounded-xl text-xs uppercase tracking-wider transition-all"
+                                                >
+                                                    Abort
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    disabled={isSaving}
+                                                    className="relative flex-1 py-3 text-gray-950 font-mono font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_28px_rgba(239,68,68,0.6),0_0_14px_rgba(251,191,36,0.35)] disabled:opacity-40 flex items-center justify-center gap-2 group"
+                                                    style={{
+                                                        background: "linear-gradient(135deg, #ef4444 0%, #dc2626 55%, #fbbf24 100%)",
+                                                    }}
+                                                >
+                                                    <Image
+                                                        src="/black-dronzer-blade-image.webp"
+                                                        alt=""
+                                                        width={16}
+                                                        height={16}
+                                                        className={`w-4 h-4 object-contain ${
+                                                            isSaving
+                                                                ? "animate-[beyblade-spin_0.45s_linear_infinite]"
+                                                                : "group-hover:animate-[beyblade-spin_0.55s_linear_infinite]"
+                                                        }`}
+                                                    />
+                                                    <span>{isSaving ? "Writing..." : "Save Changes"}</span>
+                                                    <span
+                                                        className="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold text-amber-400 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 whitespace-nowrap tracking-widest pointer-events-none"
+                                                        style={{ textShadow: "0 0 8px rgba(251,191,36,0.9)" }}
+                                                    >
+                                                        🔥 LET IT RIP!
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </motion.div>
+                                </div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* ── DELETE MODAL ── */}
+                        <AnimatePresence>
+                            {itemToDelete && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#07050a]/90 backdrop-blur-md">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.96 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.96 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="relative bg-[#0b0710] border border-red-500/40 rounded-2xl p-6 max-w-sm w-full shadow-[0_0_50px_rgba(220,38,38,0.18)] overflow-hidden"
+                                    >
+                                        <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 border-red-500" />
+                                        <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t-2 border-r-2 border-red-500" />
+                                        <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b-2 border-l-2 border-red-500" />
+                                        <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 border-red-500" />
+
+                                        <div className="flex items-center gap-2.5 text-red-400 mb-4">
+                                            <div className="w-9 h-9 rounded-xl border border-red-500/35 bg-red-950/30 flex items-center justify-center">
+                                                <AlertTriangle className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <p className="font-mono text-[9px] uppercase tracking-widest text-red-500 font-bold">Destructive Action</p>
+                                                <p className="font-russo text-sm font-bold text-white uppercase">Erase Record?</p>
+                                            </div>
+                                        </div>
+
+                                        <p className="text-gray-400 text-xs font-mono leading-relaxed mb-6">
+                                            You are about to permanently delete{" "}
+                                            <span className="text-amber-300 font-bold">&ldquo;{itemToDelete.title}&rdquo;</span>.
+                                            This database transaction cannot be reversed.
+                                        </p>
+
+                                        <div className="flex gap-3">
+                                            <button
+                                                onClick={() => setItemToDelete(null)}
+                                                disabled={isSaving}
+                                                className="flex-1 py-2.5 text-xs font-mono font-bold border border-red-950/70 text-gray-400 hover:text-white hover:bg-red-950/30 rounded-xl transition-all"
+                                            >
+                                                Abort
+                                            </button>
+                                            <button
+                                                onClick={handleDelete}
+                                                disabled={isSaving}
+                                                className="flex-1 py-2.5 text-xs font-mono font-bold border-2 border-red-500/65 text-red-300 bg-red-950/20 hover:bg-red-500 hover:text-black hover:border-red-400 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(239,68,68,0.45)]"
+                                            >
+                                                {isSaving ? "Erasing..." : "Confirm Delete"}
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                </div>
+                            )}
+                        </AnimatePresence>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </div>
@@ -642,8 +702,108 @@ export default function AdminDashboard() {
 
         return (
             <div className="space-y-8">
+                {/* Featured Kai / Black Dranzer Command Center Banner */}
+                <div className="relative overflow-hidden rounded-2xl border border-red-500/30 bg-[#07050a]/85 p-6 md:p-7 shadow-[0_0_35px_rgba(239,68,68,0.14)]">
+                    <div
+                        className="absolute -right-12 -top-12 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+                        style={{
+                            background:
+                                "radial-gradient(circle, rgba(239,68,68,0.22) 0%, rgba(251,191,36,0.1) 50%, transparent 75%)",
+                        }}
+                    />
+
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                            {/* Black Dranzer + Spinning Blade Emblem */}
+                            <div className="relative w-32 h-32 shrink-0 flex items-center justify-center">
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                    className="absolute inset-0 rounded-full pointer-events-none"
+                                    style={{
+                                        border: "1.5px solid transparent",
+                                        borderTopColor: "rgba(239,68,68,0.75)",
+                                        borderRightColor: "rgba(251,191,36,0.55)",
+                                        borderBottomColor: "rgba(239,68,68,0.25)",
+                                    }}
+                                />
+                                <motion.div
+                                    animate={{ y: [-5, 5, -5] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                    className="relative w-28 h-28 z-10"
+                                >
+                                    <Image
+                                        src="/black-dronzer-image.webp"
+                                        alt="Kai Black Dranzer"
+                                        fill
+                                        className="object-contain drop-shadow-[0_0_22px_rgba(239,68,68,0.7)]"
+                                    />
+                                </motion.div>
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
+                                    className="absolute -bottom-1 -right-1 w-11 h-11 z-20"
+                                >
+                                    <Image
+                                        src="/black-dronzer-blade-image.webp"
+                                        alt="Black Dranzer Blade"
+                                        fill
+                                        className="object-contain drop-shadow-[0_0_12px_rgba(251,191,36,0.75)]"
+                                    />
+                                </motion.div>
+                            </div>
+
+                            {/* Banner Copy */}
+                            <div className="space-y-2">
+                                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/35 text-[10px] font-mono text-amber-300 uppercase tracking-widest">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                                    Bit-Beast: Black Dranzer // Blader: Kai
+                                </div>
+                                <h2 className="font-russo text-2xl md:text-3xl font-bold text-white tracking-wide">
+                                    Dark Flame{" "}
+                                    <span
+                                        className="text-transparent bg-clip-text"
+                                        style={{
+                                            backgroundImage: "linear-gradient(135deg, #f87171 0%, #fbbf24 100%)",
+                                        }}
+                                    >
+                                        Overdrive
+                                    </span>
+                                </h2>
+                                <p className="text-gray-400 text-xs font-mono max-w-md leading-relaxed">
+                                    Precision control over your portfolio stadium. Deploy new builds, forge skills, or update battle records directly.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Quick Launch CTA */}
+                        <button
+                            onClick={() => router.push("/uploadProjects")}
+                            className="relative shrink-0 px-6 py-3 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-gray-950 flex items-center gap-2 group shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_30px_rgba(239,68,68,0.6),0_0_16px_rgba(251,191,36,0.35)] transition-all duration-300"
+                            style={{
+                                background: "linear-gradient(135deg, #ef4444 0%, #dc2626 55%, #fbbf24 100%)",
+                            }}
+                        >
+                            <Image
+                                src="/black-dronzer-blade-image.webp"
+                                alt=""
+                                width={16}
+                                height={16}
+                                className="w-4 h-4 object-contain group-hover:animate-[beyblade-spin_0.55s_linear_infinite]"
+                            />
+                            Launch Project
+                            <span
+                                className="absolute -top-7 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-amber-400 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 whitespace-nowrap tracking-widest pointer-events-none"
+                                style={{ textShadow: "0 0 8px rgba(251,191,36,0.9)" }}
+                            >
+                                🔥 LET IT RIP!
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
                 <div>
-                    <p className="font-mono text-[10px] text-gray-600 uppercase tracking-widest mb-4">
+                    <p className="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-4">
                         Collection Stats
                     </p>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -652,17 +812,17 @@ export default function AdminDashboard() {
                             return (
                                 <div
                                     key={s.label}
-                                    className="relative group p-4 rounded-xl bg-gray-900/30 border border-gray-800 hover:border-teal-500/40 hover:shadow-[0_0_20px_rgba(20,184,166,0.08)] transition-all duration-300 overflow-hidden cursor-pointer"
+                                    className="relative group p-4 rounded-xl bg-[#07050a]/70 border border-red-900/40 hover:border-red-400/60 hover:shadow-[0_0_22px_rgba(239,68,68,0.14)] transition-all duration-300 overflow-hidden cursor-pointer"
                                     onClick={() => { setMessage(null); setActiveTab(tabs.find(t => t.label === s.label || t.id === s.label.toLowerCase())?.id || "overview"); }}
                                 >
-                                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-teal-500/30" />
-                                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-teal-500/30" />
-                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-teal-500/30" />
-                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-teal-500/30" />
+                                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-red-500/45" />
+                                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-amber-400/45" />
+                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-amber-400/45" />
+                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-red-500/45" />
 
-                                    <Icon className="w-4 h-4 text-teal-500/60 group-hover:text-teal-400 mb-3 transition-colors" />
-                                    <p className="font-audiowide text-2xl font-bold text-teal-400">{s.count}</p>
-                                    <p className="font-mono text-[9px] text-gray-600 uppercase tracking-widest mt-1">{s.label}</p>
+                                    <Icon className="w-4 h-4 text-red-400/70 group-hover:text-amber-400 mb-3 transition-colors" />
+                                    <p className="font-russo text-2xl font-bold text-red-400 group-hover:text-amber-300 transition-colors">{s.count}</p>
+                                    <p className="font-mono text-[9px] text-gray-500 uppercase tracking-widest mt-1">{s.label}</p>
                                 </div>
                             );
                         })}
@@ -670,20 +830,20 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* System status */}
-                <div className="bg-gray-900/20 border border-gray-900 rounded-xl p-5">
-                    <div className="flex items-center justify-between mb-4 border-b border-gray-900 pb-3">
-                        <span className="font-mono text-[10px] text-teal-400 flex items-center gap-1.5 uppercase tracking-widest">
-                            <Database className="w-3.5 h-3.5" />
-                            Core Status Monitor
+                <div className="bg-[#07050a]/60 border border-red-950/60 rounded-xl p-5">
+                    <div className="flex items-center justify-between mb-4 border-b border-red-950/60 pb-3">
+                        <span className="font-mono text-[10px] text-red-400 flex items-center gap-1.5 uppercase tracking-widest">
+                            <Database className="w-3.5 h-3.5 text-amber-400" />
+                            Core Flame Monitor
                         </span>
-                        <span className="font-mono text-[9px] text-green-500/80">● OPERATIONAL</span>
+                        <span className="font-mono text-[9px] text-amber-400">● OVERDRIVE READY</span>
                     </div>
-                    <div className="space-y-2 font-mono text-[10px] text-gray-500">
-                        <p><span className="text-teal-600 mr-2">&gt;&gt;</span> HOST NODE: CONNECTED — NEXT.JS 16 EDGE RUNTIME</p>
-                        <p><span className="text-teal-600 mr-2">&gt;&gt;</span> MONGOOSE SCHEMAS: INDEXED AND CACHED</p>
-                        <p><span className="text-teal-600 mr-2">&gt;&gt;</span> CORS POLICY / EDGE INTERCEPTORS: ACTIVE</p>
-                        <p><span className="text-teal-600 mr-2">&gt;&gt;</span> ASSET CDN: CLOUDINARY ATTACHMENT READY</p>
-                        <p><span className="text-teal-600 mr-2">&gt;&gt;</span> AUTH SESSION KEY: ACTIVE AND VALID</p>
+                    <div className="space-y-2 font-mono text-[10px] text-gray-400">
+                        <p><span className="text-red-500 mr-2">&gt;&gt;</span> HOST NODE: CONNECTED — NEXT.JS 16 EDGE RUNTIME</p>
+                        <p><span className="text-red-500 mr-2">&gt;&gt;</span> MONGOOSE SCHEMAS: INDEXED AND CACHED</p>
+                        <p><span className="text-red-500 mr-2">&gt;&gt;</span> CORS POLICY / EDGE INTERCEPTORS: ACTIVE</p>
+                        <p><span className="text-red-500 mr-2">&gt;&gt;</span> ASSET CDN: CLOUDINARY ATTACHMENT READY</p>
+                        <p><span className="text-red-500 mr-2">&gt;&gt;</span> KAI SESSION SEAL: ACTIVE AND VALID</p>
                     </div>
                 </div>
             </div>
@@ -702,22 +862,38 @@ export default function AdminDashboard() {
 
         return (
             <div className="space-y-5">
-                <div className="flex items-center justify-between pb-4 border-b border-gray-900">
+                <div className="flex items-center justify-between pb-4 border-b border-red-950/60">
                     <div>
-                        <span className="font-audiowide text-base font-bold text-white uppercase tracking-wide">
+                        <span className="font-russo text-base font-bold text-white uppercase tracking-wide">
                             {activeTab}
                         </span>
-                        <span className="ml-3 text-[10px] font-mono text-teal-500/70 bg-teal-500/5 border border-teal-500/20 rounded px-2 py-0.5">
+                        <span className="ml-3 text-[10px] font-mono text-amber-300 bg-red-500/10 border border-red-500/25 rounded px-2 py-0.5">
                             {currentData.length} records
                         </span>
                     </div>
                     {activeTab in uploadRoutes && (
                         <button
                             onClick={() => router.push(uploadRoutes[activeTab])}
-                            className="flex items-center gap-2 px-4 py-2 bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 hover:border-teal-400 text-teal-300 font-mono font-bold text-xs rounded-lg transition-all duration-200 hover:shadow-[0_0_15px_rgba(20,184,166,0.2)]"
+                            className="relative flex items-center gap-2 px-4 py-2 text-gray-950 font-mono font-bold text-xs rounded-lg transition-all duration-200 shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_24px_rgba(239,68,68,0.6),0_0_12px_rgba(251,191,36,0.35)] group"
+                            style={{
+                                background: "linear-gradient(135deg, #ef4444 0%, #dc2626 55%, #fbbf24 100%)",
+                            }}
                         >
-                            <Plus className="w-4 h-4" />
+                            <Image
+                                src="/black-dronzer-blade-image.webp"
+                                alt=""
+                                width={14}
+                                height={14}
+                                className="w-3.5 h-3.5 object-contain group-hover:animate-[beyblade-spin_0.55s_linear_infinite]"
+                            />
+                            <Plus className="w-3.5 h-3.5" />
                             Upload New
+                            <span
+                                className="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold text-amber-400 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 whitespace-nowrap tracking-widest pointer-events-none"
+                                style={{ textShadow: "0 0 8px rgba(251,191,36,0.9)" }}
+                            >
+                                🔥 LET IT RIP!
+                            </span>
                         </button>
                     )}
                 </div>
@@ -732,30 +908,30 @@ export default function AdminDashboard() {
             return (
                 <div className="space-y-4">
                     {data.map((proj, i) => (
-                        <div key={proj._id} className="group flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-gray-900/20 border border-gray-800/80 hover:border-teal-500/30 hover:shadow-[0_0_20px_rgba(20,184,166,0.07)] transition-all duration-300">
+                        <div key={proj._id} className="group flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-[#07050a]/70 border border-red-950/60 hover:border-red-500/45 hover:shadow-[0_0_22px_rgba(239,68,68,0.12)] transition-all duration-300">
                             {proj.imageUrl && (
-                                <div className="w-full sm:w-36 h-20 rounded-lg overflow-hidden border border-gray-800 shrink-0 bg-black">
+                                <div className="w-full sm:w-36 h-20 rounded-lg overflow-hidden border border-red-950/70 shrink-0 bg-black">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={proj.imageUrl} alt={proj.name} className="w-full h-full object-cover brightness-75 group-hover:brightness-90 transition-all" />
+                                    <img src={proj.imageUrl} alt={proj.name} className="w-full h-full object-cover brightness-75 group-hover:brightness-95 transition-all" />
                                 </div>
                             )}
                             <div className="flex-1 flex flex-col justify-between min-w-0">
                                 <div>
                                     <div className="flex items-start justify-between gap-3 mb-1.5">
                                         <div className="flex items-center gap-2.5">
-                                            <span className="font-audiowide text-teal-500 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                                            <h4 className="text-sm font-bold text-white font-audiowide truncate group-hover:text-teal-300 transition-colors">{proj.name}</h4>
+                                            <span className="font-russo text-red-400 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                                            <h4 className="text-sm font-bold text-white font-russo truncate group-hover:text-amber-300 transition-colors">{proj.name}</h4>
                                         </div>
                                         {proj.githubUrl && (
-                                            <a href={proj.githubUrl} target="_blank" rel="noreferrer" className="text-gray-600 hover:text-teal-400 p-1 transition-colors shrink-0">
+                                            <a href={proj.githubUrl} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-amber-400 p-1 transition-colors shrink-0">
                                                 <ExternalLink className="w-3.5 h-3.5" />
                                             </a>
                                         )}
                                     </div>
-                                    <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed mb-2">{proj.description}</p>
+                                    <p className="text-gray-400 text-xs line-clamp-2 leading-relaxed mb-2">{proj.description}</p>
                                     <div className="flex flex-wrap gap-1">
                                         {proj.techstack?.map((t: string) => (
-                                            <span key={t} className="px-1.5 py-0.5 text-[9px] font-mono rounded bg-teal-500/5 border border-teal-500/10 text-teal-500/80">{t}</span>
+                                            <span key={t} className="px-1.5 py-0.5 text-[9px] font-mono rounded bg-red-500/10 border border-red-500/20 text-amber-300/90">{t}</span>
                                         ))}
                                     </div>
                                 </div>
@@ -771,9 +947,9 @@ export default function AdminDashboard() {
             return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {data.map((skill, i) => (
-                        <div key={skill._id} className="group flex gap-3.5 p-4 rounded-xl bg-gray-900/20 border border-gray-800/80 hover:border-teal-500/30 hover:shadow-[0_0_15px_rgba(20,184,166,0.07)] transition-all duration-300">
+                        <div key={skill._id} className="group flex gap-3.5 p-4 rounded-xl bg-[#07050a]/70 border border-red-950/60 hover:border-red-500/45 hover:shadow-[0_0_18px_rgba(239,68,68,0.12)] transition-all duration-300">
                             {skill.imageUrl && (
-                                <div className="w-10 h-10 rounded-lg bg-teal-500/5 border border-teal-500/10 flex items-center justify-center overflow-hidden p-1.5 shrink-0">
+                                <div className="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center overflow-hidden p-1.5 shrink-0">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img src={skill.imageUrl} alt={skill.name} className="w-full h-full object-contain" />
                                 </div>
@@ -781,10 +957,10 @@ export default function AdminDashboard() {
                             <div className="flex-1 min-w-0 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-1">
-                                        <span className="font-audiowide text-teal-500 text-xs font-bold">{String(i + 1).padStart(2, "0")}</span>
-                                        <h4 className="text-xs font-bold text-white font-audiowide truncate">{skill.name}</h4>
+                                        <span className="font-russo text-red-400 text-xs font-bold">{String(i + 1).padStart(2, "0")}</span>
+                                        <h4 className="text-xs font-bold text-white font-russo truncate group-hover:text-amber-300 transition-colors">{skill.name}</h4>
                                     </div>
-                                    <p className="text-gray-500 text-[10px] line-clamp-2 leading-relaxed">{skill.description}</p>
+                                    <p className="text-gray-400 text-[10px] line-clamp-2 leading-relaxed">{skill.description}</p>
                                 </div>
                                 <ActionRow onEdit={() => handleEditInit(skill, "skills")} onDelete={() => setItemToDelete({ id: skill._id, type: "skills", title: skill.name })} />
                             </div>
@@ -798,18 +974,18 @@ export default function AdminDashboard() {
             return (
                 <div className="space-y-3">
                     {data.map((exp, i) => (
-                        <div key={exp._id} className="group p-4 rounded-xl bg-gray-900/20 border border-gray-800/80 hover:border-teal-500/30 hover:shadow-[0_0_15px_rgba(20,184,166,0.07)] transition-all duration-300">
+                        <div key={exp._id} className="group p-4 rounded-xl bg-[#07050a]/70 border border-red-950/60 hover:border-red-500/45 hover:shadow-[0_0_18px_rgba(239,68,68,0.12)] transition-all duration-300">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                                 <div className="flex items-center gap-3">
-                                    <span className="font-audiowide text-teal-500 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                                    <span className="font-russo text-red-400 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
                                     <div>
-                                        <h4 className="text-sm font-bold text-white font-audiowide">{exp.jobtitle}</h4>
-                                        <div className="text-[10px] font-mono text-teal-400/70 mt-0.5">{exp.company} <span className="text-gray-700 mx-1">//</span> {exp.role}</div>
+                                        <h4 className="text-sm font-bold text-white font-russo group-hover:text-amber-300 transition-colors">{exp.jobtitle}</h4>
+                                        <div className="text-[10px] font-mono text-amber-400/80 mt-0.5">{exp.company} <span className="text-gray-600 mx-1">//</span> {exp.role}</div>
                                     </div>
                                 </div>
-                                <div className="text-[9px] font-mono text-gray-600">{formatDisplayDate(exp.startDate)} — {formatDisplayDate(exp.endDate)}</div>
+                                <div className="text-[9px] font-mono text-gray-500">{formatDisplayDate(exp.startDate)} — {formatDisplayDate(exp.endDate)}</div>
                             </div>
-                            <p className="text-gray-500 text-xs leading-relaxed mb-3">{exp.description}</p>
+                            <p className="text-gray-400 text-xs leading-relaxed mb-3">{exp.description}</p>
                             <ActionRow onEdit={() => handleEditInit(exp, "experiences")} onDelete={() => setItemToDelete({ id: exp._id, type: "experiences", title: `${exp.jobtitle} at ${exp.company}` })} />
                         </div>
                     ))}
@@ -821,16 +997,16 @@ export default function AdminDashboard() {
             return (
                 <div className="space-y-3">
                     {data.map((acad, i) => (
-                        <div key={acad._id} className="group p-4 rounded-xl bg-gray-900/20 border border-gray-800/80 hover:border-teal-500/30 hover:shadow-[0_0_15px_rgba(20,184,166,0.07)] transition-all duration-300">
+                        <div key={acad._id} className="group p-4 rounded-xl bg-[#07050a]/70 border border-red-950/60 hover:border-red-500/45 hover:shadow-[0_0_18px_rgba(239,68,68,0.12)] transition-all duration-300">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                                 <div className="flex items-center gap-3">
-                                    <span className="font-audiowide text-teal-500 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                                    <span className="font-russo text-red-400 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
                                     <div>
-                                        <h4 className="text-sm font-bold text-white font-audiowide">{acad.degree}</h4>
-                                        <div className="text-[10px] font-mono text-teal-400/70 mt-0.5">{acad.school} {acad.grade && <span className="text-gray-600 ml-1">// {acad.grade}</span>}</div>
+                                        <h4 className="text-sm font-bold text-white font-russo group-hover:text-amber-300 transition-colors">{acad.degree}</h4>
+                                        <div className="text-[10px] font-mono text-amber-400/80 mt-0.5">{acad.school} {acad.grade && <span className="text-gray-500 ml-1">// {acad.grade}</span>}</div>
                                     </div>
                                 </div>
-                                <div className="text-[9px] font-mono text-gray-600">{formatDisplayDate(acad.startDate)} — {formatDisplayDate(acad.endDate)}</div>
+                                <div className="text-[9px] font-mono text-gray-500">{formatDisplayDate(acad.startDate)} — {formatDisplayDate(acad.endDate)}</div>
                             </div>
                             <ActionRow onEdit={() => handleEditInit(acad, "academics")} onDelete={() => setItemToDelete({ id: acad._id, type: "academics", title: acad.degree })} />
                         </div>
@@ -843,24 +1019,24 @@ export default function AdminDashboard() {
             return (
                 <div className="space-y-3">
                     {data.map((act, i) => (
-                        <div key={act._id} className="group flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-gray-900/20 border border-gray-800/80 hover:border-teal-500/30 hover:shadow-[0_0_15px_rgba(20,184,166,0.07)] transition-all duration-300">
+                        <div key={act._id} className="group flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-[#07050a]/70 border border-red-950/60 hover:border-red-500/45 hover:shadow-[0_0_18px_rgba(239,68,68,0.12)] transition-all duration-300">
                             {act.imageUrl && (
-                                <div className="w-full sm:w-28 h-16 rounded-lg overflow-hidden border border-gray-800 shrink-0 bg-black">
+                                <div className="w-full sm:w-28 h-16 rounded-lg overflow-hidden border border-red-950/70 shrink-0 bg-black">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={act.imageUrl} alt={act.role} className="w-full h-full object-cover brightness-75 group-hover:brightness-90 transition-all" />
+                                    <img src={act.imageUrl} alt={act.role} className="w-full h-full object-cover brightness-75 group-hover:brightness-95 transition-all" />
                                 </div>
                             )}
                             <div className="flex-1 min-w-0 flex flex-col justify-between">
                                 <div>
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
                                         <div className="flex items-center gap-2.5">
-                                            <span className="font-audiowide text-teal-500 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                                            <h4 className="text-sm font-bold text-white font-audiowide truncate">{act.role}</h4>
+                                            <span className="font-russo text-red-400 text-base font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                                            <h4 className="text-sm font-bold text-white font-russo truncate group-hover:text-amber-300 transition-colors">{act.role}</h4>
                                         </div>
-                                        <div className="text-[9px] font-mono text-gray-600">{formatDisplayDate(act.startDate)} — {formatDisplayDate(act.endDate)}</div>
+                                        <div className="text-[9px] font-mono text-gray-500">{formatDisplayDate(act.startDate)} — {formatDisplayDate(act.endDate)}</div>
                                     </div>
-                                    <div className="text-[10px] font-mono text-teal-400/70 mb-1.5 ml-8">{act.organization}</div>
-                                    <p className="text-gray-500 text-xs leading-relaxed line-clamp-2 ml-8">{act.description}</p>
+                                    <div className="text-[10px] font-mono text-amber-400/80 mb-1.5 ml-8">{act.organization}</div>
+                                    <p className="text-gray-400 text-xs leading-relaxed line-clamp-2 ml-8">{act.description}</p>
                                 </div>
                                 <ActionRow onEdit={() => handleEditInit(act, "extracurriculars")} onDelete={() => setItemToDelete({ id: act._id, type: "extracurriculars", title: `${act.role} at ${act.organization}` })} />
                             </div>
@@ -876,12 +1052,12 @@ export default function AdminDashboard() {
     function EmptyState() {
         return (
             <div className="py-24 flex flex-col items-center justify-center font-mono">
-                <div className="w-16 h-16 rounded-2xl border border-gray-800 bg-gray-900/40 flex items-center justify-center mb-4">
-                    <FileText className="w-7 h-7 text-gray-700" />
+                <div className="w-16 h-16 rounded-2xl border border-red-900/40 bg-[#07050a]/70 flex items-center justify-center mb-4">
+                    <FileText className="w-7 h-7 text-red-400/50" />
                 </div>
-                <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-1">No Records Found</p>
-                <p className="text-gray-700 text-[10px] text-center max-w-xs leading-relaxed">
-                    This collection is empty. Use the Upload New button to add the first record.
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">No Records Found</p>
+                <p className="text-gray-600 text-[10px] text-center max-w-xs leading-relaxed">
+                    This collection is empty. Use the Upload New button to launch the first record.
                 </p>
             </div>
         );
@@ -889,17 +1065,17 @@ export default function AdminDashboard() {
 
     function ActionRow({ onEdit, onDelete }: { onEdit: () => void; onDelete: () => void }) {
         return (
-            <div className="flex gap-2 justify-end mt-3 pt-2.5 border-t border-gray-900/60">
+            <div className="flex gap-2 justify-end mt-3 pt-2.5 border-t border-red-950/50">
                 <button
                     onClick={onEdit}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold text-teal-400/80 border border-teal-500/20 rounded-lg hover:bg-teal-500/10 hover:text-teal-300 hover:border-teal-500/40 transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold text-amber-300/90 border border-amber-400/25 rounded-lg hover:bg-amber-400/15 hover:text-amber-200 hover:border-amber-400/50 transition-all"
                 >
                     <Edit3 className="w-3 h-3" />
                     Edit
                 </button>
                 <button
                     onClick={onDelete}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold text-red-400/70 border border-red-500/20 rounded-lg hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/40 transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold text-red-400/80 border border-red-500/25 rounded-lg hover:bg-red-500/15 hover:text-red-300 hover:border-red-500/50 transition-all"
                 >
                     <Trash2 className="w-3 h-3" />
                     Delete
@@ -933,17 +1109,17 @@ export default function AdminDashboard() {
                     <Field label="Tech Stack (comma-separated)">
                         <input type="text" required value={Array.isArray(editForm.techstack) ? editForm.techstack.join(", ") : editForm.techstack || ""} onChange={(e) => setEditForm({ ...editForm, techstack: e.target.value })} className={inputCls} placeholder="React, TypeScript, Node.js" />
                     </Field>
-                    <div className="border-t border-gray-900 pt-4">
+                    <div className="border-t border-red-950/60 pt-4">
                         <Field label="Project Image">
                             <div className="flex flex-col sm:flex-row gap-4 items-center">
                                 {editForm.imageUrl && !newImage && (
-                                    <div className="w-28 h-16 border border-gray-800 rounded-lg overflow-hidden shrink-0 relative bg-black">
+                                    <div className="w-28 h-16 border border-red-900/50 rounded-lg overflow-hidden shrink-0 relative bg-black">
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img src={editForm.imageUrl} alt="Current" className="w-full h-full object-cover" />
-                                        <span className="absolute top-1 left-1 bg-teal-500 text-[7px] font-mono text-black font-bold px-1 rounded">ACTIVE</span>
+                                        <span className="absolute top-1 left-1 bg-amber-400 text-[7px] font-mono text-black font-bold px-1 rounded">ACTIVE</span>
                                     </div>
                                 )}
-                                <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files?.[0] || null)} className={`${inputCls} text-xs file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-teal-500/10 file:text-teal-400 hover:file:bg-teal-500/20`} />
+                                <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files?.[0] || null)} className={`${inputCls} text-xs file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-red-500/15 file:text-red-300 hover:file:bg-red-500/25`} />
                             </div>
                         </Field>
                     </div>
@@ -960,16 +1136,16 @@ export default function AdminDashboard() {
                     <Field label="Description">
                         <textarea required rows={3} value={editForm.description || ""} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} className={`${inputCls} resize-none`} />
                     </Field>
-                    <div className="border-t border-gray-900 pt-4">
+                    <div className="border-t border-red-950/60 pt-4">
                         <Field label="Skill Icon / Image">
                             <div className="flex items-center gap-4">
                                 {editForm.imageUrl && !newImage && (
-                                    <div className="w-10 h-10 bg-teal-500/5 border border-teal-500/15 rounded-lg overflow-hidden shrink-0 flex items-center justify-center p-1.5">
+                                    <div className="w-10 h-10 bg-red-500/10 border border-red-500/20 rounded-lg overflow-hidden shrink-0 flex items-center justify-center p-1.5">
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img src={editForm.imageUrl} alt="Current" className="w-full h-full object-contain" />
                                     </div>
                                 )}
-                                <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files?.[0] || null)} className={`${inputCls} text-xs file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-teal-500/10 file:text-teal-400 hover:file:bg-teal-500/20`} />
+                                <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files?.[0] || null)} className={`${inputCls} text-xs file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-red-500/15 file:text-red-300 hover:file:bg-red-500/25`} />
                             </div>
                         </Field>
                     </div>
@@ -1000,8 +1176,8 @@ export default function AdminDashboard() {
                         <div>
                             <div className="flex justify-between items-center mb-1.5">
                                 <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest">End Date</label>
-                                <label className="flex items-center gap-1.5 text-xs text-teal-400 cursor-pointer select-none font-mono">
-                                    <input type="checkbox" checked={ongoing} onChange={(e) => { setOngoing(e.target.checked); if (e.target.checked) setEditForm({ ...editForm, endDate: "" }); }} className="accent-teal-500" />
+                                <label className="flex items-center gap-1.5 text-xs text-amber-400 cursor-pointer select-none font-mono">
+                                    <input type="checkbox" checked={ongoing} onChange={(e) => { setOngoing(e.target.checked); if (e.target.checked) setEditForm({ ...editForm, endDate: "" }); }} className="accent-red-500" />
                                     Ongoing
                                 </label>
                             </div>
@@ -1036,8 +1212,8 @@ export default function AdminDashboard() {
                         <div>
                             <div className="flex justify-between items-center mb-1.5">
                                 <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest">End Date</label>
-                                <label className="flex items-center gap-1.5 text-xs text-teal-400 cursor-pointer select-none font-mono">
-                                    <input type="checkbox" checked={ongoing} onChange={(e) => { setOngoing(e.target.checked); if (e.target.checked) setEditForm({ ...editForm, endDate: "" }); }} className="accent-teal-500" />
+                                <label className="flex items-center gap-1.5 text-xs text-amber-400 cursor-pointer select-none font-mono">
+                                    <input type="checkbox" checked={ongoing} onChange={(e) => { setOngoing(e.target.checked); if (e.target.checked) setEditForm({ ...editForm, endDate: "" }); }} className="accent-red-500" />
                                     Ongoing
                                 </label>
                             </div>
@@ -1066,8 +1242,8 @@ export default function AdminDashboard() {
                         <div>
                             <div className="flex justify-between items-center mb-1.5">
                                 <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest">End Date</label>
-                                <label className="flex items-center gap-1.5 text-xs text-teal-400 cursor-pointer select-none font-mono">
-                                    <input type="checkbox" checked={ongoing} onChange={(e) => { setOngoing(e.target.checked); if (e.target.checked) setEditForm({ ...editForm, endDate: "" }); }} className="accent-teal-500" />
+                                <label className="flex items-center gap-1.5 text-xs text-amber-400 cursor-pointer select-none font-mono">
+                                    <input type="checkbox" checked={ongoing} onChange={(e) => { setOngoing(e.target.checked); if (e.target.checked) setEditForm({ ...editForm, endDate: "" }); }} className="accent-red-500" />
                                     Ongoing
                                 </label>
                             </div>
@@ -1077,17 +1253,17 @@ export default function AdminDashboard() {
                     <Field label="Description">
                         <textarea required rows={3} value={editForm.description || ""} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} className={`${inputCls} resize-none`} />
                     </Field>
-                    <div className="border-t border-gray-900 pt-4">
+                    <div className="border-t border-red-950/60 pt-4">
                         <Field label="Display Image">
                             <div className="flex flex-col sm:flex-row gap-4 items-center">
                                 {editForm.imageUrl && !newImage && (
-                                    <div className="w-28 h-16 border border-gray-800 rounded-lg overflow-hidden shrink-0 relative bg-black">
+                                    <div className="w-28 h-16 border border-red-900/50 rounded-lg overflow-hidden shrink-0 relative bg-black">
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img src={editForm.imageUrl} alt="Current" className="w-full h-full object-cover" />
-                                        <span className="absolute top-1 left-1 bg-teal-500 text-[7px] font-mono text-black font-bold px-1 rounded">ACTIVE</span>
+                                        <span className="absolute top-1 left-1 bg-amber-400 text-[7px] font-mono text-black font-bold px-1 rounded">ACTIVE</span>
                                     </div>
                                 )}
-                                <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files?.[0] || null)} className={`${inputCls} text-xs file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-teal-500/10 file:text-teal-400 hover:file:bg-teal-500/20`} />
+                                <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files?.[0] || null)} className={`${inputCls} text-xs file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-red-500/15 file:text-red-300 hover:file:bg-red-500/25`} />
                             </div>
                         </Field>
                     </div>

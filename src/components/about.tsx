@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import images from "@/images/index";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, GraduationCap, Code2, User } from "lucide-react";
 import Loading from "./loading";
@@ -84,8 +86,8 @@ const FAQs = [
   },
 ];
 
-const COLORS = ["#14b8a6", "#2dd4bf", "#5eead4", "#99f6e4", "#ccfbf1"];
-const LC_COLORS = ["#00b8a3", "#ffc01e", "#ff375f"];
+const COLORS = ["#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe", "#fbbf24"];
+const LC_COLORS = ["#22c55e", "#fbbf24", "#ef4444"];
 
 export default function About() {
   const [academics, setAcademics] = useState<Academic[]>([]);
@@ -200,8 +202,19 @@ export default function About() {
   return (
     <section id="about" className="w-full bg-transparent py-20 relative overflow-hidden text-white">
       {/* Decorative background blurs */}
-      <div className="absolute top-0 right-0 w-125 h-125 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-125 h-125 bg-teal-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-125 h-125 bg-blue-500/8 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-125 h-125 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      {/* Drozer decoration — left side standing guard */}
+      <motion.div
+        animate={{ y: [-8, 8, -8] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-2 top-1/2 -translate-y-1/2 w-32 md:w-44 opacity-20 pointer-events-none hidden lg:block"
+        style={{ filter: "drop-shadow(0 0 24px rgba(96,165,250,0.45))" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/drozer-image.webp" alt="" aria-hidden className="w-full h-auto object-contain" />
+      </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="mb-16 text-center">
@@ -209,15 +222,16 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-audiowide text-4xl md:text-5xl font-bold mb-4"
+            className="font-russo text-4xl md:text-5xl font-bold mb-4"
           >
-            About <span className="text-teal-400">Me</span>
+            About <span className="text-blue-400">Me</span>
           </motion.h2>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             whileInView={{ opacity: 1, scaleX: 1 }}
             viewport={{ once: true }}
-            className="w-24 h-1 bg-linear-to-r from-teal-400 to-transparent mx-auto rounded-full mb-6 origin-left"
+            className="w-24 h-1 mx-auto rounded-full mb-6 origin-left"
+            style={{ background: "linear-gradient(to right, #60a5fa, transparent)" }}
           ></motion.div>
         </div>
 
@@ -229,15 +243,52 @@ export default function About() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-gray-900/50 p-8 rounded-2xl border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-500/40 transition-colors"
+              className="bg-[#060a14]/60 p-8 rounded-2xl border border-blue-500/20 shadow-[0_0_15px_rgba(96,165,250,0.05)] hover:border-blue-500/40 transition-colors"
             >
               <div className="flex items-center gap-3 mb-6">
-                <User className="text-teal-400" size={24} />
-                <h3 className="text-2xl font-audiowide font-semibold">Who I Am</h3>
+                <User className="text-blue-400" size={24} />
+                <h3 className="text-2xl font-russo font-semibold">Who I Am</h3>
               </div>
-              <p className="text-gray-400 leading-relaxed">
-                I am a passionate developer dedicated to creating efficient, scalable, and visually appealing web applications. I love diving deep into code, exploring new technologies, and turning complex problems into elegant solutions. With a strong foundation in modern web frameworks and a keen eye for design, I strive to deliver exceptional user experiences.
-              </p>
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                {/* Circular portrait with Dragoon blue-gold orbital glow ring */}
+                <div className="relative shrink-0 w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center">
+                  {/* Ambient blue-gold glow */}
+                  <div
+                    className="absolute inset-0 rounded-full blur-lg opacity-60 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(circle, rgba(96,165,250,0.45) 0%, rgba(251,191,36,0.25) 60%, transparent 75%)",
+                    }}
+                  />
+                  {/* Slowly spinning orbital ring */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-0 rounded-full pointer-events-none"
+                    style={{
+                      border: "2px solid transparent",
+                      borderTopColor: "rgba(96,165,250,0.85)",
+                      borderRightColor: "rgba(251,191,36,0.65)",
+                      borderBottomColor: "rgba(96,165,250,0.35)",
+                      borderLeftColor: "rgba(251,191,36,0.25)",
+                    }}
+                  />
+                  {/* Photo container */}
+                  <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-blue-400/60 shadow-[0_0_20px_rgba(96,165,250,0.35)] bg-[#0a0f1e]">
+                    <Image
+                      src={images.TiyasImage}
+                      alt="Tiyas"
+                      fill
+                      sizes="(max-width: 640px) 112px, 128px"
+                      className="object-cover object-top"
+                    />
+                  </div>
+                </div>
+
+                <p className="text-gray-400 leading-relaxed flex-1 text-center sm:text-left">
+                  I am a passionate developer dedicated to creating efficient, scalable, and visually appealing web applications. I love diving deep into code, exploring new technologies, and turning complex problems into elegant solutions. With a strong foundation in modern web frameworks and a keen eye for design, I strive to deliver exceptional user experiences.
+                </p>
+              </div>
             </motion.div>
 
             {/* Education */}
@@ -248,11 +299,11 @@ export default function About() {
               transition={{ delay: 0.2 }}
             >
               <div className="flex items-center gap-3 mb-8">
-                <GraduationCap className="text-teal-400" size={28} />
-                <h3 className="text-3xl font-audiowide font-semibold">Education</h3>
+                <GraduationCap className="text-blue-400" size={28} />
+                <h3 className="text-3xl font-russo font-semibold">Education</h3>
               </div>
 
-              <div className="space-y-6 border-l-2 border-teal-500/30 ml-3 pl-8 relative">
+              <div className="space-y-6 border-l-2 border-blue-500/30 ml-3 pl-8 relative">
                 {loadingAcademics ? (
                   <Loading className="py-10" />
                 ) : academics.length > 0 ? (
@@ -263,17 +314,17 @@ export default function About() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.1 }}
-                      className="relative bg-gray-900/40 p-6 rounded-xl border border-gray-800 hover:border-teal-500/30 transition-all"
+                      className="relative bg-[#060a14]/60 p-6 rounded-xl border border-blue-900/40 hover:border-blue-500/30 transition-all"
                     >
-                      <div className="absolute w-4 h-4 bg-teal-400 rounded-full -left-10.25 top-8 border-4 border-black"></div>
+                      <div className="absolute w-4 h-4 bg-blue-400 rounded-full -left-10.25 top-8 border-4 border-[#060a14]"></div>
                       <h4 className="text-xl font-semibold text-white mb-1">{academic.degree}</h4>
-                      <p className="text-teal-400 mb-2 font-medium">{academic.school}</p>
+                      <p className="text-blue-400 mb-2 font-medium">{academic.school}</p>
                       <div className="flex justify-between items-center text-sm text-gray-500">
                         <span>
                           {new Date(academic.startDate).getFullYear()} -{" "}
                           {academic.endDate ? new Date(academic.endDate).getFullYear() : "Present"}
                         </span>
-                        <span className="bg-gray-800 px-3 py-1 rounded-full text-teal-300">
+                        <span className="bg-blue-900/40 px-3 py-1 rounded-full text-blue-300">
                           Grade: {academic.grade}
                         </span>
                       </div>
@@ -293,18 +344,18 @@ export default function About() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-gray-900/50 p-8 rounded-2xl border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-500/40 transition-colors"
+              className="bg-[#060a14]/60 p-8 rounded-2xl border border-blue-500/20 shadow-[0_0_15px_rgba(96,165,250,0.05)] hover:border-blue-500/40 transition-colors"
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <GithubIcon className="text-teal-400" size={24} />
-                  <h3 className="text-2xl font-audiowide font-semibold">GitHub Stats</h3>
+                  <GithubIcon className="text-blue-400" size={24} />
+                  <h3 className="text-2xl font-russo font-semibold">GitHub Stats</h3>
                 </div>
                 <a
                   href="https://github.com/Tiyas04"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm text-teal-400 hover:text-teal-300 underline underline-offset-4"
+                  className="text-sm text-blue-400 hover:text-blue-300 underline underline-offset-4"
                 >
                   @Tiyas04
                 </a>
@@ -313,17 +364,17 @@ export default function About() {
               {githubStats ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="col-span-2 bg-black/50 p-4 rounded-lg border border-gray-800 flex flex-col justify-center items-center text-center">
+                    <div className="col-span-2 bg-[#060a14]/80 p-4 rounded-lg border border-blue-900/40 flex flex-col justify-center items-center text-center">
                       <p className="text-gray-400 text-xs sm:text-sm">Repos</p>
-                      <p className="text-xl sm:text-2xl font-bold text-teal-400">{githubStats.public_repos}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-blue-400">{githubStats.public_repos}</p>
                     </div>
-                    <div className="bg-black/50 p-4 rounded-lg border border-gray-800 flex flex-col justify-center items-center text-center">
+                    <div className="bg-[#060a14]/80 p-4 rounded-lg border border-blue-900/40 flex flex-col justify-center items-center text-center">
                       <p className="text-gray-400 text-xs sm:text-sm">Contributions</p>
-                      <p className="text-xl sm:text-2xl font-bold text-teal-400">{githubStats.totalContributions}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-blue-400">{githubStats.totalContributions}</p>
                     </div>
-                    <div className="bg-black/50 p-4 rounded-lg border border-gray-800 flex flex-col justify-center items-center text-center">
+                    <div className="bg-[#060a14]/80 p-4 rounded-lg border border-blue-900/40 flex flex-col justify-center items-center text-center">
                       <p className="text-gray-400 text-xs sm:text-sm">Active Days</p>
-                      <p className="text-xl sm:text-2xl font-bold text-teal-400">{githubStats.activeDays}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-blue-400">{githubStats.activeDays}</p>
                     </div>
                   </div>
                   <div className="h-50 w-full">
@@ -347,7 +398,7 @@ export default function About() {
                                 ))}
                               </Pie>
                               <Tooltip
-                                contentStyle={{ backgroundColor: "#111827", borderColor: "#14b8a6", borderRadius: "8px" }}
+                                contentStyle={{ backgroundColor: "#0a0f1e", borderColor: "#3b82f6", borderRadius: "8px" }}
                                 itemStyle={{ color: "#fff" }}
                                 formatter={(value: any, name: any, entry: any) => [
                                   `${value} ${Number(value) === 1 ? 'repo' : 'repos'}`,
@@ -380,18 +431,18 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-gray-900/50 p-8 rounded-2xl border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.05)] hover:border-teal-500/40 transition-colors"
+              className="bg-[#060a14]/60 p-8 rounded-2xl border border-blue-500/20 shadow-[0_0_15px_rgba(96,165,250,0.05)] hover:border-blue-500/40 transition-colors"
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <Code2 className="text-teal-400" size={24} />
-                  <h3 className="text-2xl font-audiowide font-semibold">LeetCode Stats</h3>
+                  <Code2 className="text-blue-400" size={24} />
+                  <h3 className="text-2xl font-russo font-semibold">LeetCode Stats</h3>
                 </div>
                 <a
                   href="https://leetcode.com/Tiyas04"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm text-teal-400 hover:text-teal-300 underline underline-offset-4"
+                  className="text-sm text-blue-400 hover:text-blue-300 underline underline-offset-4"
                 >
                   @Tiyas04
                 </a>
@@ -400,15 +451,15 @@ export default function About() {
               {leetcodeStats ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-4">
-                    <div className="bg-black/50 p-4 rounded-lg border border-gray-800 text-center h-full flex flex-col justify-center">
+                    <div className="bg-[#060a14]/80 p-4 rounded-lg border border-blue-900/40 text-center h-full flex flex-col justify-center">
                       <p className="text-gray-400 text-sm mb-1">Total Solved</p>
                       <p className="text-4xl font-bold text-white">
                         {leetcodeStats.totalSolved}
                       </p>
                     </div>
-                    <div className="bg-black/50 p-4 rounded-lg border border-gray-800 text-center h-full flex flex-col justify-center">
+                    <div className="bg-[#060a14]/80 p-4 rounded-lg border border-blue-900/40 text-center h-full flex flex-col justify-center">
                       <p className="text-gray-400 text-sm mb-1">Active Days</p>
-                      <p className="text-4xl font-bold text-teal-400">
+                      <p className="text-4xl font-bold text-blue-400">
                         {leetcodeStats.activeDays || 0}
                       </p>
                     </div>
@@ -419,8 +470,8 @@ export default function About() {
                         <XAxis type="number" hide />
                         <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#9ca3af' }} />
                         <Tooltip
-                            cursor={{ fill: '#1f2937' }}
-                            contentStyle={{ backgroundColor: "#111827", borderColor: "#374151", borderRadius: "8px" }}
+                            cursor={{ fill: '#0a0f1e' }}
+                            contentStyle={{ backgroundColor: "#0a0f1e", borderColor: "#374151", borderRadius: "8px" }}
                         />
                         <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
                             {leetcodeData.map((entry, index) => (
@@ -454,8 +505,8 @@ export default function About() {
             viewport={{ once: true }}
             className="text-center mb-10"
           >
-            <h3 className="text-3xl font-audiowide font-bold mb-4">
-              Frequently Asked <span className="text-teal-400">Questions</span>
+            <h3 className="text-3xl font-russo font-bold mb-4">
+              Frequently Asked <span className="text-blue-400">Questions</span>
             </h3>
             <p className="text-gray-400">A few things people often ask me.</p>
           </motion.div>
@@ -468,20 +519,20 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/30"
+                className="border border-blue-900/40 rounded-xl overflow-hidden bg-[#060a14]/50"
               >
                 <button
                   onClick={() => setActiveFAQ(activeFAQ === index ? null : index)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-800/50 transition-colors"
+                  className="w-full flex items-center justify-between p-6 text-left hover:bg-blue-900/20 transition-colors"
                 >
-                  <span className={`font-medium ${activeFAQ === index ? 'text-teal-400' : 'text-gray-300'}`}>
+                  <span className={`font-medium ${activeFAQ === index ? 'text-blue-400' : 'text-gray-300'}`}>
                     {faq.question}
                   </span>
                   <motion.div
                     animate={{ rotate: activeFAQ === index ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <ChevronDown className={activeFAQ === index ? 'text-teal-400' : 'text-gray-500'} />
+                    <ChevronDown className={activeFAQ === index ? 'text-blue-400' : 'text-gray-500'} />
                   </motion.div>
                 </button>
                 <AnimatePresence>
